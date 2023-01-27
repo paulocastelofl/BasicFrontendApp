@@ -10,4 +10,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     exports: [ SidebarComponent ]
 })
 
-export class SidebarModule {}
+export class SidebarModule {
+    constructor(){
+        
+    }
+}
