@@ -5,4 +5,7 @@ import { Component } from '@angular/core';
     templateUrl: './auth-layout.component.html'
 })
 
-export class AuthLayoutComponent {}
+export class AuthLayoutComponent {
+    ngOnInit() {
+    }
+}

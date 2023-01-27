@@ -6,13 +6,13 @@ import { LoginComponent } from './login/login.component';
 
 export const PagesRoutes: Routes = [{
     path: '',
-    children: [ {
+    children: [{
         path: 'login',
         component: LoginComponent
-    },{
+    }, {
         path: 'lock',
         component: LockComponent
-    },{
+    }, {
         path: 'register',
         component: RegisterComponent
     }]

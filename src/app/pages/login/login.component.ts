@@ -1,62 +1,83 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'app/core/services/auth.service';
 
-declare var $:any;
+declare var $: any;
 
 @Component({
-    moduleId:module.id,
+    moduleId: module.id,
     selector: 'login-cmp',
     templateUrl: './login.component.html'
 })
 
-export class LoginComponent implements OnInit{
-  focus;
-  focus1;
-  focus2;
-    test : Date = new Date();
+export class LoginComponent implements OnInit {
+    focus;
+    focus1;
+    focus2;
+    test: Date = new Date();
     private toggleButton;
     private sidebarVisible: boolean;
     private nativeElement: Node;
 
-    constructor(private element : ElementRef) {
+    public credencialsForm: FormGroup;
+    public isLoad: boolean = false;
+
+    constructor(
+        private element: ElementRef,
+        private formBuilder: FormBuilder,
+        private service: AuthService
+    ) {
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
     }
-    checkFullPageBackgroundImage(){
+
+    checkFullPageBackgroundImage() {
         var $page = $('.full-page');
         var image_src = $page.data('image');
 
-        if(image_src !== undefined){
+        if (image_src !== undefined) {
             var image_container = '<div class="full-page-background" style="background-image: url(' + image_src + ') "/>'
             $page.append(image_container);
         }
     };
 
-    ngOnInit(){
+    ngOnInit() {
+
         this.checkFullPageBackgroundImage();
         var body = document.getElementsByTagName('body')[0];
         body.classList.add('login-page');
-        var navbar : HTMLElement = this.element.nativeElement;
+        var navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
 
-        setTimeout(function(){
+        setTimeout(function () {
             // after 1000 ms we add the class animated to the login/register card
             $('.card').removeClass('card-hidden');
         }, 700)
+
+        this.credencialsForm = this.formBuilder.group({
+            email: [{ value: null, disabled: false }, Validators.required],
+            password: [{ value: null, disabled: false }, Validators.required]
+        });
+
     }
-    ngOnDestroy(){
+    ngOnDestroy() {
+
         var body = document.getElementsByTagName('body')[0];
         body.classList.remove('login-page');
+
     }
-    sidebarToggle(){
+
+    sidebarToggle() {
+
         var toggleButton = this.toggleButton;
         var body = document.getElementsByTagName('body')[0];
         var sidebar = document.getElementsByClassName('navbar-collapse')[0];
-        if(this.sidebarVisible == false){
-            setTimeout(function(){
+        if (this.sidebarVisible == false) {
+            setTimeout(function () {
                 toggleButton.classList.add('toggled');
-            },500);
+            }, 500);
             body.classList.add('nav-open');
             this.sidebarVisible = true;
         } else {
@@ -64,5 +85,24 @@ export class LoginComponent implements OnInit{
             this.sidebarVisible = false;
             body.classList.remove('nav-open');
         }
+
+    }
+
+    onSubmitAuthenticUser() {
+        var email: string = this.credencialsForm.controls?.email?.value
+        var password: string = this.credencialsForm.controls?.password?.value
+
+        this.isLoad = true;
+        setTimeout(() => {
+
+            this.service.authenticUser({
+                email,
+                password
+            })
+
+            this.isLoad = false;
+
+        }, 3000)
+
     }
 }

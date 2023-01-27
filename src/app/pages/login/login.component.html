@@ -1,3 +1,4 @@
+
 <nav
   class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent"
 >
@@ -14,7 +15,7 @@
         class="navbar-brand"
         routerLinkActive="active"
         [routerLink]="['/dashboard']"
-        >Paper Dashboard PRO Angular</a
+        >Gan Eden Comex</a
       >
     </div>
     <button
@@ -32,16 +33,7 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navigation">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a
-            routerLinkActive="active"
-            [routerLink]="['/dashboard']"
-            class="nav-link"
-          >
-            <i class="nc-icon nc-layout-11"></i> Dashboard
-          </a>
-        </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a
             routerLinkActive="active"
             [routerLink]="['/pages/register']"
@@ -49,34 +41,7 @@
           >
             <i class="nc-icon nc-book-bookmark"></i> Register
           </a>
-        </li>
-        <li class="nav-item">
-          <a
-            routerLinkActive="active"
-            [routerLink]="['/pages/login']"
-            class="nav-link"
-          >
-            <i class="nc-icon nc-tap-01"></i> Login
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            routerLinkActive="active"
-            [routerLink]="['/pages/user']"
-            class="nav-link"
-          >
-            <i class="nc-icon nc-satisfied"></i> User
-          </a>
-        </li>
-        <li class="nav-item active">
-          <a
-            routerLinkActive="active"
-            [routerLink]="['/pages/lock']"
-            class="nav-link"
-          >
-            <i class="nc-icon nc-key-25"></i> Lock
-          </a>
-        </li>
+        </li> -->
       </ul>
     </div>
   </div>
@@ -92,7 +57,7 @@
     <div class="content">
       <div class="container">
         <div class="col-lg-4 col-md-6 ml-auto mr-auto">
-          <form class="form" method="" action="">
+          <form class="form" [formGroup]="credencialsForm" >
             <div class="card card-login">
               <div class="card-header">
                 <div class="card-header">
@@ -112,9 +77,10 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="First Name..."
+                    placeholder="Email..."
                     (focus)="focus = true"
                     (blur)="focus = false"
+                    formControlName="email"
                   />
                 </div>
                 <div
@@ -128,15 +94,16 @@
                   </div>
                   <input
                     type="password"
-                    placeholder="Password"
+                    placeholder="Senha"
                     class="form-control"
                     (focus)="focus1 = true"
                     (blur)="focus1 = false"
+                    formControlName="password"
                   />
                 </div>
                 <br />
                 <div class="form-group">
-                  <div class="form-check">
+                  <!-- <div class="form-check">
                     <label class="form-check-label">
                       <input
                         class="form-check-input"
@@ -147,14 +114,25 @@
                       <span class="form-check-sign"></span>
                       Subscribe to newsletter
                     </label>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="card-footer">
                 <a
+                  (click)="onSubmitAuthenticUser()"
                   href="javascript:void(0)"
                   class="btn btn-warning btn-round btn-block mb-3"
-                  >Get Started</a
+                  >
+                    <span *ngIf="!isLoad">
+                      Vamos Começar
+                    </span>
+                    <!-- <div *ngIf="isLoad" class="spinner-border text-light" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div> -->
+                    <div *ngIf="isLoad" class="spinner-border spinner-border-sm text-light" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </a
                 >
               </div>
             </div>
@@ -168,16 +146,8 @@
           <nav class="footer-nav">
             <ul>
               <li>
-                <a href="https://www.creative-tim.com" target="_blank"
-                  >Creative Tim</a
-                >
-              </li>
-              <li>
-                <a href="http://blog.creative-tim.com/" target="_blank">Blog</a>
-              </li>
-              <li>
-                <a href="https://www.creative-tim.com/license" target="_blank"
-                  >Licenses</a
+                <a href="#" 
+                  >Devloper Ganeden</a
                 >
               </li>
             </ul>
@@ -185,7 +155,7 @@
           <div class="credits ml-auto">
             <span class="copyright">
               &copy; {{ test | date : "yyyy" }}, made with
-              <i class="fa fa-heart heart"></i> by Creative Tim
+              <i class="fa fa-heart heart"></i> by Ganeden Consultancy e Technology
             </span>
           </div>
         </div>
