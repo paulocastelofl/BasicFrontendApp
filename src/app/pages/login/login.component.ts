@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'app/core/services/auth.service';
+import { NotifyService } from 'app/core/services/generics/notify.service';
 
 declare var $: any;
 
@@ -27,7 +28,9 @@ export class LoginComponent implements OnInit {
     constructor(
         private element: ElementRef,
         private formBuilder: FormBuilder,
-        private service: AuthService
+        private service: AuthService,
+        private router: Router,
+        private notifyService: NotifyService
     ) {
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -92,17 +95,30 @@ export class LoginComponent implements OnInit {
         var email: string = this.credencialsForm.controls?.email?.value
         var password: string = this.credencialsForm.controls?.password?.value
 
+        const parms = {
+            email,
+            password
+        }
+
         this.isLoad = true;
-        setTimeout(() => {
 
-            this.service.authenticUser({
-                email,
-                password
-            })
-
-            this.isLoad = false;
-
-        }, 3000)
-
+        this.service.authenticUser(
+            parms
+        ).subscribe(
+            {
+                next: (v) => {
+                    if (v) this.router.navigate(['/dashboard']); else this.notifyService.showNotification('top','right', '<b>Erro</b> desconhecido. Informar Administrador do sistema.', 'danger');; 
+                },
+                error: (e) => {
+                    this.notifyService.showNotification('top','right', e.error.message, 'danger');
+                    this.isLoad = false;
+                },
+                complete: () => {
+                    this.isLoad = false;
+                    console.info('complete') 
+                }
+            }
+        )
     }
+
 }

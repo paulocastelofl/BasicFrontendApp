@@ -203,11 +203,14 @@
       }
     }
   },
+  "cli": {
+    "analytics": "1b91fa7d-793b-49eb-8ab0-e7251d4d094e"
+  },
   "defaultProject": "pd-pro-angularcli",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "css"
+      "style": "css"
     },
     "@schematics/angular:directive": {
       "prefix": "app"
