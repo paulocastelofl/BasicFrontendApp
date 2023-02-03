@@ -9,6 +9,16 @@
         padding-bottom: 20px;
     }
 }
+
+.nav-tabs-navigation-custumer-gan{
+    // text-align: center;
+    border-bottom: 1px solid $medium-pale-bg;
+    margin-bottom: 30px;
+
+    .nav > .nav-item > .nav-link{
+        padding-bottom: 20px;
+    }
+}
 .nav-tabs-wrapper{
     display: inline-block;
     margin-bottom: -6px;
@@ -242,5 +252,12 @@
   border-right: 1px solid #F1EAE0;
   font-size: 16px;
   padding: 0 37px;
+  border-bottom: none;
+}
+
+.nav-tabs-navigation-custumer-gan.vertical-navs {
+//   border-right: 1px solid #F1EAE0;
+  font-size: 16px;
+//   padding: 0 37px;
   border-bottom: none;
 }

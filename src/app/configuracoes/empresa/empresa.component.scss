@@ -1,0 +1,78 @@
+.nav-tabs-wrapper-customer-gan {
+    display: inline-block;
+    margin-bottom: -6px;
+    
+
+    // position: relative;
+    width: 100%;
+
+
+}
+
+.nav-item-customer-gan-init {
+
+    border-top-left-radius: 0.875rem;
+    border-top-right-radius: 0.875rem;
+    padding-top: 3.25%;
+    padding-bottom: 2.25%;
+    padding-left: 5.25%;
+    padding-right: 5.25%;
+    cursor: pointer;
+
+    .nav-link-customer-gan-init {
+        text-decoration: none;
+        color: #000;
+    }
+}
+
+.nav-item-customer-gan-init:hover {
+    background-color: #ddd;
+    border-top-left-radius: 0.875rem;
+    border-top-right-radius: 0.875rem;
+    cursor: pointer;
+
+    .nav-link-customer-gan-init {
+        text-decoration: none;
+        color: #000;
+    }
+}
+
+.nav-item-customer-gan {
+    padding-top: 3.25%;
+    padding-bottom: 2.25%;
+    padding-left: 5.25%;
+    padding-right: 5.25%;
+    cursor: pointer;
+
+    .nav-link-customer-gan {
+        text-decoration: none;
+        color: #000;
+    }
+}
+
+.nav-item-customer-gan:hover {
+    background-color: #ddd;
+    cursor: pointer;
+
+    .nav-link-customer-gan {
+        text-decoration: none;
+        color: #000;
+    }
+}
+
+.active-tab {
+    z-index: 2;
+    color: #fff;
+    background-color: #3276b1;
+    border-color: #3276b1;
+
+    .nav-link-customer-gan-init {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .nav-link-customer-gan {
+        text-decoration: none;
+        color: #fff;
+    }
+}
