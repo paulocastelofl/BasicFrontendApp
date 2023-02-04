@@ -8,38 +8,42 @@
 
     <div class="row">
         <div class="col-md-9">
-            <div class="card">
-                <div class="card-header">
-                    <h6>Informações Básicas</h6>
-                </div>
-                <div class="card-body">
-                    
-                </div>
-            </div>
+
+            <container_element [ngSwitch]="isTabSelect">
+                <inner_element *ngSwitchCase="'Básico'">
+                    <app-basico></app-basico>
+                </inner_element>
+                <inner_element *ngSwitchCase="'Usuários'">
+                    <app-usuarios></app-usuarios>
+                </inner_element>
+                <inner_element *ngSwitchCase="'Importação'">
+                    <app-importacao></app-importacao>
+                </inner_element>
+                <inner_element *ngSwitchCase="'Exportação'">
+                    <app-exportacao></app-exportacao>
+                </inner_element>
+                <inner_element *ngSwitchCase="'Agenciamento de Carga'">
+                    <app-agenciamento-carga></app-agenciamento-carga>
+                </inner_element>
+                <inner_element *ngSwitchCase="'Documentos'">
+                    <app-documentos></app-documentos>
+                </inner_element>
+                <inner_element *ngSwitchCase="'Credenciais'">
+                    <app-credenciais></app-credenciais>
+                </inner_element>
+                <inner_element *ngSwitchCase="'Financeiro'">
+                    <app-financeiro></app-financeiro>
+                </inner_element>
+                <inner_element *ngSwitchCase="'Relatórios'">
+                    <app-relatorios></app-relatorios>
+                </inner_element>
+            </container_element>
+
         </div>
 
         <div class="col-md-3">
-            <div class="card">
-                <div class="card-body" style="padding: 0px !important;">
-                    <div class="nav-tabs-navigation-custumer-gan vertical-navs">
-                        <div class="nav-tabs-wrapper-customer-gan">
-                            <ul class="nav nav-tabs flex-column nav-stacked" role="tablist"
-                                *ngFor="let tab of listTabs; index as i;">
-
-                                <li [ngClass]="{
-                                    'active-tab': tab == isTabSelect, 
-                                    'nav-item-customer-gan-init': i == 0,
-                                    'nav-item-customer-gan': i > 0
-                                 }" (click)="isSelectTab(tab)">
-                                    <a [ngClass]="{'nav-link-customer-gan-init': i === 0, 'nav-link-customer-gan': i > 0 }"
-                                        href="#{{tab}}" role="tab" data-toggle="tab">{{tab}}</a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-vertical-tabs [listTabs]="listTabs"
+                (answerIsSelectTab)="reciverIsSelectTab($event)"></app-vertical-tabs>
         </div>
     </div>
 

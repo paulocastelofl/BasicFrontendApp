@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-body" style="padding: 0px !important;">
+        <div class="nav-tabs-navigation-custumer-gan vertical-navs">
+            <div class="nav-tabs-wrapper-customer-gan">
+                <ul class="nav nav-tabs flex-column nav-stacked" role="tablist"
+                    *ngFor="let tab of listTabs; index as i;">
+
+                    <li [ngClass]="{
+                        'active-tab': tab == isTabSelect, 
+                        'nav-item-customer-gan-init': i == 0,
+                        'nav-item-customer-gan': i > 0
+                     }" (click)="isSelectTab(tab)">
+                        <a [ngClass]="{'nav-link-customer-gan-init': i === 0, 'nav-link-customer-gan': i > 0 }"
+                            href="#{{tab}}" role="tab" data-toggle="tab">{{tab}}</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-empresa',
@@ -7,12 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmpresaComponent implements OnInit {
 
-  public isTabSelect: string = "Basico";
+  public isTabSelect: string;
+
 
   public listTabs = [
-    "Basico",
+    "Básico",
     "Usuários",
     "Importação",
+    "Exportação",
     "Agenciamento de Carga",
     "Documentos",
     "Credenciais",
@@ -23,10 +26,12 @@ export class EmpresaComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.isTabSelect = this.listTabs[0]
   }
 
-  isSelectTab(tab){
-    this.isTabSelect = tab;
+
+  reciverIsSelectTab(evt){
+    this.isTabSelect = evt;
   }
 
 }
