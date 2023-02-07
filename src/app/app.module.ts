@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent }   from './app.component';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { FixedPluginModule } from './shared/fixedplugin/fixedplugin.module';
@@ -14,6 +13,7 @@ import { AppRoutes } from './app.routing';
 import { AuthGuard } from './guards/auth-guard';
 import { HttpClientModule } from '@angular/common/http';
 
+
 @NgModule({
     imports:[
         BrowserAnimationsModule,
@@ -21,7 +21,6 @@ import { HttpClientModule } from '@angular/common/http';
         RouterModule.forRoot(AppRoutes,{
           useHash: true
         }),
-        NgbModule,
         SidebarModule,
         NavbarModule,
         FooterModule,

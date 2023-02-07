@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'app/configuracoes/services/user.service';
+import { Subscription } from 'rxjs';
 
-declare var $:any;
+declare var $: any;
 
 declare interface DataTable {
-    headerRow: string[];
-    dataRows: string[][];
+  headerRow: string[];
+  dataRows: string[][];
 }
 
 @Component({
@@ -15,53 +17,63 @@ declare interface DataTable {
 export class UsuariosComponent implements OnInit {
   public dataTable: DataTable;
 
-  constructor() { }
+  public dtOptions: any = {}
+  public table;
+  public isLoad: boolean = false;
+  subscription: Subscription;
+  closeResult = '';
+
+  constructor(private service: UserService, ) { }
 
   ngOnInit(): void {
+
     this.dataTable = {
-      headerRow: [ 'ID', 'Nome', 'Email', 'Ações'],
-      dataRows: [
-          ['1', 'Andrew Mike', 'Develop', ''],
-      ]
-   };
+      headerRow: ['ID', 'Nome', 'Email', 'Ações'],
+      dataRows: []
+    };
+
+    this.getAllUser();
+
   }
 
-  ngAfterViewInit(){
-    $('#datatable').DataTable({
-      "pagingType": "full_numbers",
-      "lengthMenu": [
-        [10, 25, 50, -1],
-        [10, 25, 50, "All"]
-      ],
-      responsive: true,
-      language: {
-        search: "_INPUT_",
-        searchPlaceholder: "Search records",
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  loadEvenstDataTable() {
+    this.table = $('#datatable').DataTable({
+      language:
+      {
+        "url": "assets/i18n/Portuguese-Brasil.json"
       }
 
     });
+  }
 
-    var table = $('#datatable').DataTable();
+  getAllUser() {
+    this.isLoad = true;
+    this.subscription = this.service.getAll().subscribe(
+      {
+        next: (v) => {
 
-    // Edit record
-    table.on('click', '.edit', function() {
-      let $tr = $(this).closest('tr');
+          this.dataTable.dataRows = [
+            [v[0].id.toString(), v[0].name, v[0].email]
+          ]
 
-      var data = table.row($tr).data();
-      alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
-    });
+        },
+        error: (e) => {
+          console.log(e)
+        },
+        complete: () => {
+          // this.isLoad = false;
+          setTimeout(() => {
+            this.isLoad = false;
+            this.loadEvenstDataTable()
+          }, 0);
+        }
 
-    // Delete a record
-    table.on('click', '.remove', function(e) {
-      let $tr = $(this).closest('tr');
-      table.row($tr).remove().draw();
-      e.preventDefault();
-    });
-
-    //Like record
-    table.on('click', '.like', function() {
-      alert('You clicked on Like button');
-    });
+      }
+    )
   }
 
 }

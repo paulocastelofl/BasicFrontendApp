@@ -204,7 +204,7 @@
     }
   },
   "cli": {
-    "analytics": "1b91fa7d-793b-49eb-8ab0-e7251d4d094e"
+    "analytics": false
   },
   "defaultProject": "pd-pro-angularcli",
   "schematics": {
@@ -215,8 +215,5 @@
     "@schematics/angular:directive": {
       "prefix": "app"
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }

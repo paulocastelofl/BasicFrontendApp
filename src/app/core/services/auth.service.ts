@@ -11,7 +11,10 @@ export class AuthService {
 
   private tokenJwt: string = "";
 
-  constructor(private router: Router, private httpClient: HttpClient,) { }
+  constructor(
+    private router: Router,
+    private httpClient: HttpClient
+  ) { }
 
   get Token(): string {
     return this.tokenJwt;
