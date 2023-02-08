@@ -1,20 +1,20 @@
 <div class="main-content-custumer-gan">
     <div class="row">
         <div class="col-md-12">
-            <h5>NOME EMPRESA</h5>
+            <h5>{{nome_fantasia}}</h5>
         </div>
 
     </div>
 
-    <div class="row">
+    <div *ngIf="id" class="row">
         <div class="col-md-9">
 
             <container_element [ngSwitch]="isTabSelect">
                 <inner_element *ngSwitchCase="'Básico'">
-                    <app-basico></app-basico>
+                    <app-basico [empresa]="empresa" (isCheckImportador)="reciverIsCheckImportador($event)"></app-basico>
                 </inner_element>
                 <inner_element *ngSwitchCase="'Usuários'">
-                    <app-usuarios></app-usuarios>
+                    <app-usuarios [empresa]="empresa" ></app-usuarios>
                 </inner_element>
                 <inner_element *ngSwitchCase="'Importação'">
                     <app-importacao></app-importacao>
@@ -42,7 +42,7 @@
         </div>
 
         <div class="col-md-3">
-            <app-vertical-tabs [listTabs]="listTabs"
+            <app-vertical-tabs [listTabs]="listTabsAux"
                 (answerIsSelectTab)="reciverIsSelectTab($event)"></app-vertical-tabs>
         </div>
     </div>

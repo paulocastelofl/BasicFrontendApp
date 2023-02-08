@@ -1,0 +1,278 @@
+<div class="main-content-custumer-gan">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="toolbar">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-primary btn-round btn-icon" (click)="openModal(template)">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>{{ dataTable.headerRow[0] }}</th>
+                                <th>{{ dataTable.headerRow[1] }}</th>
+                                <th>{{ dataTable.headerRow[2] }}</th>
+                                <th>{{ dataTable.headerRow[3] }}</th>
+
+                                <th class="disabled-sorting text-right">{{ dataTable.headerRow[4] }}</th>
+                            </tr>
+                            <tr *ngIf="isLoad">
+                                <td colspan="6" style="text-align: center;">
+                                    <div class="d-flex flex-column  align-items-center">
+                                        <div class="spinner-border spinner-border text-secondary" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <span class="mt-2">Carregando dados...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of dataTable.dataRows">
+                                <td>{{row[0]}}</td>
+                                <td> <a href="javascript:void(0)" (click)="onNavigateEmpresa(row[0])">{{row[1]}}</a> </td>
+                                <td>{{row[2]}}</td>
+                                <td>{{row[3] | mask: '00.000.000/0000-00'}}</td>
+                                <td class="text-right">
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <ng-template #template>
+                        <div class="modal-header">
+                            <h4 class="modal-title pull-left"> <i class="fa fa-building" aria-hidden="true"></i> Novo
+                                Associado</h4>
+                            <button type="button" class="btn-close close pull-right" aria-label="Close"
+                                (click)="modalRef?.hide()">
+                                <span aria-hidden="true" class="visually-hidden">&times;</span>
+                            </button>
+                        </div>
+                        <div class="mt-4 mb-4">
+                            <form [formGroup]="form">
+
+                                <div class="col-md-12">
+                                    <fieldset class="border p-2">
+                                        <legend class="w-auto legend-lb">Informações Básicas</legend>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Nome fantasia</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-custom" id="nome"
+                                                        formControlName="nome" placeholder="" required>
+                                                    <small
+                                                        *ngIf="(formControl.nome.touched || submitted) && formControl.nome.errors?.required"
+                                                        class="text-danger">
+                                                        Nome é obrigatório <i>*</i>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Razão Social</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control  input-custom" placeholder=""
+                                                        formControlName="razao_social">
+                                                    <small
+                                                        *ngIf="(formControl.razao_social.touched || submitted) && formControl.razao_social.errors?.required"
+                                                        class="text-danger">
+                                                        Razão Social é obrigatório <i>*</i>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label lbcheck">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            formControlName="despachante" (change)="checksValue()">
+                                                        <span class="form-check-sign "></span>
+                                                        Despachante
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label lbcheck">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            formControlName="importador" (change)="checksValue()">
+                                                        <span class="form-check-sign"></span>
+                                                        Importador
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label lbcheck">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            formControlName="exportador" (change)="checksValue()">
+                                                        <span class="form-check-sign"></span>
+                                                        Exportador
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset class="border p-2 mt-3">
+                                        <legend class="w-auto legend-lb">Endereço</legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Logradouro</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-custom" placeholder=""
+                                                        formControlName="logradouro">
+                                                    <small
+                                                        *ngIf="(formControl.logradouro.touched || submitted) && formControl.logradouro.errors?.required"
+                                                        class="text-danger">
+                                                        Logradouro é obrigatório <i>*</i>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Número</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-custom" placeholder=""
+                                                        formControlName="numero">
+                                                    <small
+                                                        *ngIf="(formControl.numero.touched || submitted) && formControl.numero.errors?.required"
+                                                        class="text-danger">
+                                                        Número é obrigatório <i>*</i>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Complemento</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-custom" placeholder=""
+                                                        formControlName="complemento">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Bairro</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-custom" placeholder=""
+                                                        formControlName="bairro">
+                                                    <small
+                                                        *ngIf="(formControl.bairro.touched || submitted) && formControl.bairro.errors?.required"
+                                                        class="text-danger">
+                                                        Bairro é obrigatório <i>*</i>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>CEP</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-custom" placeholder=""
+                                                        formControlName="cep" mask="00000-000">
+                                                    <small
+                                                        *ngIf="(formControl.cep.touched || submitted) && formControl.cep.errors?.required"
+                                                        class="text-danger">
+                                                        Cep é obrigatório <i>*</i>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Cidade</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-custom" placeholder=""
+                                                        formControlName="cidade">
+                                                    <small
+                                                        *ngIf="(formControl.cidade.touched || submitted) && formControl.cidade.errors?.required"
+                                                        class="text-danger">
+                                                        Cidade é obrigatório <i>*</i>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Estado</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-custom" placeholder=""
+                                                        formControlName="estado">
+                                                    <small
+                                                        *ngIf="(formControl.estado.touched || submitted) && formControl.estado.errors?.required"
+                                                        class="text-danger">
+                                                        Estado é obrigatório <i>*</i>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>País</label>
+                                                <div class="form-group">
+
+                                                    <div class="form-group">
+                                                        <ng-select [items]="paises" bindLabel="nome_Pais" class="custom"
+                                                            bindValue="id" appendTo="body" formControlName="pais"
+                                                            placeholder="Selecione País"></ng-select>
+                                                    </div>
+                                                    <small
+                                                        *ngIf="(formControl.pais.touched || submitted) && formControl.pais.errors?.required"
+                                                        class="text-danger">
+                                                        País é obrigatório <i>*</i>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </fieldset>
+
+                                    <fieldset class="border p-2 mt-3">
+                                        <legend class="w-auto legend-lb">Inscrições</legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>CNPJ</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-custom" placeholder=""
+                                                        formControlName="cnpj" mask="00.000.000/0000-00">
+                                                    <small
+                                                        *ngIf="(formControl.cnpj.touched || submitted) && formControl.cnpj.errors?.required"
+                                                        class="text-danger">
+                                                        País é obrigatório <i>*</i>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Inscrição Municipal</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-custom" placeholder=""
+                                                        formControlName="inscricao_municipal">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Inscrição SUFRAMA</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-custom" placeholder=""
+                                                        formControlName="inscricao_suframa">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right mt-2">
+                                            <button type="submit" class="btn btn-primary" (click)="onSaveNewEmpresa()">
+                                                <div *ngIf="isLoadSave"
+                                                    class="spinner-border spinner-border-sm text-light" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                                <span *ngIf="!isLoadSave">Salvar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

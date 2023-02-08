@@ -1,0 +1,8 @@
+.ng-select.custom ::ng-deep .ng-select-container  {            
+ height: 39px;
+ border: 1px solid #DDDDDD;
+}
+
+.lbcheck{
+    font-size: 14px !important;
+}

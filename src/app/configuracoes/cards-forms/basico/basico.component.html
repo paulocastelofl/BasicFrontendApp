@@ -12,8 +12,11 @@
                                     <div class="col-md-6">
                                         <label>Nome fantasia</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control"  id="nome" formControlName="nome" placeholder="" required>
-                                            <small *ngIf="(formControl.nome.touched || submitted) && formControl.nome.errors?.required" class="text-danger">
+                                            <input type="text" class="form-control" id="nome" formControlName="nome"
+                                                placeholder="" required>
+                                            <small
+                                                *ngIf="(formControl.nome.touched || submitted) && formControl.nome.errors?.required"
+                                                class="text-danger">
                                                 Nome é obrigatório <i>*</i>
                                             </small>
                                         </div>
@@ -21,19 +24,38 @@
                                     <div class="col-md-6">
                                         <label>Razão Social</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="razao_social">
-                                            <small *ngIf="(formControl.razao_social.touched || submitted) && formControl.razao_social.errors?.required" class="text-danger">
+                                            <input type="text" class="form-control" placeholder=""
+                                                formControlName="razao_social">
+                                            <small
+                                                *ngIf="(formControl.razao_social.touched || submitted) && formControl.razao_social.errors?.required"
+                                                class="text-danger">
                                                 Razão Social é obrigatório <i>*</i>
                                             </small>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Domínio</label>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="dominio">
-                                            
+                                <div class="row mt-2">
+                                    <div class="col-md-12">
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label lbcheck">
+                                                <input class="form-check-input" type="checkbox" formControlName="despachante" (change)="checksValue()">
+                                                <span class="form-check-sign "></span>
+                                                Despachante
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label lbcheck">
+                                                <input class="form-check-input" type="checkbox" formControlName="importador" (change)="checksValue()">
+                                                <span class="form-check-sign" ></span>
+                                                Importador
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label lbcheck">
+                                                <input class="form-check-input" type="checkbox" formControlName="exportador" (change)="checksValue()">
+                                                <span class="form-check-sign"></span>
+                                                Exportador
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -45,8 +67,11 @@
                                     <div class="col-md-4">
                                         <label>Logradouro</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="logradouro">
-                                            <small *ngIf="(formControl.logradouro.touched || submitted) && formControl.logradouro.errors?.required" class="text-danger">
+                                            <input type="text" class="form-control" placeholder=""
+                                                formControlName="logradouro">
+                                            <small
+                                                *ngIf="(formControl.logradouro.touched || submitted) && formControl.logradouro.errors?.required"
+                                                class="text-danger">
                                                 Logradouro é obrigatório <i>*</i>
                                             </small>
                                         </div>
@@ -54,8 +79,11 @@
                                     <div class="col-md-4">
                                         <label>Número</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="numero">
-                                            <small *ngIf="(formControl.numero.touched || submitted) && formControl.numero.errors?.required" class="text-danger">
+                                            <input type="text" class="form-control" placeholder=""
+                                                formControlName="numero">
+                                            <small
+                                                *ngIf="(formControl.numero.touched || submitted) && formControl.numero.errors?.required"
+                                                class="text-danger">
                                                 Número é obrigatório <i>*</i>
                                             </small>
                                         </div>
@@ -63,7 +91,8 @@
                                     <div class="col-md-4">
                                         <label>Complemento</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="complemento">
+                                            <input type="text" class="form-control" placeholder=""
+                                                formControlName="complemento">
                                         </div>
                                     </div>
                                 </div>
@@ -71,8 +100,11 @@
                                     <div class="col-md-4">
                                         <label>Bairro</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="bairro">
-                                            <small *ngIf="(formControl.bairro.touched || submitted) && formControl.bairro.errors?.required" class="text-danger">
+                                            <input type="text" class="form-control" placeholder=""
+                                                formControlName="bairro">
+                                            <small
+                                                *ngIf="(formControl.bairro.touched || submitted) && formControl.bairro.errors?.required"
+                                                class="text-danger">
                                                 Bairro é obrigatório <i>*</i>
                                             </small>
                                         </div>
@@ -80,8 +112,11 @@
                                     <div class="col-md-4">
                                         <label>CEP</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="cep">
-                                            <small *ngIf="(formControl.cep.touched || submitted) && formControl.cep.errors?.required" class="text-danger">
+                                            <input type="text" class="form-control" placeholder="" formControlName="cep"
+                                                mask="00000-000">
+                                            <small
+                                                *ngIf="(formControl.cep.touched || submitted) && formControl.cep.errors?.required"
+                                                class="text-danger">
                                                 Cep é obrigatório <i>*</i>
                                             </small>
                                         </div>
@@ -89,8 +124,11 @@
                                     <div class="col-md-4">
                                         <label>Cidade</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="cidade">
-                                            <small *ngIf="(formControl.cidade.touched || submitted) && formControl.cidade.errors?.required" class="text-danger">
+                                            <input type="text" class="form-control" placeholder=""
+                                                formControlName="cidade">
+                                            <small
+                                                *ngIf="(formControl.cidade.touched || submitted) && formControl.cidade.errors?.required"
+                                                class="text-danger">
                                                 Cidade é obrigatório <i>*</i>
                                             </small>
                                         </div>
@@ -100,8 +138,11 @@
                                     <div class="col-md-6">
                                         <label>Estado</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="estado">
-                                            <small *ngIf="(formControl.estado.touched || submitted) && formControl.estado.errors?.required" class="text-danger">
+                                            <input type="text" class="form-control" placeholder=""
+                                                formControlName="estado">
+                                            <small
+                                                *ngIf="(formControl.estado.touched || submitted) && formControl.estado.errors?.required"
+                                                class="text-danger">
                                                 Estado é obrigatório <i>*</i>
                                             </small>
                                         </div>
@@ -109,13 +150,22 @@
                                     <div class="col-md-6">
                                         <label>País</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="pais">
-                                            <small *ngIf="(formControl.pais.touched || submitted) && formControl.pais.errors?.required" class="text-danger">
+
+                                            <div class="form-group">
+                                                <ng-select [items]="paises" bindLabel="nome_Pais" class="custom"
+                                                    bindValue="id" appendTo="body" formControlName="pais"
+                                                    placeholder="Selecione País"></ng-select>
+                                            </div>
+                                            <small
+                                                *ngIf="(formControl.pais.touched || submitted) && formControl.pais.errors?.required"
+                                                class="text-danger">
                                                 País é obrigatório <i>*</i>
                                             </small>
                                         </div>
                                     </div>
                                 </div>
+
+
                             </fieldset>
 
                             <fieldset class="border p-2 mt-3">
@@ -124,8 +174,11 @@
                                     <div class="col-md-4">
                                         <label>CNPJ</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="cnpj">
-                                            <small *ngIf="(formControl.cnpj.touched || submitted) && formControl.cnpj.errors?.required" class="text-danger">
+                                            <input type="text" class="form-control" placeholder=""
+                                                formControlName="cnpj" mask="00.000.000/0000-00">
+                                            <small
+                                                *ngIf="(formControl.cnpj.touched || submitted) && formControl.cnpj.errors?.required"
+                                                class="text-danger">
                                                 País é obrigatório <i>*</i>
                                             </small>
                                         </div>
@@ -133,13 +186,15 @@
                                     <div class="col-md-4">
                                         <label>Inscrição Municipal</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="inscricao_municipal">
+                                            <input type="text" class="form-control" placeholder=""
+                                                formControlName="inscricao_municipal">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <label>Inscrição SUFRAMA</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="" formControlName="inscricao_suframa">
+                                            <input type="text" class="form-control" placeholder=""
+                                                formControlName="inscricao_suframa">
                                         </div>
                                     </div>
                                 </div>
@@ -149,7 +204,12 @@
                 </form>
             </div>
             <div class="card-footer text-right">
-                <button type="submit" class="btn btn-primary" (click)="onSubmit()">Salvar</button>
+                <button type="submit" class="btn btn-primary" (click)="onSubmit()">
+                    <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <span *ngIf="!isLoadSave">Salvar</span>
+                </button>
             </div>
         </div>
     </div>

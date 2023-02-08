@@ -14,6 +14,10 @@ import { FinanceiroComponent } from './cards-forms/financeiro/financeiro.compone
 import { RelatoriosComponent } from './cards-forms/relatorios/relatorios.component';
 import { AgenciamentoCargaComponent } from './cards-forms/agenciamento-carga/agenciamento-carga.component';
 import { ExportacaoComponent } from './cards-forms/exportacao/exportacao.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { NgSelectModule } from '@ng-select/ng-select';
+import { AssociadosComponent } from './associados/associados.component';
 
 
 @NgModule({
@@ -21,7 +25,12 @@ import { ExportacaoComponent } from './cards-forms/exportacao/exportacao.compone
     CommonModule,
     FormsModule,
     RouterModule.forChild(ComponentsRoutes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ModalModule.forRoot(),
+    NgxMaskModule.forRoot(),
+    NgSelectModule
+    
+
   ],
   declarations: [
     EmpresaComponent,
@@ -34,7 +43,8 @@ import { ExportacaoComponent } from './cards-forms/exportacao/exportacao.compone
     FinanceiroComponent,
     RelatoriosComponent,
     AgenciamentoCargaComponent,
-    ExportacaoComponent
+    ExportacaoComponent,
+    AssociadosComponent
   ]
  
 })

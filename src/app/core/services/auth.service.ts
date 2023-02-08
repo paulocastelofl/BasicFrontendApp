@@ -10,6 +10,7 @@ import { delay, Observable, tap } from 'rxjs';
 export class AuthService {
 
   private tokenJwt: string = "";
+  private currentUser?: IUser;
 
   constructor(
     private router: Router,
@@ -20,26 +21,44 @@ export class AuthService {
     return this.tokenJwt;
   }
 
+  get CurrentUser(): IUser {
+    return this.currentUser;
+  }
+
   public authenticUser(parms: {}): Observable<any> {
 
     return this.httpClient.post(`${environment.baseUrlBackend}/Auth/Login`,
       parms
     )
       .pipe(
-        delay(2000),
         tap(r => {
+
           console.log(r)
+
           this.tokenJwt = r.token
           this.setLocalStorage(r);
+          this.setUserCurrent(r);
         })
       );
 
   }
 
+  setUserCurrent(parms){
+    this.currentUser = {
+      id: parms['id'],
+      name: parms['name'],
+      email: parms['email'],
+      idEmpresa: parms['idEmpresa']
+    }
+  }
+
   setLocalStorage(parms) {
     const now = new Date();
     localStorage.setItem('credencials-ganedencomex', JSON.stringify({
+      id: parms['id'],
+      name: parms['name'],
       email: parms['email'],
+      idEmpresa: parms['idEmpresa'],
       date: now,
       toke: parms['token']
     }));
@@ -47,6 +66,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('credencials-ganedencomex');
+    this.currentUser = {};
     this.router.navigate(['pages/login']);
   }
 
@@ -63,6 +83,7 @@ export class AuthService {
       this.logout();
       return false;
     } else {
+      this.setUserCurrent(credencials);
       this.tokenJwt = credencials['token'];
       return true;
     }
