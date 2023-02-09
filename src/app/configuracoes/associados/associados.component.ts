@@ -40,7 +40,8 @@ export class AssociadosComponent implements OnInit {
     private formBuilder: FormBuilder,
     private notifyService: NotifyService,
     private paisService: PaisService,
-    private router:  Router
+    private router:  Router,
+    private route: ActivatedRoute
     ) { }
 
   ngOnInit(): void {
@@ -64,6 +65,14 @@ export class AssociadosComponent implements OnInit {
       exportador: [{ value: null , disabled: false }]
       
     });
+
+    this.route.params.subscribe(
+      {
+        next: (params) => {
+          this.getAllEmpresas(params['id']);
+        }
+      }
+    );
     
     this.dataTable = {
       headerRow: ['ID', 'Nome', 'Endereço','Cnpj', 'Ações'],
@@ -71,7 +80,7 @@ export class AssociadosComponent implements OnInit {
     };
 
     this.getAllPaises();
-    this.getAllEmpresas();
+    
   }
 
   getAllPaises(){
@@ -104,9 +113,9 @@ export class AssociadosComponent implements OnInit {
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' }),);
   }
 
-  getAllEmpresas(){
+  getAllEmpresas(idEmpresa){
     this.isLoad = true;
-    this.subscription = this.service.getAll().subscribe(
+    this.subscription = this.service.getAllByEmpresa(idEmpresa).subscribe(
       {
         next: (obj) => {
 
@@ -115,7 +124,10 @@ export class AssociadosComponent implements OnInit {
               [obj[key]['id'].toString(), 
               obj[key]['nomeFantasia'],
               obj[key]['logradouro']+" - "+obj[key]['numero']+", "+obj[key]['bairro']+", "+obj[key]['cidade']+", "+obj[key]['estado'], 
-              obj[key]['cnpj']]
+              obj[key]['cnpj'], 
+              obj[key]['status']
+            ],
+             // 
             )
           });
 
@@ -191,6 +203,27 @@ export class AssociadosComponent implements OnInit {
 
   onNavigateEmpresa(id){
     this.router.navigate(["configuracoes/empresa", id]);
+  }
+
+  onChange(row, evt){
+    let status = "";
+
+    status = evt.currentValue ? 'Ativado' : 'Desativado'
+    
+    this.service.updateStatus(row[0], evt.currentValue).subscribe(
+      {
+        next: (obj) => {},
+        error: (e) => {
+          this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+          this.isLoadSave = false;
+        },
+        complete: () => {
+          this.notifyService.showNotification('top', 'right', `Empresa ${row[1]} \n <b>${status}</b> c/ sucesso!`, 'success');
+        }
+      }
+    )
+
+    
   }
 
 }

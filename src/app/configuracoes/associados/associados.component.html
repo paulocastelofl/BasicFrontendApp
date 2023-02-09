@@ -40,7 +40,9 @@
                                 <td>{{row[2]}}</td>
                                 <td>{{row[3] | mask: '00.000.000/0000-00'}}</td>
                                 <td class="text-right">
-
+                                    <bSwitch [switch-on-color]="'primary'" [switch-off-color]="'primary'" [switch-off-text]="'Inativo'"
+                                    [switch-on-text]="'Ativo'" [(ngModel)]="row[4]" (changeState)="onChange(row, $event)">
+                                    </bSwitch>
                                 </td>
                             </tr>
                         </tbody>

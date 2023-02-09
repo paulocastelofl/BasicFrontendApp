@@ -18,6 +18,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AssociadosComponent } from './associados/associados.component';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 
 
 @NgModule({
@@ -28,9 +29,9 @@ import { AssociadosComponent } from './associados/associados.component';
     ReactiveFormsModule,
     ModalModule.forRoot(),
     NgxMaskModule.forRoot(),
-    NgSelectModule
-    
-
+    NgSelectModule,
+    JwBootstrapSwitchNg2Module
+  
   ],
   declarations: [
     EmpresaComponent,

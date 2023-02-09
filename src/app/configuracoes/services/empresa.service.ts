@@ -22,6 +22,10 @@ export class EmpresaService {
     )
   }
 
+  updateStatus(id, status): Observable<any> {
+    return this.http.put(`${environment.baseUrlBackend}/api/Empresa/UpdateStatus/${id}/${status}`, {})
+  }
+
   getAll(): Observable<any>{
     return this.http.get(`${environment.baseUrlBackend}/api/Empresa`);
   }
@@ -29,4 +33,9 @@ export class EmpresaService {
   getById(id): Observable<any>{
     return this.http.get(`${environment.baseUrlBackend}/api/Empresa/${id}`);
   }
+
+  getAllByEmpresa(id): Observable<any>{
+    return this.http.get(`${environment.baseUrlBackend}/api/Empresa/GetByEmpresa/${id}`);
+  }
+
 }

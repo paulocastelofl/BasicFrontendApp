@@ -31,7 +31,11 @@ export class EmpresaComponent implements OnInit {
 
   public listTabsAux = [];
 
-  constructor(private service: EmpresaService, private route: ActivatedRoute, private notifyService: NotifyService,) { }
+  constructor(
+    private service: EmpresaService, 
+    private route: ActivatedRoute,
+    private notifyService: NotifyService
+  ) { }
 
   ngOnInit(): void {
     this.listTabsAux = this.listTabs;
