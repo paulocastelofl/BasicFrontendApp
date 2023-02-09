@@ -3,4 +3,5 @@ interface IUser {
     name?: string;
     email?: string;
     idEmpresa?: number;
+    empresa?: Empresa;
 }

@@ -29,11 +29,8 @@ export class AuthService {
 
     return this.httpClient.post(`${environment.baseUrlBackend}/Auth/Login`,
       parms
-    )
-      .pipe(
+    ).pipe(
         tap(r => {
-
-          console.log(r)
 
           this.tokenJwt = r.token
           this.setLocalStorage(r);
@@ -44,12 +41,17 @@ export class AuthService {
   }
 
   setUserCurrent(parms){
+
+    let empresa: Empresa = parms['empresa']
+
     this.currentUser = {
       id: parms['id'],
       name: parms['name'],
       email: parms['email'],
-      idEmpresa: parms['idEmpresa']
+      idEmpresa: parms['idEmpresa'],
+      empresa: empresa
     }
+
   }
 
   setLocalStorage(parms) {
@@ -60,7 +62,8 @@ export class AuthService {
       email: parms['email'],
       idEmpresa: parms['idEmpresa'],
       date: now,
-      toke: parms['token']
+      token: parms['token'],
+      empresa: parms['empresa']
     }));
   }
 
@@ -83,6 +86,7 @@ export class AuthService {
       this.logout();
       return false;
     } else {
+
       this.setUserCurrent(credencials);
       this.tokenJwt = credencials['token'];
       return true;

@@ -133,6 +133,7 @@ export class SidebarComponent {
     public codeEmpresa: number = 0;
     public user: IUser;
     public nomeuser: string = "";
+    public nomeempresa: string = "";
 
     constructor(
         private authservice: AuthService
@@ -151,6 +152,10 @@ export class SidebarComponent {
     ngOnInit() {
         this.user = this.authservice.CurrentUser;
         this.user.name.length > 15  ? this.nomeuser = this.user.name.substring(0, 15) : this.nomeuser =this.user.name
+        this.nomeempresa = this.user.empresa.nomeFantasia;
+
+        // console.log(this.user)
+
         this.codeEmpresa = this.authservice.CurrentUser.idEmpresa;
         this.menuItems = ROUTES.filter(menuItem => menuItem);
     }
