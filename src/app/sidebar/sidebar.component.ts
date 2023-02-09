@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit, AfterViewChecked, AfterContentInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'app/core/services/auth.service';
 
 //Metadata
@@ -134,11 +135,22 @@ export class SidebarComponent {
     public user: IUser;
     public nomeuser: string = "";
     public nomeempresa: string = "";
+    public step: string = "";
 
     constructor(
-        private authservice: AuthService
+        private authservice: AuthService,
+        private router:  Router,
+        private route: ActivatedRoute
     ){
         
+    }
+
+    onSelectStep(item){
+        this.step = item;
+    }
+    
+    onClearStep(){
+        this.step = "";
     }
 
     public menuItems: any[];
@@ -153,8 +165,6 @@ export class SidebarComponent {
         this.user = this.authservice.CurrentUser;
         this.user.name.length > 15  ? this.nomeuser = this.user.name.substring(0, 15) : this.nomeuser =this.user.name
         this.nomeempresa = this.user.empresa.nomeFantasia;
-
-        // console.log(this.user)
 
         this.codeEmpresa = this.authservice.CurrentUser.idEmpresa;
         this.menuItems = ROUTES.filter(menuItem => menuItem);

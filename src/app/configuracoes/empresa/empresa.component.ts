@@ -36,9 +36,14 @@ export class EmpresaComponent implements OnInit {
   ngOnInit(): void {
     this.listTabsAux = this.listTabs;
     this.isTabSelect = this.listTabsAux[0];
-    let id = this.route.snapshot.paramMap.get('id');
 
-    this.getEmpresa(id);
+    this.route.params.subscribe(
+      {
+        next: (params) => {
+          this.getEmpresa(params['id']);
+        }
+      }
+    );
   }
 
 
@@ -60,12 +65,15 @@ export class EmpresaComponent implements OnInit {
   }
 
   getEmpresa(id) {
+
+    this.empresa = null
+    this.nome_fantasia = null
+
     this.service.getById(id).subscribe(
       {
         next: (v) => {
           this.empresa = v
           this.nome_fantasia = this.empresa['nomeFantasia']
-          this.id = this.empresa['id']
         }, error: (e) => {
           this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
         }

@@ -8,10 +8,10 @@ export const ComponentsRoutes: Routes = [
     children: [
       {
         path: 'empresa/:id',
-        component: EmpresaComponent
+        component: EmpresaComponent,
       },
       {
-        path: 'associados',
+        path: 'empresa/:id/associados',
         component: AssociadosComponent
       }
     ]
