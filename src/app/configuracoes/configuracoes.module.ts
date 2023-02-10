@@ -19,6 +19,8 @@ import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AssociadosComponent } from './associados/associados.component';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
+import { ItensComponent } from './cards-forms/importacao/forms/itens/itens.component';
+import { BasicoImportacaoComponent } from './cards-forms/importacao/forms/basico-importacao/basico-importacao.component';
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
     RelatoriosComponent,
     AgenciamentoCargaComponent,
     ExportacaoComponent,
-    AssociadosComponent
+    AssociadosComponent,
+    ItensComponent,
+    BasicoImportacaoComponent
   ]
  
 })
