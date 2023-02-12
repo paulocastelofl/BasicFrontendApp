@@ -17,7 +17,7 @@
                     <app-usuarios [empresa]="empresa" ></app-usuarios>
                 </inner_element>
                 <inner_element *ngSwitchCase="'Importação'">
-                    <app-importacao></app-importacao>
+                    <app-importacao [empresa]="empresa"></app-importacao>
                 </inner_element>
                 <inner_element *ngSwitchCase="'Exportação'">
                     <app-exportacao></app-exportacao>

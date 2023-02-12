@@ -21,6 +21,7 @@ import { AssociadosComponent } from './associados/associados.component';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import { ItensComponent } from './cards-forms/importacao/forms/itens/itens.component';
 import { BasicoImportacaoComponent } from './cards-forms/importacao/forms/basico-importacao/basico-importacao.component';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { BasicoImportacaoComponent } from './cards-forms/importacao/forms/basico
     ModalModule.forRoot(),
     NgxMaskModule.forRoot(),
     NgSelectModule,
-    JwBootstrapSwitchNg2Module
+    JwBootstrapSwitchNg2Module,
+    CurrencyMaskModule
   
   ],
   declarations: [

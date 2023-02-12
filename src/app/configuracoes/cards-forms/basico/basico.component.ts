@@ -89,27 +89,9 @@ export class BasicoComponent implements OnInit {
 
       this.isLoadSave = true;
 
-      const parms = {
-        "id": this.empresa['id'],
-        "cnpj": this.formControl.cnpj.value,
-        "razaoSocial": this.formControl.razao_social.value,
-        "nomeFantasia": this.formControl.nome.value,
-        "logradouro": this.formControl.logradouro.value,
-        "numero": this.formControl.numero.value,
-        "complemento": this.formControl.complemento.value,
-        "bairro": this.formControl.bairro.value,
-        "cep": this.formControl.cep.value,
-        "cidade": this.formControl.cidade.value,
-        "estado": this.formControl.estado.value,
-        "inscricaoMunicipal": this.formControl.inscricao_municipal.value,
-        "inscricaoSuframa": this.formControl.inscricao_suframa.value,
-        "idPais": this.formControl.pais.value,
-        "despachante": this.formControl.despachante.value,
-        "importador": this.formControl.importador.value,
-        "exportador": this.formControl.exportador.value
-      }
+      this.setEmpresaUpdate();
 
-      this.service.update(parms).subscribe(
+      this.service.update(this.empresa).subscribe(
         {
           next: (obj) => { },
           error: (e) => {
@@ -124,6 +106,30 @@ export class BasicoComponent implements OnInit {
       )
 
     }
+  }
+
+  setEmpresaUpdate(){
+    
+    this.empresa.cnpj = this.formControl.cnpj.value,
+    this.empresa.razaoSocial = this.formControl.razao_social.value,
+    this.empresa.nomeFantasia = this.formControl.nome.value,
+    this.empresa.logradouro = this.formControl.logradouro.value,
+    this.empresa.numero = this.formControl.numero.value,
+    this.empresa.complemento = this.formControl.complemento.value,
+    this.empresa.bairro = this.formControl.bairro.value,
+    this.empresa.cep = this.formControl.cep.value,
+    this.empresa.cidade = this.formControl.cidade.value,
+    this.empresa.estado = this.formControl.estado.value,
+    this.empresa.inscricaoMunicipal = this.formControl.inscricao_municipal.value,
+    this.empresa.inscricaoSuframa = this.formControl.inscricao_suframa.value,
+    this.empresa.idPais = this.formControl.pais.value,
+    this.empresa.despachante = this.formControl.despachante.value,
+    this.empresa.importador = this.formControl.importador.value,
+    this.empresa.exportador = this.formControl.exportador.value
+
+    delete this.empresa['pais'];
+    delete this.empresa['associados'];
+    delete this.empresa['lazyLoader'];
   }
 
 }
