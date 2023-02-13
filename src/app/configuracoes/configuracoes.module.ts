@@ -22,6 +22,7 @@ import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import { ItensComponent } from './cards-forms/importacao/forms/itens/itens.component';
 import { BasicoImportacaoComponent } from './cards-forms/importacao/forms/basico-importacao/basico-importacao.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { BoldSpanPipe } from 'app/core/pipes/bold-span.pipes';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
     ExportacaoComponent,
     AssociadosComponent,
     ItensComponent,
-    BasicoImportacaoComponent
+    BasicoImportacaoComponent,
+    BoldSpanPipe
   ]
  
 })

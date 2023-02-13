@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from 'app/configuracoes/services/empresa.service';
+import { BaseEntityAuxService } from 'app/core/services/base-entity-aux.service';
 import { NotifyService } from 'app/core/services/generics/notify.service';
+import { catchError, concat, debounceTime, distinctUntilChanged, filter, Observable, of, Subject, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-basico-importacao',
@@ -13,11 +15,22 @@ export class BasicoImportacaoComponent implements OnInit {
   public form: FormGroup;
   public isLoadSave = false;
   @Input() empresa: Empresa;
+  public atvEconomica$: Observable<IBaseEntityAux[]>;
+
+  atividades$: Observable<any>;
+  atividadesLoading = false;
+  atividadesInput$ = new Subject<string>();
+  selectedMovie: any;
+  minLengthTerm = 3;
+
+  regexStr = `Here's an`;
 
   constructor(
     private formBuilder: FormBuilder,  
     private service: EmpresaService,
-    private notifyService: NotifyService,) {
+    private notifyService: NotifyService,
+    private baseEntityAuxService: BaseEntityAuxService
+    ) {
     this.form = this.formBuilder.group({
       cpfRepresentanteLegal: [{ value: null, disabled: false }],
       isAprovaregistroDI: [{ value: null, disabled: false }],
@@ -41,6 +54,9 @@ export class BasicoImportacaoComponent implements OnInit {
 
   ngOnInit(): void {
     this.setValuesForm();
+
+    this.loadAtividades();
+   
   }
 
   get formControl() {
@@ -48,8 +64,33 @@ export class BasicoImportacaoComponent implements OnInit {
   }
 
 
-  onChange(event) {
+  loadAtividades() {
 
+    this.atividades$ = concat(
+      of([]), // default items
+      this.atividadesInput$.pipe(
+        filter(res => {
+          return res !== null && res.length >= this.minLengthTerm
+        }),
+        distinctUntilChanged(),
+        debounceTime(800),
+        tap(() => this.atividadesLoading = true),
+        switchMap(term => {
+          return this.baseEntityAuxService.getAtvEconomica(term).pipe(
+            catchError(() => of([])), // empty list on error
+            tap((v) => {
+              this.regexStr = term
+              this.atividadesLoading = false
+            })
+          )
+        })
+      )
+    );
+
+  }
+
+
+  onChange(event) {
   }
 
   onSubmit() {
@@ -90,9 +131,6 @@ export class BasicoImportacaoComponent implements OnInit {
         }
       }
     )
-
-
-
   }
 
   setValuesForm() {
