@@ -18,9 +18,11 @@ interface Empresa {
     inscricaoSuframa: string;
     idPais: number;
     aprovaRegistroDI: boolean;
-    atividadeEconomica: string;
+    atividadeEconomica: AtividadeEconomica;
+    idAtividadeEconomica: 0;
     cnae: string;
     numeroDeCadastroNoMA: string;
+    limiteDeValorFOB: number;
     despachantePadrao: string;
     prazoDiasCEMercanteCritico: number;
     centroDeCusto: string;
@@ -33,5 +35,6 @@ interface Empresa {
     controlarCambio: boolean;
     segurado: boolean;
     idEmpresa: number;
+    inscricaoEstaduais: InscricaoEstadual[]
     status: boolean;
 }

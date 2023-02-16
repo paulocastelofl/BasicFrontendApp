@@ -11,6 +11,7 @@ export class BoldSpanPipe implements PipeTransform {
   ) {}
 
   transform(value: string, regex): any {
+    if(value == null) return;
     return this.sanitize(this.replace(value, regex));
   }
 

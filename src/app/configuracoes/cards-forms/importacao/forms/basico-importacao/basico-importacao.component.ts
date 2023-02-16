@@ -22,15 +22,16 @@ export class BasicoImportacaoComponent implements OnInit {
   atividadesInput$ = new Subject<string>();
   selectedMovie: any;
   minLengthTerm = 3;
+  regexStr = ""
 
-  regexStr = `Here's an`;
+  public inscricoesEstaduais: InscricaoEstadual[] = [];
 
   constructor(
-    private formBuilder: FormBuilder,  
+    private formBuilder: FormBuilder,
     private service: EmpresaService,
     private notifyService: NotifyService,
     private baseEntityAuxService: BaseEntityAuxService
-    ) {
+  ) {
     this.form = this.formBuilder.group({
       cpfRepresentanteLegal: [{ value: null, disabled: false }],
       isAprovaregistroDI: [{ value: null, disabled: false }],
@@ -48,19 +49,43 @@ export class BasicoImportacaoComponent implements OnInit {
       isControlarDemurrage: [{ value: false, disabled: false }],
       isControlarCEMercante: [{ value: false, disabled: false }],
       isControlarCambio: [{ value: false, disabled: false }],
-      isSeguradoPela: [{ value: false, disabled: false }]
+      isSeguradoPela: [{ value: false, disabled: false }],
+      numberInscricaoEstadual: [{ value: null, disabled: false }]
     });
   }
 
   ngOnInit(): void {
-    this.setValuesForm();
+
+    console.log(this.empresa)
 
     this.loadAtividades();
-   
+    this.setValuesForm();
+
   }
 
   get formControl() {
     return this.form.controls;
+  }
+
+  onEnter() {
+
+    if (this.formControl.numberInscricaoEstadual.value != null
+      && this.formControl.numberInscricaoEstadual.value != "") {
+
+      this.inscricoesEstaduais.push(
+        {
+          idEmpresa: this.empresa.id,
+          inscricao: this.formControl.numberInscricaoEstadual.value
+        }
+      );
+
+      this.formControl.numberInscricaoEstadual.setValue("")
+    }
+
+  }
+
+  onRemove(selectObj) {
+    this.inscricoesEstaduais = this.inscricoesEstaduais.filter(obj => { return obj !== selectObj });
   }
 
 
@@ -79,7 +104,7 @@ export class BasicoImportacaoComponent implements OnInit {
           return this.baseEntityAuxService.getAtvEconomica(term).pipe(
             catchError(() => of([])), // empty list on error
             tap((v) => {
-              this.regexStr = term
+              this.regexStr = term;
               this.atividadesLoading = false
             })
           )
@@ -97,11 +122,11 @@ export class BasicoImportacaoComponent implements OnInit {
 
     this.isLoadSave = true;
     // this.empresa. = this.formControl.cpfRepresentanteLegal.value
-    this.empresa.atividadeEconomica = this.formControl.atividadeEconomica.value;
+    this.empresa.idAtividadeEconomica = this.formControl.atividadeEconomica.value;
     this.empresa.aprovaRegistroDI = this.formControl.isAprovaregistroDI.value
     this.empresa.cnae = this.formControl.CNAE.value
     this.empresa.numeroDeCadastroNoMA = this.formControl.numeroCadastroMA.value
-    // this.empresa. = this.formControl.limiteValorFob.value
+    this.empresa.limiteDeValorFOB = this.formControl.limiteValorFob.value
     this.empresa.despachantePadrao = this.formControl.DespachantePadrão.value
     this.empresa.prazoDiasCEMercanteCritico = this.formControl.PrazoDiasCeMercante.value
     this.empresa.centroDeCusto = this.formControl.CentroCusto.value
@@ -114,13 +139,17 @@ export class BasicoImportacaoComponent implements OnInit {
     this.empresa.controlarCambio = this.formControl.isControlarCambio.value
     this.empresa.segurado = this.formControl.isSeguradoPela.value
 
+    this.empresa.inscricaoEstaduais = this.inscricoesEstaduais
+
     delete this.empresa['pais'];
     delete this.empresa['associados'];
     delete this.empresa['lazyLoader'];
 
     this.service.update(this.empresa).subscribe(
       {
-        next: (obj) => { },
+        next: (obj) => { 
+          this.empresa.inscricaoEstaduais = obj['inscricaoEstaduais']
+        },
         error: (e) => {
           this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
           this.isLoadSave = false;
@@ -136,10 +165,17 @@ export class BasicoImportacaoComponent implements OnInit {
   setValuesForm() {
 
     //this.formControl.cpfRepresentanteLegal.setValue(this.empresa);
-    this.formControl.atividadeEconomica.setValue(this.empresa.atividadeEconomica);
+
+    setTimeout( () => {
+      if(this.empresa.idAtividadeEconomica != null) {
+        this.atividadesInput$.next(this.empresa.atividadeEconomica.codigo)
+        this.formControl.atividadeEconomica.setValue(this.empresa.atividadeEconomica.id)
+      } 
+    },1000)
+ 
     this.formControl.CNAE.setValue(this.empresa.cnae);
     this.formControl.numeroCadastroMA.setValue(this.empresa.numeroDeCadastroNoMA);
-    //this.formControl.limiteValorFob.setValue(this.empresa);
+    this.formControl.limiteValorFob.setValue(this.empresa.limiteDeValorFOB);
     this.formControl.DespachantePadrão.setValue(this.empresa.despachantePadrao);
     this.formControl.PrazoDiasCeMercante.setValue(this.empresa.prazoDiasCEMercanteCritico);
     this.formControl.CentroCusto.setValue(this.empresa.centroDeCusto);
@@ -152,6 +188,8 @@ export class BasicoImportacaoComponent implements OnInit {
     this.formControl.isControlarCEMercante.setValue(this.empresa.controlarCEMercantes)
     this.formControl.isControlarCambio.setValue(this.empresa.controlarCambio)
     this.formControl.isSeguradoPela.setValue(this.empresa.segurado)
+
+    this.inscricoesEstaduais = this.empresa.inscricaoEstaduais 
   }
 
 }
