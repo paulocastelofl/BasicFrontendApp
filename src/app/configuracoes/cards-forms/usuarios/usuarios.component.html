@@ -61,12 +61,17 @@
         </table>
 
         <ng-template #template>
-            <div class="modal-header">
-                <h4 class="modal-title pull-left"> <i class="fa fa-user" aria-hidden="true"></i> Novo Usuário</h4>
+       
+            <div class="col-md-12 d-flex justify-content-between modal-header-custom" >
+
+                <h5 class="modal-title pull-left"> <i class="fa fa-user" aria-hidden="true"></i> Novo Usuário</h5>
+        
                 <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
                     <span aria-hidden="true" class="visually-hidden">&times;</span>
                 </button>
+        
             </div>
+
             <div class="mt-4 mb-4">
                 <form [formGroup]="form">
                     <div class="col-md-12">
@@ -123,8 +128,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 text-right mt-2">
-                                <button type="submit" class="btn btn-primary" (click)="onSaveNewUser()">
+                            <div class="col-md-12 text-right mt-2 modal-footer-custom">
+                                <button type="submit" class="btn btn-primary mt-4" (click)="onSaveNewUser()">
                                     <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light"
                                         role="status">
                                         <span class="sr-only">Loading...</span>

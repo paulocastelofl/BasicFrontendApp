@@ -1,1 +1,292 @@
-<p>itens works!</p>
+<div class="toolbar">
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary btn-round btn-icon" (click)="openModal(template)">
+            <i class="fa fa-plus"></i>
+        </button>
+    </div>
+
+</div>
+
+<ng-template #template>
+ 
+    <div class="col-md-12 d-flex justify-content-between modal-header-custom" >
+
+        <h5 class="modal-title pull-left"> <i class="fa fa-cube" aria-hidden="true"></i> Novo Item</h5>
+
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+
+    </div>
+    <div class="mt-4">
+
+        <div class="nav-tabs-navigation">
+
+            <div class="nav-tabs-wrapper">
+                <ul id="tabs" class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#descricao" role="tab"
+                            aria-expanded="true">Descrição</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#classificacao" role="tab"
+                            aria-expanded="false">Classificação</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#zfm" role="tab" aria-expanded="false">ZFM</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#aliquotas" role="tab"
+                            aria-expanded="false">Alíquotas</a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+        <!--######################################################################################################################################-->
+        <div id="my-tab-content" class="tab-content">
+
+            <div class="tab-pane active" id="descricao" role="tabpanel" aria-expanded="false">
+                <form [formGroup]="form">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="partnumber" formControlName="partnumber"
+                                        placeholder="Part Number" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="codigo_interno"
+                                        formControlName="codigo_interno" placeholder="Código Interno" required>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="unidade_organizacional"
+                                        formControlName="unidade_organizacional" placeholder="Unidade Organizacional"
+                                        required>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="decricao_detalhada"
+                                        formControlName="decricao_detalhada" placeholder="Descrição detalhada do item"
+                                        rows="6"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea type="text" class="form-control" id="decricao_item"
+                                        formControlName="decricao_item"
+                                        placeholder="descrição do item para a NFe (opcional)" rows="2"
+                                        required></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <ng-select [items]="fornecedor$ | async" bindValue="id"
+                                        [minTermLength]="minLengthTerm" [loading]="fornecedorLoading"
+                                        typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
+                                        [typeahead]="fornecedorInput$" formControlName="fornecedor"
+                                        placeholder="Selecione sua opção...">
+
+                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                            <span [innerHTML]="item.nomeFantasia | boldSpan:regexStr"></span>
+
+                                        </ng-template>
+
+                                    </ng-select>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--######################################################################################################################################-->
+            <div class="tab-pane" id="classificacao" role="tabpanel" aria-expanded="false">
+                <form [formGroup]="form">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>NCM</label>
+                                <div class="form-group">
+
+                                    <ng-select [items]="ncm$ | async" bindValue="id" [minTermLength]="minLengthTerm"
+                                        [loading]="ncmLoading"
+                                        typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
+                                        [typeahead]="ncmInput$" formControlName="ncm" placeholder="Selecione NCM...">
+
+                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                            <span [innerHTML]="item.codigo_nome | boldSpan:regexStr"></span>
+
+                                        </ng-template>
+
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mt-2">
+                                <label>NALADI</label>
+                                <div class="form-group">
+
+                                    <ng-select [items]="naladi$ | async" bindValue="id" [minTermLength]="minLengthTerm"
+                                        [loading]="naladiLoading"
+                                        typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
+                                        [typeahead]="naladiInput$" formControlName="naladi"
+                                        placeholder="Selecione NALADI...">
+
+                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                            <span [innerHTML]="item.codigo_nome | boldSpan:regexStr"></span>
+
+                                        </ng-template>
+
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--######################################################################################################################################-->
+            <div class="tab-pane" id="zfm" role="tabpanel" aria-expanded="false">
+                <form [formGroup]="form">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <label>Produto</label>
+                                <div class="form-group">
+
+                                    <ng-select [items]="produto$ | async" bindValue="id" [minTermLength]="minLengthTerm"
+                                        [loading]="produtoLoading"
+                                        typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
+                                        [typeahead]="produtoInput$" formControlName="produto"
+                                        placeholder="Selecione o produto...">
+
+                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                            <span [innerHTML]="item.codigo_nome | boldSpan:regexStr"></span>
+
+                                        </ng-template>
+
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Tipo</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="tipo" formControlName="tipo" required>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <label>Detalhe</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="detalhe" formControlName="detalhe"
+                                        required>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mt-2">
+
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-between align-items-end ">
+                                    <span>Informar tipo e modelo no PLI</span>
+                                    <bSwitch [switch-on-color]="'primary'" [switch-off-color]="'primary'"
+                                        [switch-off-text]="'Não'" [switch-on-text]="'Sim'"
+                                        formControlName="isTipoEModeloPli" (changeState)="onChange($event)">
+                                    </bSwitch>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--######################################################################################################################################-->
+            <div class="tab-pane" id="aliquotas" role="tabpanel" aria-expanded="false">
+                <form [formGroup]="form">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Alíquota II</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="aliquota_ii"
+                                        formControlName="aliquota_ii" required
+                                        currencyMask [options]="{ suffix : '%', prefix: '', thousands: '.', decimal: ',' , align: 'left'}"
+                                        >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Alíquota IPI</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="aliquota_ipi"
+                                        formControlName="aliquota_ipi" required
+                                        currencyMask [options]="{ suffix : '%', prefix: '', thousands: '.', decimal: ',' , align: 'left'}"
+                                        >
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Alíquota PIS</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="aliquota_pis"
+                                        formControlName="aliquota_pis" required
+                                        currencyMask [options]="{ suffix : '%', prefix: '', thousands: '.', decimal: ',' , align: 'left'}"
+                                        >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Alíquota COFINS</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="aliquota_cofins"
+                                        formControlName="aliquota_cofins" required
+                                        currencyMask [options]="{ suffix : '%', prefix: '', thousands: '.', decimal: ',' , align: 'left'}"
+                                        >
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+    <div>
+        <div class="col-md-12 d-flex justify-content-end mt-4 modal-footer-custom" >
+
+            <button type="button" class="btn btn-primary mt-4 mb-4" (click)="onSubmit()">
+                <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <span *ngIf="!isLoadSave">Salvar</span>
+            </button>
+        </div>
+    </div>
+</ng-template>
