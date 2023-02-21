@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   baseUrlBackend: "https://localhost:7035", //DEV
-  //baseUrlBackend: "http://comex.us-east-2.elasticbeanstalk.com", //HOMOLOG
+  //baseUrlBackend: "https://comex-api.ganeden.tech", //HOMOLOG
 };
