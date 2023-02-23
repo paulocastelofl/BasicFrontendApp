@@ -1,45 +1,90 @@
 <div class="card">
-    <div class="card-body">
-        <div class="nav-tabs-navigation">
-            <div class="nav-tabs-wrapper">
-                <ul id="tabs" class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#home" role="tab"
-                            aria-expanded="true">Básico</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#profile" role="tab"
-                            aria-expanded="false">Itens</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#messages" role="tab"
-                            aria-expanded="false">Fornecedores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#messages" role="tab"
-                            aria-expanded="false">Transportadores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#messages" role="tab"
-                            aria-expanded="false">Agente</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#messages" role="tab"
-                            aria-expanded="false">Atos Legais</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div id="my-tab-content" class="tab-content">
-            <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
-              <app-basico-importacao [empresa]="empresa"></app-basico-importacao>
-            </div>
-            <div class="tab-pane" id="profile" role="tabpanel" aria-expanded="false">
-                <p>Here is your profile.</p>
-            </div>
-            <div class="tab-pane" id="messages" role="tabpanel" aria-expanded="false">
-                <p>Here are your messages.</p>
-            </div>
-        </div>
+  <div class="card-body">
+    <div class="nav-tabs-navigation">
+      <div class="nav-tabs-wrapper">
+        <ul id="tabs" class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              data-toggle="tab"
+              href="#home"
+              role="tab"
+              aria-expanded="true"
+              >Básico</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="tab"
+              href="#profile"
+              role="tab"
+              aria-expanded="false"
+              >Itens</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="tab"
+              href="#fornecedores"
+              role="tab"
+              aria-expanded="false"
+              >Fornecedores</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="tab"
+              href="#messages"
+              role="tab"
+              aria-expanded="false"
+              >Transportadores</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="tab"
+              href="#messages"
+              role="tab"
+              aria-expanded="false"
+              >Agente</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="tab"
+              href="#messages"
+              role="tab"
+              aria-expanded="false"
+              >Atos Legais</a
+            >
+          </li>
+        </ul>
+      </div>
     </div>
+    <div id="my-tab-content" class="tab-content">
+      <div
+        class="tab-pane active"
+        id="home"
+        role="tabpanel"
+        aria-expanded="true"
+      >
+        <app-basico-importacao [empresa]="empresa"></app-basico-importacao>
+      </div>
+      <div class="tab-pane" id="profile" role="tabpanel" aria-expanded="false">
+        <p>Here is your profile.</p>
+      </div>
+      <div class="tab-pane" id="fornecedores" role="tabpanel" aria-expanded="false">
+        <app-fornecedores></app-fornecedores>
+      </div>
+
+      <div class="tab-pane" id="messages" role="tabpanel" aria-expanded="false">
+        <p>Here are your messages.</p>
+      </div>
+    </div>
+  </div>
 </div>
