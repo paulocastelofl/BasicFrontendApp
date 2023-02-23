@@ -48,7 +48,7 @@ export class FornecedoresComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataTable = {
-      headerRow: ['ID', 'CNPJ', 'Razão Social', 'Nome Fantasia', 'Logradouro', 'Número', 'Complemento', 'Bairro', 'CEP', 'Cidade', 'Estado', 'Empresa', 'País', 'Vínculo', 'Código Interno'],
+      headerRow: ['ID', 'CNPJ', 'Razão Social', 'Cidade', 'Estado', 'País', 'Ações'],
       dataRows: []
     };
 
@@ -76,17 +76,9 @@ export class FornecedoresComponent implements OnInit {
                 obj[key]['id'].toString(),
                 obj[key]['cnpj'],
                 obj[key]['razaoSocial'],
-                obj[key]['nomeFantasia'],
-                obj[key]['logradouro'],
-                obj[key]['numero'],
-                obj[key]['complemento'],
-                obj[key]['bairro'],
-                obj[key]['cep'],
                 obj[key]['cidade'],
                 obj[key]['estado'],
-                obj[key]['pais']['nome_Pais'],
-                obj[key]['tipoDeVinculo'],
-                obj[key]['codigoInterno']
+                obj[key]['pais']['nome']
               ]
             )
           });
