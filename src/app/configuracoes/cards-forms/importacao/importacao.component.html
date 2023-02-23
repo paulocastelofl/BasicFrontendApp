@@ -1,5 +1,4 @@
 <div class="card">
-<<<<<<< HEAD
   <div class="card-body">
     <div class="nav-tabs-navigation">
       <div class="nav-tabs-wrapper">
@@ -66,53 +65,6 @@
           </li>
         </ul>
       </div>
-=======
-    <div class="card-body">
-        <div class="nav-tabs-navigation">
-            <div class="nav-tabs-wrapper">
-                <ul id="tabs" class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#home" role="tab"
-                            aria-expanded="true">Básico</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#itens" role="tab"
-                            aria-expanded="false">Itens</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#messages" role="tab"
-                            aria-expanded="false">Fornecedores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#messages" role="tab"
-                            aria-expanded="false">Transportadores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#messages" role="tab"
-                            aria-expanded="false">Agente</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#messages" role="tab"
-                            aria-expanded="false">Atos Legais</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div id="my-tab-content" class="tab-content">
-            <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
-              <app-basico-importacao [empresa]="empresa"></app-basico-importacao>
-            </div>
-            <div class="tab-pane" id="itens" role="tabpanel" aria-expanded="true">
-              <app-itens [empresa]="empresa"></app-itens>
-            </div>
-            <div class="tab-pane" id="profile" role="tabpanel" aria-expanded="false">
-                <p>Here is your profile.</p>
-            </div>
-            <div class="tab-pane" id="messages" role="tabpanel" aria-expanded="false">
-                <p>Here are your messages.</p>
-            </div>
-        </div>
->>>>>>> 9ea9e8af749cd05066ac5d9a703f404727e5e370
     </div>
     <div id="my-tab-content" class="tab-content">
       <div
@@ -124,7 +76,7 @@
         <app-basico-importacao [empresa]="empresa"></app-basico-importacao>
       </div>
       <div class="tab-pane" id="profile" role="tabpanel" aria-expanded="false">
-        <p>Here is your profile.</p>
+        <app-itens></app-itens>
       </div>
       <div class="tab-pane" id="fornecedores" role="tabpanel" aria-expanded="false">
         <app-fornecedores></app-fornecedores>
