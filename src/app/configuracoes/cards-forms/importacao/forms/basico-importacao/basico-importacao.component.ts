@@ -20,7 +20,6 @@ export class BasicoImportacaoComponent implements OnInit {
   atividades$: Observable<any>;
   atividadesLoading = false;
   atividadesInput$ = new Subject<string>();
-  selectedMovie: any;
   minLengthTerm = 3;
   regexStr = ""
 
@@ -55,8 +54,6 @@ export class BasicoImportacaoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    console.log(this.empresa)
 
     this.loadAtividades();
     this.setValuesForm();
