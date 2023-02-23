@@ -23,6 +23,7 @@ import { ItensComponent } from './cards-forms/importacao/forms/itens/itens.compo
 import { BasicoImportacaoComponent } from './cards-forms/importacao/forms/basico-importacao/basico-importacao.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { BoldSpanPipe } from 'app/core/pipes/bold-span.pipes';
+import { FornecedoresComponent } from './cards-forms/importacao/forms/fornecedores/fornecedores.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { BoldSpanPipe } from 'app/core/pipes/bold-span.pipes';
     AssociadosComponent,
     ItensComponent,
     BasicoImportacaoComponent,
-    BoldSpanPipe
+    BoldSpanPipe,
+    FornecedoresComponent
   ]
  
 })
