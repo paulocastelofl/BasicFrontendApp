@@ -144,7 +144,7 @@
                                 <label>NCM</label>
                                 <div class="form-group">
 
-                                    <ng-select [items]="ncm$ | async" bindValue="id" [minTermLength]="minLengthTerm"
+                                    <ng-select [items]="ncm$ | async" bindValue="codigo" [minTermLength]="minLengthTerm" (change)="onChange($event)"
                                         [loading]="ncmLoading"
                                         typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
                                         [typeahead]="ncmInput$" formControlName="ncm" placeholder="Selecione NCM...">
@@ -155,6 +155,11 @@
                                         </ng-template>
 
                                     </ng-select>
+                                    <small
+                                        *ngIf="(formControl.ncm.touched || submitted) && formControl.ncm.errors?.required"
+                                        class="text-danger">
+                                        NCM é obrigatório <i>*</i>
+                                    </small>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +168,7 @@
                                 <label>NALADI</label>
                                 <div class="form-group">
 
-                                    <ng-select [items]="naladi$ | async" bindValue="id" [minTermLength]="minLengthTerm"
+                                    <ng-select [items]="naladi$ | async" bindValue="codigo" [minTermLength]="minLengthTerm"
                                         [loading]="naladiLoading"
                                         typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
                                         [typeahead]="naladiInput$" formControlName="naladi"

@@ -55,7 +55,7 @@ export class ItensComponent implements OnInit {
       decricao_item: [{ value: null, disabled: false }],
       fornecedor: [{ value: null, disabled: false }, Validators.required],
 
-      ncm: [{ value: null, disabled: false }],
+      ncm: [{ value: null, disabled: false }, Validators.required],
       naladi: [{ value: null, disabled: false }],
 
       aliquota_ii: [{ value: 0, disabled: false }],
@@ -67,8 +67,7 @@ export class ItensComponent implements OnInit {
       tipo: [{ value: null, disabled: false }],
       detalhe: [{ value: null, disabled: false }],
       isTipoEModeloPli: [{ value: false, disabled: false }]
-
-
+      
     });
 
   }
@@ -76,6 +75,7 @@ export class ItensComponent implements OnInit {
   ngOnInit(): void {
     this.loadFornecedor();
     this.loadNaladi();
+    this.loadNcm();
   }
 
   
@@ -109,6 +109,8 @@ export class ItensComponent implements OnInit {
 
   }
 
+  
+
   loadNaladi() {
 
     this.naladi$ = concat(
@@ -134,6 +136,31 @@ export class ItensComponent implements OnInit {
 
   }
 
+  loadNcm() {
+
+    this.ncm$ = concat(
+      of([]), // default items
+      this.ncmInput$.pipe(
+        filter(res => {
+          return res !== null && res.length >= this.minLengthTerm
+        }),
+        distinctUntilChanged(),
+        debounceTime(800),
+        tap(() => this.ncmLoading = true),
+        switchMap(term => {
+          return this.baseEntityAuxService.getByQ(term, "Ncm").pipe(
+            catchError(() => of([])), // empty list on error
+            tap((v) => {
+              this.regexStr = term;
+              this.ncmLoading = false
+            })
+          )
+        })
+      )
+    );
+
+  }
+
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' }),);
@@ -142,8 +169,6 @@ export class ItensComponent implements OnInit {
   onSubmit() {
 
     this.submitted = true;
-
-    console.log(this.form)
 
     if (this.form.valid) {
       this.isLoadSave = true;
@@ -154,18 +179,18 @@ export class ItensComponent implements OnInit {
         "codigoInterno": this.form.controls.codigo_interno.value,
         "unidadeOrganizacional": this.form.controls.unidade_organizacional.value,
         "descricaoItemNfe": this.form.controls.decricao_item.value,
-        "idFornecedor": this.form.controls.fornecedor.value
-
+        "idFornecedor": this.form.controls.fornecedor.value,
+        "ncm": this.form.controls.ncm.value,
+        "naladi": this.form.controls.naladi.value,
         // "unidade": "string",
         // "detalheNcm": "string",
         // "produtoSuframa": "string",
-        // "aliquotaIi": 0,
-        // "aliquotaIpi": 0,
-        // "aliquotaPis": 0,
-        // "aliquotaCofins": 0,
-        // "dtModificacao": "2023-02-21T18:59:49.808Z",
-
+        "aliquotaIi": this.formControl.aliquota_ii.value,
+        "aliquotaIpi": this.formControl.aliquota_ipi.value,
+        "aliquotaPis": this.formControl.aliquota_pis.value,
+        "aliquotaCofins": this.formControl.aliquota_cofins.value
       }
+
 
       this.service.create(parms).subscribe(
         {
@@ -180,6 +205,7 @@ export class ItensComponent implements OnInit {
             this.modalRef.hide();
             this.notifyService.showNotification('top', 'right', "Item registrado c/ sucesso!", 'success');
             this.isLoadSave = false;
+            this.form.reset();
           }
         }
       )
@@ -189,7 +215,19 @@ export class ItensComponent implements OnInit {
   }
 
   onChange(evt) {
+    console.log(evt)
+    if(evt == undefined){
+      this.formControl.aliquota_ii.setValue(0);
+      this.formControl.aliquota_ipi.setValue(0);
+      this.formControl.aliquota_pis.setValue(0);
+      this.formControl.aliquota_cofins.setValue(0);
 
+      return;
+    }
+    this.formControl.aliquota_ii.setValue(evt.vlIi);
+    this.formControl.aliquota_ipi.setValue(evt.vlIpi);
+    this.formControl.aliquota_pis.setValue(evt.vlPis);
+    this.formControl.aliquota_cofins.setValue(evt.vlCofins);
   }
 
 

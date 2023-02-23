@@ -1,5 +1,10 @@
 interface IPais {
-    codigo_Pais?: string;
-    nome_Pais?: string;
-    id?: number;
+    nome: string;
+    codigo: string;
+    ordem: number;
+    dtModificacao: Date;
+    cdNfe: string;
+    iso3166: string;
+    iso3166_3: string;
+    id: number;
 }
