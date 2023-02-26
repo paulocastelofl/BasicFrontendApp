@@ -347,26 +347,19 @@
                 </div>
               </div> -->
               <div class="col-md-4">
-                <label>País:</label>
+                <!-- <label>País:</label>
                 <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="pais"
-                    placeholder=""
-                    formControlName="pais"
-                    required
-                  />
-                  <small
-                    *ngIf="
-                      (formControl.telefone.touched || submitted) &&
-                      formControl.telefone.errors?.required
-                    "
-                    class="text-danger"
-                  >
-                    País é obrigatório <i>*</i>
-                  </small>
+                  <div class="form-group">
+                    <ng-select [items]="paises" bindLabel="nome" class="custom"
+                        bindValue="id" appendTo="body" formControlName="pais"
+                        placeholder="Selecione País"></ng-select>
                 </div>
+                <small
+                    *ngIf="(formControl.pais.touched || submitted) && formControl.pais.errors?.required"
+                    class="text-danger">
+                    País é obrigatório <i>*</i>
+                </small>
+                </div> -->
               </div>
               <div class="col-md-4">
                 <label>Tip de Vínculo:</label>

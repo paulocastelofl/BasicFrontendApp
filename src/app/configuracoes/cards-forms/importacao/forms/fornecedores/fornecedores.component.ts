@@ -4,6 +4,7 @@ import { FornecedorService } from 'app/configuracoes/services/fornecedor.service
 import { NotifyService } from 'app/core/services/generics/notify.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
+import { PaisService } from 'app/core/services/pais.service';
 import Swal from 'sweetalert2';
 
 declare var $: any;
@@ -31,13 +32,15 @@ export class FornecedoresComponent implements OnInit {
   public form: FormGroup;
   public submitted = false;
   public isLoadSave: boolean = false;
+  public paises: IPais[];
   public userIdupdate: number = 0
 
   constructor(
     private service: FornecedorService,
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
-    private notifyService: NotifyService
+    private notifyService: NotifyService,
+    private paisService: PaisService
   ) { }
 
 
@@ -48,11 +51,12 @@ export class FornecedoresComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataTable = {
-      headerRow: ['ID', 'CNPJ', 'Razão Social', 'Cidade', 'Estado', 'País', 'Ações'],
+      headerRow: ['ID', 'CNPJ', 'Razão', 'Cidade', 'Estado', 'País', 'Ações'],
       dataRows: []
     };
 
     this.getAllFornecedor();
+    this.getAllPaises();
   }
 
   loadEvenstDataTable() {
@@ -99,4 +103,11 @@ export class FornecedoresComponent implements OnInit {
     )
   }
 
+  getAllPaises() {
+    this.paisService.getAll().subscribe(
+      {
+        next: (v) => this.paises = v
+      }
+    )
+  }
 }
