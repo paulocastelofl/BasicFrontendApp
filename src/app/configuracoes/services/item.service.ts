@@ -19,6 +19,23 @@ export class ItemService {
       parms
     )
   }
+
+  public uploadFileItens(file) {
+    const formData = new FormData();
+
+    formData.append('file', file);
+
+    return this.http.post(
+      `${environment.baseUrlBackend}/api/Item/SaveExcelFileItens?IdEmpresa=1`,
+      formData
+    );
+  }
+
+  getAll(): Observable<Item[]>{
+    return this.http.get<Item[]>(`${environment.baseUrlBackend}/api/Item`)
+  }
+
+
   
 
 }

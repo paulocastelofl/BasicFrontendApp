@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ItemService } from 'app/configuracoes/services/item.service';
 import { BaseEntityAuxService } from 'app/core/services/base-entity-aux.service';
@@ -6,6 +6,7 @@ import { FornecedorService } from 'app/core/services/fornecedor.service';
 import { NotifyService } from 'app/core/services/generics/notify.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, concat, debounceTime, distinctUntilChanged, filter, Observable, of, Subject, switchMap, tap } from 'rxjs';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-itens',
@@ -35,6 +36,13 @@ export class ItensComponent implements OnInit {
   produto$: Observable<any>;
   produtoLoading = false;
   produtoInput$ = new Subject<string>();
+
+  @ViewChild('file')
+  inputFile: ElementRef;
+  isLoadFile: boolean = false;
+
+  isLoad: boolean = false;
+  itemsV;
 
   minLengthTerm = 3;
   regexStr = ""
@@ -67,7 +75,7 @@ export class ItensComponent implements OnInit {
       tipo: [{ value: null, disabled: false }],
       detalhe: [{ value: null, disabled: false }],
       isTipoEModeloPli: [{ value: false, disabled: false }]
-      
+
     });
 
   }
@@ -76,9 +84,12 @@ export class ItensComponent implements OnInit {
     this.loadFornecedor();
     this.loadNaladi();
     this.loadNcm();
+
+   
+    this.getAllItems();
   }
 
-  
+
   get formControl() {
     return this.form.controls;
   }
@@ -109,7 +120,7 @@ export class ItensComponent implements OnInit {
 
   }
 
-  
+
 
   loadNaladi() {
 
@@ -209,14 +220,14 @@ export class ItensComponent implements OnInit {
           }
         }
       )
-    }else{
+    } else {
       console.log("Não é valido")
     }
   }
 
   onChange(evt) {
     console.log(evt)
-    if(evt == undefined){
+    if (evt == undefined) {
       this.formControl.aliquota_ii.setValue(0);
       this.formControl.aliquota_ipi.setValue(0);
       this.formControl.aliquota_pis.setValue(0);
@@ -228,6 +239,48 @@ export class ItensComponent implements OnInit {
     this.formControl.aliquota_ipi.setValue(evt.vlIpi);
     this.formControl.aliquota_pis.setValue(evt.vlPis);
     this.formControl.aliquota_cofins.setValue(evt.vlCofins);
+  }
+
+  onFileChange(e) {
+
+    this.isLoadFile= true;
+
+    this.service.uploadFileItens(e.target.files[0]).subscribe(
+      {
+        next: (ob) => {
+
+        },
+        error: (e) => {
+          this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+          this.inputFile.nativeElement.value = "";
+          this.isLoadFile= false;
+        },
+        complete: () => {
+          this.inputFile.nativeElement.value = "";
+          this.notifyService.showNotification('top', 'right', "Item registrado c/ sucesso!", 'success');
+          this.isLoadFile= false;
+        }
+      }
+    )
+  }
+
+  getAllItems(){
+
+    this.isLoad = true;
+
+    this.service.getAll().subscribe({
+      next: (value) => {
+
+        this.itemsV = value
+
+      },error: (e) => {
+        this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+        this.isLoad = false;
+      },
+      complete: () => {
+        this.isLoad = false;
+      }
+    })
   }
 
 

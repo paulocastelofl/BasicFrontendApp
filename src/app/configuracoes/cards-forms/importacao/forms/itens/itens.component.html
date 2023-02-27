@@ -1,10 +1,57 @@
 <div class="toolbar">
-    <div class="d-flex justify-content-end">
-        <button class="btn btn-primary btn-round btn-icon" (click)="openModal(template)">
-            <i class="fa fa-plus"></i>
-        </button>
+    <div class="d-flex justify-content-between">
+
+        <div>
+            <div *ngIf="isLoadFile" class="spinner-border text-info"></div>
+        </div>
+
+
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary btn-round btn-icon mr-2" (click)="openModal(template)">
+                <i class="fa fa-plus"></i>
+            </button>
+
+            <input #myInput type="file" name="arquivo" id="arquivo" #file multiple="false"
+                (change)="onFileChange($event)">
+
+            <button class="btn btn-primary btn-round btn-icon " (click)="file.click()">
+                <i class="fa fa-upload" aria-hidden="true"></i>
+            </button>
+
+        </div>
     </div>
 
+</div>
+
+<div>
+    <table class="table table-striped" cellspacing="0" width="100%">
+        <thead>
+            <tr *ngIf="isLoad">
+
+                <div class="d-flex flex-column  align-items-center">
+                    <div class="spinner-border spinner-border text-secondary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <span class="mt-2">Carregando dados...</span>
+                </div>
+
+            </tr>
+        </thead>
+        <tbody class="mt-4">
+            <tr *ngFor="let item of itemsV; index as i;">
+                <div class="d-flex flex-column " style="padding: 8px;">
+                    <span style="font-size: 16px; font-weight: 600;">{{item.partNumber}}</span>
+                    <span style="font-size: 14px; color: #16a085;">{{item.descricao}}</span>
+                    <span style="font-size: 12px;">{{item.fornecedor.nomeFantasia}}</span>
+                    <div style="font-size: 11px;" class="mt-1">
+                        <span
+                            style="background-color: #3498db; color: #FFF; padding: 2px; border-radius: 4px; font-weight: 500; white-space: 0.5;">{{item.ncm
+                            | mask: '0000.00.00'}}</span>
+                    </div>
+                </div>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <ng-template #template>
@@ -65,7 +112,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="codigo_interno"
-                                        formControlName="codigo_interno" placeholder="Código Interno" >
+                                        formControlName="codigo_interno" placeholder="Código Interno">
                                 </div>
 
                             </div>
@@ -74,8 +121,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="unidade_organizacional"
-                                        formControlName="unidade_organizacional" placeholder="Unidade Organizacional"
-                                        >
+                                        formControlName="unidade_organizacional" placeholder="Unidade Organizacional">
                                 </div>
                             </div>
 
@@ -100,8 +146,7 @@
                                 <div class="form-group">
                                     <textarea type="text" class="form-control" id="decricao_item"
                                         formControlName="decricao_item"
-                                        placeholder="descrição do item para a NFe (opcional)" rows="2"
-                                        ></textarea>
+                                        placeholder="descrição do item para a NFe (opcional)" rows="2"></textarea>
                                 </div>
                             </div>
 
@@ -144,8 +189,8 @@
                                 <label>NCM</label>
                                 <div class="form-group">
 
-                                    <ng-select [items]="ncm$ | async" bindValue="codigo" [minTermLength]="minLengthTerm" (change)="onChange($event)"
-                                        [loading]="ncmLoading"
+                                    <ng-select [items]="ncm$ | async" bindValue="codigo" [minTermLength]="minLengthTerm"
+                                        (change)="onChange($event)" [loading]="ncmLoading"
                                         typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
                                         [typeahead]="ncmInput$" formControlName="ncm" placeholder="Selecione NCM...">
 
@@ -168,8 +213,8 @@
                                 <label>NALADI</label>
                                 <div class="form-group">
 
-                                    <ng-select [items]="naladi$ | async" bindValue="codigo" [minTermLength]="minLengthTerm"
-                                        [loading]="naladiLoading"
+                                    <ng-select [items]="naladi$ | async" bindValue="codigo"
+                                        [minTermLength]="minLengthTerm" [loading]="naladiLoading"
                                         typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
                                         [typeahead]="naladiInput$" formControlName="naladi"
                                         placeholder="Selecione NALADI...">
@@ -214,7 +259,7 @@
                             <div class="col-md-2">
                                 <label>Tipo</label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="tipo" formControlName="tipo" >
+                                    <input type="text" class="form-control" id="tipo" formControlName="tipo">
                                 </div>
 
                             </div>
@@ -254,7 +299,7 @@
                                 <label>Alíquota II</label>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="aliquota_ii"
-                                        formControlName="aliquota_ii"  currencyMask
+                                        formControlName="aliquota_ii" currencyMask
                                         [options]="{ suffix : '%', prefix: '', thousands: '.', decimal: ',' , align: 'left'}">
                                 </div>
                             </div>
@@ -262,7 +307,7 @@
                                 <label>Alíquota IPI</label>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="aliquota_ipi"
-                                        formControlName="aliquota_ipi"  currencyMask
+                                        formControlName="aliquota_ipi" currencyMask
                                         [options]="{ suffix : '%', prefix: '', thousands: '.', decimal: ',' , align: 'left'}">
                                 </div>
 
@@ -273,7 +318,7 @@
                                 <label>Alíquota PIS</label>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="aliquota_pis"
-                                        formControlName="aliquota_pis"  currencyMask
+                                        formControlName="aliquota_pis" currencyMask
                                         [options]="{ suffix : '%', prefix: '', thousands: '.', decimal: ',' , align: 'left'}">
                                 </div>
                             </div>
@@ -281,7 +326,7 @@
                                 <label>Alíquota COFINS</label>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="aliquota_cofins"
-                                        formControlName="aliquota_cofins"  currencyMask
+                                        formControlName="aliquota_cofins" currencyMask
                                         [options]="{ suffix : '%', prefix: '', thousands: '.', decimal: ',' , align: 'left'}">
                                 </div>
 

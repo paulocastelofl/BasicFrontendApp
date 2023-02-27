@@ -127,20 +127,40 @@ export class NavbarComponent implements OnInit {
 
     getTitle() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
+
         if (titlee.charAt(0) === '#') {
             titlee = titlee.slice(1);
         }
+
+        // console.log(titlee)
+
         for (var item = 0; item < this.listTitles.length; item++) {
+
+            // console.log(this.listTitles[item])
+
             var parent = this.listTitles[item];
+
             if (parent.path === titlee) {
+
                 return parent.title;
+
             } else if (parent.children) {
-                var children_from_url = titlee.split("/")[2];
+
+                if(titlee === "/configuracoes/empresa/1/associados"){
+                    var children_from_url = titlee.split("/")[4];
+                }else{
+                    var children_from_url = titlee.split("/")[2];
+                }
+
                 for (var current = 0; current < parent.children.length; current++) {
+
                     if (parent.children[current].path === children_from_url) {
+
                         return parent.children[current].title;
+
                     }
                 }
+
             }
         }
         return 'Dashboard';

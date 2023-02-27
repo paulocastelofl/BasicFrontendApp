@@ -52,7 +52,7 @@ export class FornecedoresComponent implements OnInit {
       dataRows: []
     };
 
-    this.getAllFornecedor();
+   // this.getAllFornecedor();
   }
 
   loadEvenstDataTable() {
