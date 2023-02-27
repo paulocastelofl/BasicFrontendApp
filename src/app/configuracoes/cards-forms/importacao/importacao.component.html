@@ -17,7 +17,7 @@
             <a
               class="nav-link"
               data-toggle="tab"
-              href="#profile"
+              href="#itens"
               role="tab"
               aria-expanded="false"
               >Itens</a
@@ -75,9 +75,9 @@
       >
         <app-basico-importacao [empresa]="empresa"></app-basico-importacao>
       </div>
-      <div class="tab-pane" id="profile" role="tabpanel" aria-expanded="false">
-        <app-itens></app-itens>
-      </div>
+       <div class="tab-pane" id="itens" role="tabpanel" aria-expanded="true">
+          <app-itens [empresa]="empresa"></app-itens>
+        </div>
       <div class="tab-pane" id="fornecedores" role="tabpanel" aria-expanded="false">
         <app-fornecedores></app-fornecedores>
       </div>
