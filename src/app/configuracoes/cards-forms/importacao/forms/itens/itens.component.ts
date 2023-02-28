@@ -7,6 +7,8 @@ import { NotifyService } from 'app/core/services/generics/notify.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, concat, debounceTime, distinctUntilChanged, filter, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { param } from 'jquery';
 
 @Component({
   selector: 'app-itens',
@@ -20,6 +22,7 @@ export class ItensComponent implements OnInit {
   public isLoadSave = false;
   @Input() empresa: Empresa;
   public submitted = false;
+  public titleModal = "Novo";
 
   fornecedor$: Observable<any>;
   fornecedorLoading = false;
@@ -42,17 +45,25 @@ export class ItensComponent implements OnInit {
   isLoadFile: boolean = false;
 
   isLoad: boolean = false;
-  itemsV;
+  itemsV = [];
+  take = 10;
+  skip = 0;
+  total = 0;
+  p = 1;
+  q: string = ""
 
   minLengthTerm = 3;
-  regexStr = ""
+  regexStr = "";
+
+  idUpdate: number = 0;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
     private notifyService: NotifyService,
     private fornecedorService: FornecedorService,
     private baseEntityAuxService: BaseEntityAuxService,
-    private service: ItemService
+    private service: ItemService,
+    private readonly router: Router
   ) {
 
     this.form = this.formBuilder.group({
@@ -84,16 +95,12 @@ export class ItensComponent implements OnInit {
     this.loadFornecedor();
     this.loadNaladi();
     this.loadNcm();
-
-   
     this.getAllItems();
   }
-
 
   get formControl() {
     return this.form.controls;
   }
-
 
   loadFornecedor() {
 
@@ -117,10 +124,7 @@ export class ItensComponent implements OnInit {
         })
       )
     );
-
   }
-
-
 
   loadNaladi() {
 
@@ -144,7 +148,6 @@ export class ItensComponent implements OnInit {
         })
       )
     );
-
   }
 
   loadNcm() {
@@ -169,11 +172,16 @@ export class ItensComponent implements OnInit {
         })
       )
     );
-
   }
 
+  openModal(template: TemplateRef<any>, type?: string, item?) {
 
-  openModal(template: TemplateRef<any>) {
+    if (type == "update") {
+      this.titleModal = "Atualizar";
+      this.setValueModalUpdate(item);
+
+    } else { this.titleModal = "Novo" }
+
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' }),);
   }
 
@@ -184,7 +192,8 @@ export class ItensComponent implements OnInit {
     if (this.form.valid) {
       this.isLoadSave = true;
 
-      const parms = {
+      var parms = {
+        "id": this.idUpdate,
         "descricao": this.form.controls.decricao_detalhada.value,
         "partNumber": this.form.controls.partnumber.value,
         "codigoInterno": this.form.controls.codigo_interno.value,
@@ -202,26 +211,44 @@ export class ItensComponent implements OnInit {
         "aliquotaCofins": this.formControl.aliquota_cofins.value
       }
 
+      console.log(parms);
 
-      this.service.create(parms).subscribe(
-        {
-          next: (obj) => {
+      if (this.titleModal == "Atualizar") {
 
-          },
-          error: (e) => {
-            this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
-            this.isLoadSave = false;
-          },
-          complete: () => {
-            this.modalRef.hide();
-            this.notifyService.showNotification('top', 'right', "Item registrado c/ sucesso!", 'success');
-            this.isLoadSave = false;
-            this.form.reset();
+        this.service.update(parms).subscribe(
+          {
+            next: (obj) => { },
+            error: (e) => {
+              this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+              this.isLoadSave = false;
+            },
+            complete: () => {
+              this.modalRef.hide();
+              this.idUpdate = 0;
+              this.notifyService.showNotification('top', 'right', "Item atualizado c/ sucesso!", 'success');
+              this.isLoadSave = false;
+              this.form.reset();
+            }
           }
-        }
-      )
-    } else {
-      console.log("Não é valido")
+        )
+        
+      } else {
+        this.service.create(parms).subscribe(
+          {
+            next: (obj) => { },
+            error: (e) => {
+              this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+              this.isLoadSave = false;
+            },
+            complete: () => {
+              this.modalRef.hide();
+              this.notifyService.showNotification('top', 'right', "Item registrado c/ sucesso!", 'success');
+              this.isLoadSave = false;
+              this.form.reset();
+            }
+          }
+        )
+      }
     }
   }
 
@@ -243,37 +270,38 @@ export class ItensComponent implements OnInit {
 
   onFileChange(e) {
 
-    this.isLoadFile= true;
+    this.isLoadFile = true;
 
     this.service.uploadFileItens(e.target.files[0]).subscribe(
       {
-        next: (ob) => {
-
-        },
+        next: (ob) => {},
         error: (e) => {
           this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
           this.inputFile.nativeElement.value = "";
-          this.isLoadFile= false;
+          this.isLoadFile = false;
         },
         complete: () => {
           this.inputFile.nativeElement.value = "";
-          this.notifyService.showNotification('top', 'right', "Item registrado c/ sucesso!", 'success');
-          this.isLoadFile= false;
+          this.notifyService.showNotification('top', 'right', "Planilha registrada c/ sucesso!", 'success');
+          this.isLoadFile = false;
         }
       }
     )
   }
 
-  getAllItems(){
+  getAllItems() {
 
     this.isLoad = true;
 
-    this.service.getAll().subscribe({
+    this.service.getAll(this.p, this.take, this.q).subscribe({
       next: (value) => {
 
-        this.itemsV = value
+        this.take = value['take'];
+        this.skip = value['skip'];
+        this.total = value['total'];
+        this.itemsV = value['data'];
 
-      },error: (e) => {
+      }, error: (e) => {
         this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
         this.isLoad = false;
       },
@@ -281,6 +309,53 @@ export class ItensComponent implements OnInit {
         this.isLoad = false;
       }
     })
+  }
+
+  onPageChange(event) {
+    this.p = event
+    this.getAllItems();
+  }
+
+  sendit(data) {
+    this.q = data;
+    this.p = 1;
+    this.getAllItems();
+  }
+
+  setValueModalUpdate(item) {
+
+    this.idUpdate = item.id
+
+    this.formControl.partnumber.setValue(item.partNumber);
+    this.formControl.codigo_interno.setValue(item.codigoInterno);
+    this.formControl.unidade_organizacional.setValue(item.unidadeOrganizacional);
+    this.formControl.decricao_detalhada.setValue(item.descricao);
+    this.formControl.decricao_item.setValue(item.descricaoItemNfe);
+
+    this.fornecedor$ = this.fornecedorService.getFornecedorByQ(item.fornecedor.nomeFantasia).pipe(
+      catchError(() => of([])), // empty list on error
+      tap((v) => {
+        this.formControl.fornecedor.setValue(item.idFornecedor);
+      }))
+
+    this.ncm$ = this.baseEntityAuxService.getByQ(item.ncm, "Ncm").pipe(
+      catchError(() => of([])), // empty list on error
+      tap((v) => {
+        this.formControl.ncm.setValue(item.ncm);
+      })
+    )
+
+    this.naladi$ = this.baseEntityAuxService.getByQ(item.naladi, "Naladi").pipe(
+      catchError(() => of([])), // empty list on error
+      tap((v) => {
+        this.formControl.naladi.setValue(item.naladi);
+      })
+    )
+
+    this.formControl.aliquota_ii.setValue(item.aliquotaCofins);
+    this.formControl.aliquota_ipi.setValue(item.aliquotaIi);
+    this.formControl.aliquota_pis.setValue(item.aliquotaIpi);
+    this.formControl.aliquota_cofins.setValue(item.aliquotaPis);
   }
 
 

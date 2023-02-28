@@ -2,9 +2,9 @@
     <div class="d-flex justify-content-between">
 
         <div>
-            <div *ngIf="isLoadFile" class="spinner-border text-info"></div>
+            <div *ngIf="isLoadFile" class="spinner-border text-secondary"></div>
+            <div *ngIf="isLoad" class="spinner-border text-secondary"></div>
         </div>
-
 
         <div class="d-flex justify-content-end">
             <button class="btn btn-primary btn-round btn-icon mr-2" (click)="openModal(template)">
@@ -26,39 +26,39 @@
 <div>
     <table class="table table-striped" cellspacing="0" width="100%">
         <thead>
-            <tr *ngIf="isLoad">
-
-                <div class="d-flex flex-column  align-items-center">
-                    <div class="spinner-border spinner-border text-secondary" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                    <span class="mt-2">Carregando dados...</span>
+            <tr>
+                <div class="d-flex flex-row justify-content-between align-items-end mb-2">
+                    <span class=" total">Total de registros: {{total}}. Mostrando {{itemsV.length}}.</span>
+                    <input type="text" id="partnumber" class="form-control"  placeholder="Buscar por partnumber" style="width: 300px;" (keyup.enter)="sendit($event.target.value)" >
                 </div>
-
             </tr>
         </thead>
         <tbody class="mt-4">
-            <tr *ngFor="let item of itemsV; index as i;">
+            <tr
+                *ngFor="let item of itemsV | paginate: { itemsPerPage: take, currentPage: p, totalItems: total }; index as i; ">
                 <div class="d-flex flex-column " style="padding: 8px;">
-                    <span style="font-size: 16px; font-weight: 600;">{{item.partNumber}}</span>
-                    <span style="font-size: 14px; color: #16a085;">{{item.descricao}}</span>
-                    <span style="font-size: 12px;">{{item.fornecedor.nomeFantasia}}</span>
+                    <span class="partnumber" (click)="openModal(template, 'update', item)" >{{item.partNumber}}</span>
+                    <span class="descricao">{{item.descricao}}</span>
+                    <span class="nomeFantasia">{{item.fornecedor.nomeFantasia}}</span>
                     <div style="font-size: 11px;" class="mt-1">
-                        <span
-                            style="background-color: #3498db; color: #FFF; padding: 2px; border-radius: 4px; font-weight: 500; white-space: 0.5;">{{item.ncm
+                        <span class="ncm">{{item.ncm
                             | mask: '0000.00.00'}}</span>
                     </div>
                 </div>
             </tr>
         </tbody>
     </table>
+    <div class="d-flex justify-content-end">
+        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+    </div>
+
 </div>
 
 <ng-template #template>
 
     <div class="col-md-12 d-flex justify-content-between modal-header-custom">
 
-        <h5 class="modal-title pull-left"> <i class="fa fa-cube" aria-hidden="true"></i> Novo Item</h5>
+        <h5 class="modal-title pull-left"> <i class="fa fa-cube" aria-hidden="true"></i> {{titleModal}} Item</h5>
 
         <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
             <span aria-hidden="true" class="visually-hidden">&times;</span>

@@ -4,80 +4,36 @@
       <div class="nav-tabs-wrapper">
         <ul id="tabs" class="nav nav-tabs" role="tablist">
           <li class="nav-item">
-            <a
-              class="nav-link active"
-              data-toggle="tab"
-              href="#home"
-              role="tab"
-              aria-expanded="true"
-              >Básico</a
-            >
+            <a class="nav-link active" data-toggle="tab" href="#home" role="tab" aria-expanded="true">Básico</a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              data-toggle="tab"
-              href="#itens"
-              role="tab"
-              aria-expanded="false"
-              >Itens</a
-            >
+            <a class="nav-link" data-toggle="tab" href="#itens" role="tab" aria-expanded="false">Itens</a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              data-toggle="tab"
-              href="#fornecedores"
-              role="tab"
-              aria-expanded="false"
-              >Fornecedores</a
-            >
+            <a class="nav-link" data-toggle="tab" href="#fornecedores" role="tab" aria-expanded="false">Fornecedores</a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              data-toggle="tab"
-              href="#messages"
-              role="tab"
-              aria-expanded="false"
-              >Transportadores</a
-            >
+            <a class="nav-link" data-toggle="tab" href="#messages" role="tab" aria-expanded="false">Transportadores</a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              data-toggle="tab"
-              href="#messages"
-              role="tab"
-              aria-expanded="false"
-              >Agente</a
-            >
+            <a class="nav-link" data-toggle="tab" href="#messages" role="tab" aria-expanded="false">Agente</a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              data-toggle="tab"
-              href="#messages"
-              role="tab"
-              aria-expanded="false"
-              >Atos Legais</a
-            >
+            <a class="nav-link" data-toggle="tab" href="#messages" role="tab" aria-expanded="false">Atos Legais</a>
           </li>
         </ul>
       </div>
     </div>
     <div id="my-tab-content" class="tab-content">
-      <div
-        class="tab-pane active"
-        id="home"
-        role="tabpanel"
-        aria-expanded="true"
-      >
+      
+      <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
         <app-basico-importacao [empresa]="empresa"></app-basico-importacao>
       </div>
-       <div class="tab-pane" id="itens" role="tabpanel" aria-expanded="true">
-          <app-itens [empresa]="empresa"></app-itens>
-        </div>
+
+      <div class="tab-pane" id="itens" role="tabpanel" aria-expanded="true">
+        <app-itens [empresa]="empresa"></app-itens>
+      </div>
+
       <div class="tab-pane" id="fornecedores" role="tabpanel" aria-expanded="false">
         <app-fornecedores></app-fornecedores>
       </div>

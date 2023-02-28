@@ -20,6 +20,12 @@ export class ItemService {
     )
   }
 
+  public update(parms: {}): Observable<any> {
+    return this.http.put(`${environment.baseUrlBackend}/api/Item`,
+      parms
+    )
+  }
+
   public uploadFileItens(file) {
     const formData = new FormData();
 
@@ -31,8 +37,12 @@ export class ItemService {
     );
   }
 
-  getAll(): Observable<Item[]>{
-    return this.http.get<Item[]>(`${environment.baseUrlBackend}/api/Item`)
+  getAll(page: number = 1, take: number = 10, q: string = ""): Observable<Item[]>{
+
+    if(q != "") return this.http.get<Item[]>(`${environment.baseUrlBackend}/api/Item?page=${page}&take=${take}&q=${q}`)
+
+    return this.http.get<Item[]>(`${environment.baseUrlBackend}/api/Item?page=${page}&take=${take}`)
+    
   }
 
 

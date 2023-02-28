@@ -24,6 +24,7 @@ import { BasicoImportacaoComponent } from './cards-forms/importacao/forms/basico
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { BoldSpanPipe } from 'app/core/pipes/bold-span.pipes';
 import { FornecedoresComponent } from './cards-forms/importacao/forms/fornecedores/fornecedores.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -36,8 +37,8 @@ import { FornecedoresComponent } from './cards-forms/importacao/forms/fornecedor
     NgxMaskModule.forRoot(),
     NgSelectModule,
     JwBootstrapSwitchNg2Module,
-    CurrencyMaskModule
-  
+    CurrencyMaskModule,
+    NgxPaginationModule
   ],
   declarations: [
     EmpresaComponent,
