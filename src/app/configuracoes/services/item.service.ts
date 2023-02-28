@@ -45,6 +45,10 @@ export class ItemService {
     
   }
 
+  public delete(id): Observable<any> {
+    return this.http.delete(`${environment.baseUrlBackend}/api/Item/${id}`,)
+  }
+
 
   
 

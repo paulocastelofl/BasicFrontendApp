@@ -149,7 +149,6 @@ export class UsuariosComponent implements OnInit {
   }
 
   onDelete(user) {
-    console.log(user[0])
     Swal.fire({
 
       title: 'Tem certeza?',

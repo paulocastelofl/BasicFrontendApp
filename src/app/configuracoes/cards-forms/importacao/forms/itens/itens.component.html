@@ -37,7 +37,13 @@
             <tr
                 *ngFor="let item of itemsV | paginate: { itemsPerPage: take, currentPage: p, totalItems: total }; index as i; ">
                 <div class="d-flex flex-column " style="padding: 8px;">
-                    <span class="partnumber" (click)="openModal(template, 'update', item)" >{{item.partNumber}}</span>
+                    <div class="d-flex justify-content-between">
+                        <span class="partnumber" (click)="openModal(template, 'update', item)" >{{item.partNumber}}</span>
+                        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="onDelete(item)">
+                            <span aria-hidden="true" class="visually-hidden">&times;</span>
+                        </button>
+                    </div>
+                    
                     <span class="descricao">{{item.descricao}}</span>
                     <span class="nomeFantasia">{{item.fornecedor.nomeFantasia}}</span>
                     <div style="font-size: 11px;" class="mt-1">

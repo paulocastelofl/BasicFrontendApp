@@ -9,6 +9,7 @@ import { catchError, concat, debounceTime, distinctUntilChanged, filter, Observa
 import { ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { param } from 'jquery';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-itens',
@@ -211,7 +212,7 @@ export class ItensComponent implements OnInit {
         "aliquotaCofins": this.formControl.aliquota_cofins.value
       }
 
-      console.log(parms);
+      //console.log(parms);
 
       if (this.titleModal == "Atualizar") {
 
@@ -223,6 +224,7 @@ export class ItensComponent implements OnInit {
               this.isLoadSave = false;
             },
             complete: () => {
+              this.getAllItems();
               this.modalRef.hide();
               this.idUpdate = 0;
               this.notifyService.showNotification('top', 'right', "Item atualizado c/ sucesso!", 'success');
@@ -241,6 +243,7 @@ export class ItensComponent implements OnInit {
               this.isLoadSave = false;
             },
             complete: () => {
+              this.getAllItems()
               this.modalRef.hide();
               this.notifyService.showNotification('top', 'right', "Item registrado c/ sucesso!", 'success');
               this.isLoadSave = false;
@@ -356,6 +359,52 @@ export class ItensComponent implements OnInit {
     this.formControl.aliquota_ipi.setValue(item.aliquotaIi);
     this.formControl.aliquota_pis.setValue(item.aliquotaIpi);
     this.formControl.aliquota_cofins.setValue(item.aliquotaPis);
+  }
+
+  onDelete(item){
+
+    Swal.fire({
+
+      title: `Tem certeza?`,
+      text: `Você não poderá reverter isso! (${item.partNumber})`,
+      icon: 'warning',
+      showCancelButton: true,
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      confirmButtonText: 'Sim, Delete!',
+      buttonsStyling: false
+
+    }).then((result) => {
+      if (result.value) {
+
+        this.service.delete(item.id).subscribe({
+          next: (obj) => {
+
+          },
+          error: (e) => {
+            this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+            this.isLoadSave = false;
+          },
+          complete: () => {
+            this.getAllItems();
+            Swal.fire(
+              {
+                title: 'Deletado!',
+                text: 'Seu usuário foi excluído.',
+                icon: 'success',
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+                buttonsStyling: false
+              }
+            )
+          }
+        })
+
+      }
+    })
   }
 
 
