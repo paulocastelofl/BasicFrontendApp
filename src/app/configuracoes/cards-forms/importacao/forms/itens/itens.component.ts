@@ -256,7 +256,6 @@ export class ItensComponent implements OnInit {
   }
 
   onChange(evt) {
-    console.log(evt)
     if (evt == undefined) {
       this.formControl.aliquota_ii.setValue(0);
       this.formControl.aliquota_ipi.setValue(0);

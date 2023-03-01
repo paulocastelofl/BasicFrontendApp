@@ -49,14 +49,25 @@
                     </table>
 
                     <ng-template #template>
-                        <div class="modal-header">
+                        <!-- <div class="modal-header">
                             <h4 class="modal-title pull-left"> <i class="fa fa-building" aria-hidden="true"></i> Novo
                                 Associado</h4>
                             <button type="button" class="btn-close close pull-right" aria-label="Close"
                                 (click)="modalRef?.hide()">
                                 <span aria-hidden="true" class="visually-hidden">&times;</span>
                             </button>
+                        </div> -->
+
+                        <div class="col-md-12 d-flex justify-content-between modal-header-custom">
+
+                            <h5 class="modal-title pull-left"> <i class="fa fa-building" aria-hidden="true"></i> Nova Empresa</h5>
+                    
+                            <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+                                <span aria-hidden="true" class="visually-hidden">&times;</span>
+                            </button>
+                    
                         </div>
+
                         <div class="mt-4 mb-4">
                             <form [formGroup]="form">
 

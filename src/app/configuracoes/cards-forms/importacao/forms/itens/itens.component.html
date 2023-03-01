@@ -35,7 +35,7 @@
         </thead>
         <tbody class="mt-4">
             <tr
-                *ngFor="let item of itemsV | paginate: { itemsPerPage: take, currentPage: p, totalItems: total }; index as i; ">
+                *ngFor="let item of itemsV | paginate: { id: 'itens_id', itemsPerPage: take, currentPage: p, totalItems: total }; index as i; ">
                 <div class="d-flex flex-column " style="padding: 8px;">
                     <div class="d-flex justify-content-between">
                         <span class="partnumber" (click)="openModal(template, 'update', item)" >{{item.partNumber}}</span>
@@ -55,7 +55,7 @@
         </tbody>
     </table>
     <div class="d-flex justify-content-end">
-        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+        <pagination-controls id="itens_id" (pageChange)="onPageChange($event)"></pagination-controls>
     </div>
 
 </div>
@@ -106,7 +106,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="partnumber" formControlName="partnumber"
+                                    <input type="text" class="form-control input-custom" id="partnumber" formControlName="partnumber"
                                         placeholder="Part Number" required>
                                     <small
                                         *ngIf="(formControl.partnumber.touched || submitted) && formControl.partnumber.errors?.required"
@@ -117,7 +117,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="codigo_interno"
+                                    <input type="text" class="form-control input-custom" id="codigo_interno"
                                         formControlName="codigo_interno" placeholder="Código Interno">
                                 </div>
 
@@ -126,7 +126,7 @@
                         <div class="row mt-2">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="unidade_organizacional"
+                                    <input type="text" class="form-control input-custom" id="unidade_organizacional"
                                         formControlName="unidade_organizacional" placeholder="Unidade Organizacional">
                                 </div>
                             </div>
@@ -265,7 +265,7 @@
                             <div class="col-md-2">
                                 <label>Tipo</label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="tipo" formControlName="tipo">
+                                    <input type="text" class="form-control input-custom" id="tipo" formControlName="tipo">
                                 </div>
 
                             </div>
@@ -274,7 +274,7 @@
                             <div class="col-md-12">
                                 <label>Detalhe</label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="detalhe" formControlName="detalhe">
+                                    <input type="text" class="form-control input-custom" id="detalhe" formControlName="detalhe">
                                 </div>
                             </div>
 
@@ -304,7 +304,7 @@
                             <div class="col-md-6">
                                 <label>Alíquota II</label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="aliquota_ii"
+                                    <input type="text" class="form-control input-custom" id="aliquota_ii"
                                         formControlName="aliquota_ii" currencyMask
                                         [options]="{ suffix : '%', prefix: '', thousands: '.', decimal: ',' , align: 'left'}">
                                 </div>
@@ -323,7 +323,7 @@
                             <div class="col-md-6">
                                 <label>Alíquota PIS</label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="aliquota_pis"
+                                    <input type="text" class="form-control input-custom" id="aliquota_pis"
                                         formControlName="aliquota_pis" currencyMask
                                         [options]="{ suffix : '%', prefix: '', thousands: '.', decimal: ',' , align: 'left'}">
                                 </div>
@@ -331,7 +331,7 @@
                             <div class="col-md-6">
                                 <label>Alíquota COFINS</label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="aliquota_cofins"
+                                    <input type="text" class="form-control input-custom" id="aliquota_cofins"
                                         formControlName="aliquota_cofins" currencyMask
                                         [options]="{ suffix : '%', prefix: '', thousands: '.', decimal: ',' , align: 'left'}">
                                 </div>

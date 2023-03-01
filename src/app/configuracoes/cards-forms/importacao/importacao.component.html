@@ -16,7 +16,7 @@
             <a class="nav-link" data-toggle="tab" href="#messages" role="tab" aria-expanded="false">Transportadores</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#messages" role="tab" aria-expanded="false">Agente</a>
+            <a class="nav-link" data-toggle="tab" href="#agente" role="tab" aria-expanded="false">Agente</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#messages" role="tab" aria-expanded="false">Atos Legais</a>
@@ -38,8 +38,12 @@
         <app-fornecedores></app-fornecedores>
       </div>
 
+      <div class="tab-pane" id="agente" role="tabpanel" aria-expanded="false">
+        <app-agente  [empresa]="empresa"></app-agente>
+      </div>
+
       <div class="tab-pane" id="messages" role="tabpanel" aria-expanded="false">
-        <p>Here are your messages.</p>
+        <h6>messages</h6>
       </div>
     </div>
   </div>

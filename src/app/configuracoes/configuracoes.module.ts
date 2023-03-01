@@ -25,6 +25,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { BoldSpanPipe } from 'app/core/pipes/bold-span.pipes';
 import { FornecedoresComponent } from './cards-forms/importacao/forms/fornecedores/fornecedores.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AgenteComponent } from './cards-forms/importacao/forms/agente/agente.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ItensComponent,
     BasicoImportacaoComponent,
     BoldSpanPipe,
-    FornecedoresComponent
+    FornecedoresComponent,
+    AgenteComponent
   ]
  
 })
