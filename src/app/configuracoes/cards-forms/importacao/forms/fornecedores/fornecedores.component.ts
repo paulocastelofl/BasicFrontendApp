@@ -21,19 +21,6 @@ declare interface DataTable {
 })
 export class FornecedoresComponent implements OnInit {
 
-  // public dataTable: DataTable;
-  // public dtOptions: any = {}
-  // public table;
-  // public isLoad: boolean = false;
-  // public subscription: Subscription;
-  // public closeResult = '';
-  // public modalRef?: BsModalRef;
-  // public form: FormGroup;
-  // public submitted = false;
-  // public isLoadSave: boolean = false;
-  // public paises: IPais[];
-  // public userIdupdate: number = 0
-
   public modalRef?: BsModalRef;
   public form: FormGroup;
   public isLoadSave = false;
