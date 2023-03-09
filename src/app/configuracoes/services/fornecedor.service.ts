@@ -17,4 +17,8 @@ export class FornecedorService {
   getAll(): Observable<IFornecedor[]>{
     return this.http.get<IFornecedor[]>(`${environment.baseUrlBackend}/api/Fornecedor`)
   }
+
+  public delete(id): Observable<any> {
+    return this.http.delete(`${environment.baseUrlBackend}/api/Fornecedor/${id}`,)
+  }
 }
