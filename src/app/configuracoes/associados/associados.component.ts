@@ -120,6 +120,7 @@ export class AssociadosComponent implements OnInit {
         next: (obj) => {
 
           (Object.keys(obj) as (keyof typeof obj)[]).forEach((key, index) => {
+
             this.dataTable.dataRows.push(
               [obj[key]['id'].toString(), 
               obj[key]['nomeFantasia'],
@@ -138,6 +139,9 @@ export class AssociadosComponent implements OnInit {
         },
         complete: () => {
           // this.isLoad = false;
+
+   
+
           setTimeout(() => {
             this.isLoad = false;
             this.loadEvenstDataTable()

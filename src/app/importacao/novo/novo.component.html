@@ -1,0 +1,215 @@
+<div class="main-content-custumer-gan">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="form">
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <label>Importador</label>
+                                <div class="form-group">
+
+                                    <ng-select [items]="importador$ | async" bindValue="id"
+                                        [minTermLength]="minLengthTerm" [loading]="importadorLoading"
+                                        typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
+                                        [typeahead]="importadorInput$" formControlName="importador"
+                                        placeholder="Selecione Importador...">
+
+                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                            <span [innerHTML]="item.nomeFantasia | boldSpan:regexStr"></span>
+                                        </ng-template>
+
+                                    </ng-select>
+                                    <small
+                                        *ngIf="(formControl.importador.touched || submitted) && formControl.importador.errors?.required"
+                                        class="text-danger">
+                                        Importador é obrigatório <i>*</i>
+                                    </small>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Despachante Responsável</label>
+                                <div class="form-group">
+                                    <ng-select [items]="despachante$ | async" bindValue="id"
+                                        [minTermLength]="minLengthTerm" [loading]="despachanteLoading"
+                                        typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
+                                        [typeahead]="despachanteInput$" formControlName="despachante_responsavel"
+                                        placeholder="Selecione Despachante...">
+
+                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                            <span [innerHTML]="item.nomeFantasia | boldSpan:regexStr"></span>
+                                        </ng-template>
+
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Despachante de Ponta</label>
+                                <div class="form-group">
+
+                                    <ng-select [items]="despachanteponta$ | async" bindValue="id"
+                                        [minTermLength]="minLengthTerm" [loading]="despachantepontaLoading"
+                                        typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
+                                        [typeahead]="despachantepontaInput$" formControlName="despachante_ponta"
+                                        placeholder="Selecione Despachante...">
+
+                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                            <span [innerHTML]="item.nomeFantasia | boldSpan:regexStr"></span>
+                                        </ng-template>
+
+                                    </ng-select>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Código do Processo</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="nome" placeholder="">
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Centro de Custo</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="nome" placeholder="">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Tipo de Declaração</label>
+                                <div class="form-group">
+
+                                    <ng-select [items]="tipodeclaracao$ | async" bindValue="id"
+                                        [minTermLength]="minLengthTermTipoDeclaracao" [loading]="tipodeclaracaoLoading"
+                                        typeToSearchText="Por favor digite {{minLengthTermTipoDeclaracao}} ou mais caractéres"
+                                        [typeahead]="tipodeclaracaoInput$" formControlName="tipo_declaracao"
+                                        placeholder="Selecione Tipo de Declaração...">
+
+                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                            <span [innerHTML]="item.codigo_nome | boldSpan:regexStr"></span>
+                                        </ng-template>
+
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>País de Procedência</label>
+                                <div class="form-group">
+                                    <ng-select [items]="paises" bindLabel="nome" class="custom"
+                                    bindValue="id" appendTo="body" formControlName="pais"
+                                    placeholder="-- Selecione --"></ng-select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Modal</label>
+                                <div class="form-group">
+                                    <div class="form-group">
+
+                                        <ng-select [items]="modals" bindLabel="nome" class="custom" bindValue="id"
+                                            appendTo="body" formControlName="modal"
+                                            placeholder="-- Selecione --"></ng-select>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>URF de Chegada</label>
+                                <div class="form-group">
+
+                                    <ng-select [items]="urfChegada$ | async" bindValue="id"
+                                        [minTermLength]="minLengthTermurfChegada" [loading]="urfChegadaLoading"
+                                        typeToSearchText="Por favor digite {{minLengthTermurfChegada}} ou mais caractéres"
+                                        [typeahead]="urfChegadaInput$" formControlName="urfChegada"
+                                        placeholder="Selecione Urf de Chegada...">
+
+                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                            <span [innerHTML]="item.codigo_nome | boldSpan:regexStr"></span>
+                                        </ng-template>
+
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>URF de Despacho</label>
+                                <div class="form-group">
+
+                                    <ng-select [items]="urfDespacho$ | async" bindValue="id"
+                                        [minTermLength]="minLengthTermurfDespacho" [loading]="urfDespachoLoading"
+                                        typeToSearchText="Por favor digite {{minLengthTermurfDespacho}} ou mais caractéres"
+                                        [typeahead]="urfDespachoInput$" formControlName="urfDespacho"
+                                        placeholder="Selecione Urf de Despacho...">
+
+                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                            <span [innerHTML]="item.codigo_nome | boldSpan:regexStr"></span>
+                                        </ng-template>
+
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Necessidade Importador</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="nome" placeholder="">
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Analista Importador</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="analistaImportador"
+                                        formControlName="analistaImportador" placeholder="Opcional">
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Analista Despachante</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="analistaDespachante"
+                                        formControlName="analistaDespachante" placeholder="Opcional">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Tipo de Consignatário</label>
+                                <div class="form-group">
+
+                                    <ng-select [items]="tipoConsignatario" bindLabel="nome" class="custom" bindValue="id"
+                                        appendTo="body" formControlName="tipoConsignatario"
+                                        placeholder="-- Selecione --"></ng-select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Modalidade de Despacho</label>
+                                <div class="form-group">
+                                    <ng-select [items]="impModalidadeDespacho" bindLabel="nome" class="custom" bindValue="id"
+                                        appendTo="body" formControlName="impModalidadeDespacho"
+                                        placeholder="-- Selecione --"></ng-select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

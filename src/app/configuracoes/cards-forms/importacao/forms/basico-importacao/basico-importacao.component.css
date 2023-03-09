@@ -5,3 +5,7 @@
 td{
     padding: 5px 10px 5px 10px
 }
+
+label{
+    color: #000 !important;
+}

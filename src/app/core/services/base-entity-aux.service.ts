@@ -60,6 +60,11 @@ export class BaseEntityAuxService {
     }
   }
 
-
-
+  getByAll(url) {
+    return this.http.get<any>(`${environment.baseUrlBackend}/api/BaseTablesAux/${url}`);
+  }
 }
+
+
+
+
