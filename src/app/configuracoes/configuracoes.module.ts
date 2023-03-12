@@ -26,6 +26,7 @@ import { BoldSpanPipe } from 'app/core/pipes/bold-span.pipes';
 import { FornecedoresComponent } from './cards-forms/importacao/forms/fornecedores/fornecedores.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AgenteComponent } from './cards-forms/importacao/forms/agente/agente.component';
+import { SharedModule } from 'app/shared/shared.module';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { AgenteComponent } from './cards-forms/importacao/forms/agente/agente.co
     NgSelectModule,
     JwBootstrapSwitchNg2Module,
     CurrencyMaskModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    SharedModule
   ],
   declarations: [
     EmpresaComponent,
@@ -56,7 +58,6 @@ import { AgenteComponent } from './cards-forms/importacao/forms/agente/agente.co
     AssociadosComponent,
     ItensComponent,
     BasicoImportacaoComponent,
-    BoldSpanPipe,
     FornecedoresComponent,
     AgenteComponent
   ]
