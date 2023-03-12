@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { BoldSpanPipe } from 'app/core/pipes/bold-span.pipes';
 
 
-
 @NgModule({
   declarations: [
     
