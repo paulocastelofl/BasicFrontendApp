@@ -41,6 +41,7 @@ import { SharedModule } from 'app/shared/shared.module';
     JwBootstrapSwitchNg2Module,
     CurrencyMaskModule,
     NgxPaginationModule,
+    
     SharedModule
   ],
   declarations: [
@@ -59,7 +60,8 @@ import { SharedModule } from 'app/shared/shared.module';
     ItensComponent,
     BasicoImportacaoComponent,
     FornecedoresComponent,
-    AgenteComponent
+    AgenteComponent,
+    BoldSpanPipe
   ]
  
 })
