@@ -9,7 +9,6 @@ import { UsuariosComponent } from './cards-forms/usuarios/usuarios.component';
 import { ImportacaoComponent } from './cards-forms/importacao/importacao.component';
 import { DocumentosComponent } from './cards-forms/documentos/documentos.component';
 import { CredenciaisComponent } from './cards-forms/credenciais/credenciais.component';
-import { VerticalTabsComponent } from './components/vertical-tabs/vertical-tabs.component';
 import { FinanceiroComponent } from './cards-forms/financeiro/financeiro.component';
 import { RelatoriosComponent } from './cards-forms/relatorios/relatorios.component';
 import { AgenciamentoCargaComponent } from './cards-forms/agenciamento-carga/agenciamento-carga.component';
@@ -27,6 +26,7 @@ import { FornecedoresComponent } from './cards-forms/importacao/forms/fornecedor
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AgenteComponent } from './cards-forms/importacao/forms/agente/agente.component';
 import { SharedModule } from 'app/shared/shared.module';
+import { VerticalTabsComponent } from 'app/shared/vertical-tabs/vertical-tabs.component';
 
 
 @NgModule({
@@ -41,7 +41,6 @@ import { SharedModule } from 'app/shared/shared.module';
     JwBootstrapSwitchNg2Module,
     CurrencyMaskModule,
     NgxPaginationModule,
-    
     SharedModule
   ],
   declarations: [
@@ -51,7 +50,6 @@ import { SharedModule } from 'app/shared/shared.module';
     ImportacaoComponent,
     DocumentosComponent,
     CredenciaisComponent,
-    VerticalTabsComponent,
     FinanceiroComponent,
     RelatoriosComponent,
     AgenciamentoCargaComponent,
@@ -61,7 +59,6 @@ import { SharedModule } from 'app/shared/shared.module';
     BasicoImportacaoComponent,
     FornecedoresComponent,
     AgenteComponent,
-    BoldSpanPipe
   ]
  
 })

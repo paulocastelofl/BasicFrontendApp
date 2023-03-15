@@ -35,7 +35,7 @@ export const ROUTES: RouteInfo[] = [{
     icontype: 'nc-icon nc-world-2',
     children: [
         { path: 'novo-processo', title: 'Novo Processo', ab: 'NP' },
-        { path: 'processos', title: 'Processos', ab: 'P' },
+        { path: 'relatorios', title: 'Processos', ab: 'P' },
     ]
 },
 {

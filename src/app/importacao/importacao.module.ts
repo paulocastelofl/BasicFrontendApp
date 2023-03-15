@@ -13,13 +13,17 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { BoldSpanPipe } from 'app/core/pipes/bold-span.pipes';
 import { SharedModule } from 'app/shared/shared.module';
 import { RelatoriosComponent } from './relatorios/relatorios.component';
+import { ProcessoComponent } from './processo/processo.component';
+import { BasicoComponent } from './shared-form/basico/basico.component';
+import { VerticalTabsComponent } from 'app/shared/vertical-tabs/vertical-tabs.component';
 
 
 @NgModule({
   declarations: [
     NovoComponent,
     RelatoriosComponent,
-    BoldSpanPipe
+    ProcessoComponent,
+    BasicoComponent,
   ],
   imports: [
     CommonModule,
@@ -31,8 +35,9 @@ import { RelatoriosComponent } from './relatorios/relatorios.component';
     JwBootstrapSwitchNg2Module,
     CurrencyMaskModule,
     NgxPaginationModule,
-    SharedModule,
-   
+   SharedModule
+    
+  
   ]
 })
 export class ImportacaoModule { }
