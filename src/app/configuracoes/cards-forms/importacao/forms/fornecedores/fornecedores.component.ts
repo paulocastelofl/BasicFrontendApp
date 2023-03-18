@@ -109,8 +109,23 @@ export class FornecedoresComponent implements OnInit {
 
           },
           error: (e) => {
-            this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
-            this.isLoadSave = false;
+            console.log(e.error.value.hResult);
+            if(e.error.value.hResult == "-2146233088" ){
+              Swal.fire(
+                {
+                  title: 'Não foi possível excluir!',
+                  text: 'Fornecedor associado a um item.',
+                  icon: 'warning',
+                  customClass: {
+                    confirmButton: "btn btn-success",
+                  },
+                  buttonsStyling: false
+                }
+              )
+            }else{
+              this.notifyService.showNotification('top', 'right', 'Internal Error', 'danger');
+              this.isLoadSave = false;
+            }
           },
           complete: () => {
             this.getAllFornecedor();
