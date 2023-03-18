@@ -38,4 +38,14 @@ export class RelatoriosService {
       options
     )
   }
+
+  public getProcesso(codigo): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'X-AuthToken': "NGNmNWQyNDktN2Y0My00YTI1LWIyMDAtMTFkOTMyNjM3YTJiOjoxNjc5NTI4OTI4Nzkz"
+    });
+    let options = { headers: headers };
+
+    return this.http.get(`https://lb-api.brazilsouth.cloudapp.azure.com/empresa/102007/importacao/${codigo}`, options)
+  }
 }
