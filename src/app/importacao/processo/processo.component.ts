@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NotifyService } from 'app/core/services/generics/notify.service';
+import { RelatoriosService } from '../services/relatorios.service';
 
 @Component({
   selector: 'app-processo',
@@ -8,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProcessoComponent implements OnInit {
 
   public isTabSelect: string;
+  public processo;
 
   public listTabs = [
     "Feed",
@@ -27,13 +31,35 @@ export class ProcessoComponent implements OnInit {
     "Auditoria",
   ]
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private notifyService: NotifyService,
+    private relatoriosService: RelatoriosService) { }
 
   ngOnInit(): void {
+    this.isTabSelect = this.listTabs[0];
+
+    this.route.params.subscribe(
+      {
+        next: (params) => {
+          this.getProcesso(params['id']);
+        }
+      }
+    );
+
   }
 
   reciverIsSelectTab(evt) {
     this.isTabSelect = evt;
+  }
+
+  getProcesso(codigo){
+    this.relatoriosService.getProcesso(codigo).subscribe({
+      next: (obj) => {
+        console.log(obj)
+        this.processo = obj;
+      }
+    })
   }
 
 

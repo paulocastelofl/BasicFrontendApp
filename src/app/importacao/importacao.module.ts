@@ -16,6 +16,8 @@ import { RelatoriosComponent } from './relatorios/relatorios.component';
 import { ProcessoComponent } from './processo/processo.component';
 import { BasicoComponent } from './shared-form/basico/basico.component';
 import { VerticalTabsComponent } from 'app/shared/vertical-tabs/vertical-tabs.component';
+import { FeedComponent } from './shared-form/feed/feed.component';
+import { CargaComponent } from './shared-form/carga/carga.component';
 
 
 @NgModule({
@@ -24,6 +26,8 @@ import { VerticalTabsComponent } from 'app/shared/vertical-tabs/vertical-tabs.co
     RelatoriosComponent,
     ProcessoComponent,
     BasicoComponent,
+    FeedComponent,
+    CargaComponent,
   ],
   imports: [
     CommonModule,

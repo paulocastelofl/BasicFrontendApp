@@ -32,6 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
         AppComponent,
         AdminLayoutComponent,
         AuthLayoutComponent,
+        
     ],
     bootstrap:    [ AppComponent ],
     providers: [AuthGuard]
