@@ -14,7 +14,7 @@ export class RelatoriosService {
   public getRelatoriosProcessos(): Observable<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'X-AuthToken': "NGNmNWQyNDktN2Y0My00YTI1LWIyMDAtMTFkOTMyNjM3YTJiOjoxNjc5NTI4OTI4Nzkz"
+      'X-AuthToken': "MzAxOThiMTgtZWI1Mi00ODMzLWFkMzItZTY1ZTk5OGZmYzgxOjoxNjgwNDY5MTkyMDA4"
     });
     let options = { headers: headers };
 
@@ -42,7 +42,7 @@ export class RelatoriosService {
   public getProcesso(codigo): Observable<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'X-AuthToken': "NGNmNWQyNDktN2Y0My00YTI1LWIyMDAtMTFkOTMyNjM3YTJiOjoxNjc5NTI4OTI4Nzkz"
+      'X-AuthToken': "MzAxOThiMTgtZWI1Mi00ODMzLWFkMzItZTY1ZTk5OGZmYzgxOjoxNjgwNDY5MTkyMDA4"
     });
     let options = { headers: headers };
 

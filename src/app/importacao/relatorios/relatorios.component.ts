@@ -13,6 +13,7 @@ import { RelatoriosService } from '../services/relatorios.service';
 })
 export class RelatoriosComponent implements OnInit {
 
+  public isLoad = false;
   public processos = []
 
   constructor(
@@ -27,6 +28,7 @@ export class RelatoriosComponent implements OnInit {
   }
 
   getRelatoriosProcessos() {
+    this.isLoad = true;
     this.relatoriosService.getRelatoriosProcessos().subscribe(
       {
         next: (v) => {
@@ -64,7 +66,10 @@ export class RelatoriosComponent implements OnInit {
 
           });
 
+          this.isLoad = false;
+
         }, error: (e) => {
+          this.isLoad = false;
           this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
         }
       }
@@ -74,6 +79,5 @@ export class RelatoriosComponent implements OnInit {
   onNavigateProcesso(data){
     this.router.navigate(["importacao", data.id]);
   }
-
 
 }
