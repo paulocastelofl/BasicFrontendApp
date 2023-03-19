@@ -56,7 +56,6 @@ export class ProcessoComponent implements OnInit {
   getProcesso(codigo){
     this.relatoriosService.getProcesso(codigo).subscribe({
       next: (obj) => {
-        console.log(obj)
         this.processo = obj;
       }
     })

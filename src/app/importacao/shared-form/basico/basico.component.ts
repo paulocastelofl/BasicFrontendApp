@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from 'app/configuracoes/services/empresa.service';
 import { BaseEntityAuxService } from 'app/core/services/base-entity-aux.service';
@@ -43,6 +43,8 @@ export class BasicoComponent implements OnInit {
   urfDespachoInput$ = new Subject<string>();
   minLengthTermurfDespacho = 2;
 
+  @Input() processo: any;
+
   modals = [];
 
   paises: IPais[];
@@ -52,7 +54,7 @@ export class BasicoComponent implements OnInit {
     { id: "Importacaoporcontaeordem", nome: 'Importação por conta e ordem' }
   ];
 
-   impModalidadeDespacho = [
+  impModalidadeDespacho = [
     { id: "Normal", nome: 'Normal' },
     { id: "Antecipado", nome: 'Antecipado' },
     { id: "Simplificado", nome: 'Simplificado' },
@@ -70,7 +72,7 @@ export class BasicoComponent implements OnInit {
     private empresaService: EmpresaService,
     private baseEntityAuxService: BaseEntityAuxService,
     private paisService: PaisService
-  ) { 
+  ) {
 
     this.form = this.formBuilder.group({
       importador: [{ value: null, disabled: false }, Validators.required],
@@ -87,11 +89,28 @@ export class BasicoComponent implements OnInit {
       impModalidadeDespacho: [{ value: null, disabled: false, }]
 
     });
-    
+
   }
 
   ngOnInit(): void {
-    this.loadimportador()
+
+
+
+    if (this.processo) {
+
+      this.empresaService.GetByFilters(this.processo['parceiro'].nome, true).subscribe(
+        {
+          next: (obj) => {
+            this.loadimportador(obj)
+          }
+        }
+      )
+
+    } else {
+      this.loadimportador()
+    }
+
+
     this.loaddespachante()
     this.loaddespachanteponta()
     this.loadTipoDeclaracao()
@@ -111,14 +130,18 @@ export class BasicoComponent implements OnInit {
   }
 
   //************************************************************************************************************** */
-  loadimportador() {
+  loadimportador(itens: any[] = []) {
 
     this.importador$ = concat(
-      of([]), // default items
+      of(
+        itens
+      ), // default items
       this.importadorInput$.pipe(
+
         filter(res => {
           return res !== null && res.length >= this.minLengthTerm
         }),
+
         distinctUntilChanged(),
         debounceTime(800),
         tap(() => this.importadorLoading = true),
@@ -128,11 +151,14 @@ export class BasicoComponent implements OnInit {
             tap((v) => {
               this.regexStr = term;
               this.importadorLoading = false
+              
             })
           )
         })
       )
     );
+
+    if(itens.length > 0) this.formControl.importador.setValue(itens[0].id)
   }
 
   loaddespachante() {
@@ -267,7 +293,7 @@ export class BasicoComponent implements OnInit {
     )
   }
 
-  
+
   getAllPaises() {
     this.paisService.getAll().subscribe(
       {
