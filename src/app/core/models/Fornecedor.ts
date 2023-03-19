@@ -1,5 +1,6 @@
 interface IFornecedor {
   id: number
+  cnpj: string
   razaoSocial: string
   nomeFantasia: string
   logradouro: string
@@ -11,6 +12,6 @@ interface IFornecedor {
   estado: string
   idEmpresa: number
   idPais: number
-  nif: string
   codigoInterno: string
+  tipoDeVinculo: string
 }

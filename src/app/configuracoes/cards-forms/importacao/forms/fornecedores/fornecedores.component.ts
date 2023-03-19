@@ -34,6 +34,7 @@ export class FornecedoresComponent implements OnInit {
   idUpdate: number = 0;
 
   public p = 1;
+  q: string = ""
 
   constructor(
     private service: FornecedorService,
@@ -44,6 +45,8 @@ export class FornecedoresComponent implements OnInit {
   ) {
 
     this.form = this.formBuilder.group({
+      cnpj: [{ value: null, disabled: false }, Validators.required],
+      razao: [{ value: null, disabled: false }, Validators.required],
       nome: [{ value: null, disabled: false }, Validators.required],
       logradouro: [{ value: null, disabled: false }, Validators.required],
       numero: [{ value: null, disabled: false, }],
@@ -53,7 +56,7 @@ export class FornecedoresComponent implements OnInit {
       cidade: [{ value: null, disabled: false }, Validators.required],
       estado: [{ value: null, disabled: false }, Validators.required],
       pais: [{ value: null, disabled: false }, Validators.required],
-      nif: [{ value: null, disabled: false }],
+      tipoDeVinculo: [{ value: null, disabled: false }],
       codigointerno: [{ value: null, disabled: false }]
     });
    }
@@ -86,6 +89,71 @@ export class FornecedoresComponent implements OnInit {
     this.getAllPaises();
   }
 
+  onSubmit() {
+
+    this.submitted = true;
+
+    if (this.form.valid) {
+      this.isLoadSave = true;
+      var parms = {
+        "id": this.idUpdate,
+        "cnpj": this.form.controls.cnpj.value,
+        "razaoSocial": this.form.controls.razao.value,
+        "nomeFantasia": this.form.controls.nome.value,
+        "logradouro": this.form.controls.logradouro.value,
+        "numero": this.form.controls.numero.value,
+        "complemento": this.form.controls.complemento.value,
+        "bairro": this.form.controls.bairro.value,
+        "cep": this.form.controls.cep.value,
+        "cidade": this.form.controls.cidade.value,
+        "estado": this.form.controls.estado.value,
+        "tipoDeVinculo": this.form.controls.tipoDeVinculo.value,
+        "codigointerno": this.form.controls.codigointerno.value,
+        "idPais": this.form.controls.pais.value
+      }
+
+      if (this.titleModal == "Atualizar") {
+
+        this.service.update(parms).subscribe(
+          {
+            next: (obj) => { },
+            error: (e) => {
+              this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+              this.isLoadSave = false;
+            },
+            complete: () => {
+              this.getAllFornecedor();
+              this.modalRef.hide();
+              this.idUpdate = 0;
+              this.notifyService.showNotification('top', 'right', "Fornecedor atualizado c/ sucesso!", 'success');
+              this.isLoadSave = false;
+              this.form.reset();
+            }
+          }
+        )
+
+      } else {
+        this.service.create(parms).subscribe(
+          {
+            next: (obj) => { },
+            error: (e) => {
+              this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+              this.isLoadSave = false;
+            },
+            complete: () => {
+              this.getAllFornecedor()
+              this.modalRef.hide();
+              this.notifyService.showNotification('top', 'right', "Fornecedor registrado c/ sucesso!", 'success');
+              this.isLoadSave = false;
+              this.form.reset();
+            }
+          }
+        )
+      }
+    }
+  }
+
+
   onDelete(row) {
     Swal.fire({
 
@@ -109,7 +177,7 @@ export class FornecedoresComponent implements OnInit {
 
           },
           error: (e) => {
-            console.log(e.error.value.hResult);
+            //console.log(e.error.value.hResult);
             if(e.error.value.hResult == "-2146233088" ){
               Swal.fire(
                 {
@@ -169,7 +237,8 @@ export class FornecedoresComponent implements OnInit {
   setValueModalUpdate(row: IFornecedor) {
 
     this.idUpdate = row.id
-
+    this.form.controls.cnpj.setValue(row.cnpj);
+    this.form.controls.razao.setValue(row.razaoSocial);
     this.formControl.nome.setValue(row.nomeFantasia);
     this.formControl.logradouro.setValue(row.logradouro);
     this.formControl.numero.setValue(row.numero);
@@ -179,9 +248,8 @@ export class FornecedoresComponent implements OnInit {
     this.formControl.cidade.setValue(row.cidade);
     this.formControl.estado.setValue(row.estado);
     this.formControl.pais.setValue(row.idPais);
-    this.formControl.nif.setValue(row.nif);
     this.formControl.codigointerno.setValue(row.codigoInterno);
-
+    this.formControl.tipoDeVinculo.setValue(row.tipoDeVinculo);
   }
 
   getAllPaises() {
@@ -192,4 +260,9 @@ export class FornecedoresComponent implements OnInit {
     )
   }
 
+  sendit(data) {
+    this.q = data;
+    this.p = 1;
+    this.getAllFornecedor();
+  }
 }

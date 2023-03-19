@@ -20,7 +20,7 @@
           <tr>
               <div class="d-flex flex-row justify-content-between align-items-end mb-2">
                   <span class=" total">Total de registros: {{fornecedorList.length}}. Mostrando 10.</span>
-                  <input type="text" id="partnumber" class="form-control"  placeholder="Buscar por nome" style="width: 300px;" (keyup)="{}">
+                  <input type="text" id="buscarNomeFantasia" class="form-control"  placeholder="Buscar por nome fantasia" style="width: 300px;" (keyup.enter)="sendit($event.target.value)">
               </div>
           </tr>
       </thead>
@@ -36,9 +36,9 @@
                           <span aria-hidden="true" class="visually-hidden">&times;</span>
                       </button>
                   </div>
-                  
+
                   <span class="endereco">{{row.id}}, {{row.cnpj}} - {{row.razaoSocial}} - {{row.cidade}} - {{row.estado}} - {{row.pais.nome}}</span>
-                  
+
 
               </div>
           </tr>
@@ -65,13 +65,35 @@
       <form [formGroup]="form">
           <div class="col-md-12">
               <div class="row">
-                  <div class="col-md-12">
-                      <label>Nome</label>
+                <div class="col-md-12">
+                    <label>CNPJ</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-custom" id="cnpj" formControlName="cnpj" required>
+                        <small *ngIf="(formControl.cnpj.touched || submitted) && formControl.cnpj.errors?.required"
+                            class="text-danger">
+                            CNPJ é obrigatório <i>*</i>
+                        </small>
+                    </div>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                    <label>Razão Social</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-custom" id="razao" formControlName="razao" required>
+                        <small *ngIf="(formControl.razao.touched || submitted) && formControl.razao.errors?.required"
+                            class="text-danger">
+                            Razão Social é obrigatório <i>*</i>
+                        </small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                      <label>Nome Fantasia</label>
                       <div class="form-group">
                           <input type="text" class="form-control input-custom" id="nome" formControlName="nome" required>
                           <small *ngIf="(formControl.nome.touched || submitted) && formControl.nome.errors?.required"
                               class="text-danger">
-                              Nome é obrigatório <i>*</i>
+                              Nome Fantasia é obrigatório <i>*</i>
                           </small>
                       </div>
                   </div>
@@ -158,9 +180,9 @@
               </div>
               <div class="row">
                   <div class="col-md-6">
-                      <label>NIF</label>
+                      <label>Tipo de Vinculo</label>
                       <div class="form-group">
-                          <input type="text" class="form-control input-custom" id="nif" formControlName="nif">
+                          <input type="text" class="form-control input-custom" id="tipoDeVinculo" formControlName="tipoDeVinculo">
                       </div>
                   </div>
                   <div class="col-md-6">
@@ -174,7 +196,7 @@
 
           <div>
               <div class="col-md-12 d-flex justify-content-end mt-4 modal-footer-custom">
-      
+
                   <button type="button" class="btn btn-primary mt-4 mb-4" (click)="onSubmit()">
                       <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
                           <span class="sr-only">Loading...</span>
