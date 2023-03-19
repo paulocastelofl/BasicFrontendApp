@@ -13,7 +13,7 @@
             <a class="nav-link" data-toggle="tab" href="#fornecedores" role="tab" aria-expanded="false">Fornecedores</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#messages" role="tab" aria-expanded="false">Transportadores</a>
+            <a class="nav-link" data-toggle="tab" href="#transportadores" role="tab" aria-expanded="false">Transportadores</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#agente" role="tab" aria-expanded="false">Agente</a>
@@ -25,7 +25,7 @@
       </div>
     </div>
     <div id="my-tab-content" class="tab-content">
-      
+
       <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
         <app-basico-importacao [empresa]="empresa"></app-basico-importacao>
       </div>
@@ -37,6 +37,12 @@
       <div class="tab-pane" id="fornecedores" role="tabpanel" aria-expanded="false">
         <app-fornecedores></app-fornecedores>
       </div>
+
+      <div class="tab-pane" id="transportadores" role="tabpanel" aria-expanded="false">
+        <app-transportadores></app-transportadores>
+      </div>
+
+
 
       <div class="tab-pane" id="agente" role="tabpanel" aria-expanded="false">
         <app-agente  [empresa]="empresa"></app-agente>

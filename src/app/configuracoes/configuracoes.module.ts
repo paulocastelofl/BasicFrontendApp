@@ -27,6 +27,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AgenteComponent } from './cards-forms/importacao/forms/agente/agente.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { VerticalTabsComponent } from 'app/shared/vertical-tabs/vertical-tabs.component';
+import { TransportadoresComponent } from './cards-forms/importacao/forms/transportadores/transportadores.component';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { VerticalTabsComponent } from 'app/shared/vertical-tabs/vertical-tabs.co
     BasicoImportacaoComponent,
     FornecedoresComponent,
     AgenteComponent,
+    TransportadoresComponent,
   ]
  
 })
