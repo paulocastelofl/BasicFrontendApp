@@ -1,20 +1,18 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FornecedorService } from 'app/configuracoes/services/fornecedor.service';
+import { TransportadorService } from 'app/configuracoes/services/transportador.service';
 import { NotifyService } from 'app/core/services/generics/notify.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { PaisService } from 'app/core/services/pais.service';
 import Swal from 'sweetalert2';
 
-declare var $: any;
-
 @Component({
-  selector: 'app-fornecedores',
-  templateUrl: './fornecedores.component.html',
-  styleUrls: ['./fornecedores.component.css']
+  selector: 'app-transportadores',
+  templateUrl: './transportadores.component.html',
+  styleUrls: ['./transportadores.component.css']
 })
-export class FornecedoresComponent implements OnInit {
+export class TransportadoresComponent implements OnInit {
 
   public modalRef?: BsModalRef;
   public form: FormGroup;
@@ -24,38 +22,36 @@ export class FornecedoresComponent implements OnInit {
   isLoad: boolean = false;
   public titleModal = "Novo";
   public paises: IPais[];
-  public fornecedorList: IFornecedor[] = [];
-  public listFornecedorListDynamic: IFornecedor[] = [];
+  public transportadorList: ITransportador[] = [];
+  public listTransportadorListDynamic: ITransportador[] = [];
   idUpdate: number = 0;
 
   public p = 1;
   q: string = ""
 
   constructor(
-    private service: FornecedorService,
+    private service: TransportadorService,
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
     private notifyService: NotifyService,
     private paisService: PaisService
-  ) {
-
-    this.form = this.formBuilder.group({
-      cnpj: [{ value: null, disabled: false }, Validators.required],
-      razao: [{ value: null, disabled: false }, Validators.required],
-      nome: [{ value: null, disabled: false }, Validators.required],
-      logradouro: [{ value: null, disabled: false }, Validators.required],
-      numero: [{ value: null, disabled: false, }],
-      complemento: [{ value: null, disabled: false }],
-      bairro: [{ value: null, disabled: false }],
-      cep: [{ value: null, disabled: false }],
-      cidade: [{ value: null, disabled: false }, Validators.required],
-      estado: [{ value: null, disabled: false }, Validators.required],
-      pais: [{ value: null, disabled: false }, Validators.required],
-      tipoDeVinculo: [{ value: null, disabled: false }],
-      codigointerno: [{ value: null, disabled: false }]
-    });
-   }
-
+    ) {
+      this.form = this.formBuilder.group({
+        cnpj: [{ value: null, disabled: false }, Validators.required],
+        razao: [{ value: null, disabled: false }, Validators.required],
+        nome: [{ value: null, disabled: false }, Validators.required],
+        logradouro: [{ value: null, disabled: false }, Validators.required],
+        numero: [{ value: null, disabled: false, }],
+        complemento: [{ value: null, disabled: false }],
+        bairro: [{ value: null, disabled: false }],
+        cep: [{ value: null, disabled: false }],
+        cidade: [{ value: null, disabled: false }, Validators.required],
+        estado: [{ value: null, disabled: false }, Validators.required],
+        pais: [{ value: null, disabled: false }, Validators.required],
+        inscricaoEstadual: [{ value: null, disabled: false }, Validators.required],
+        codigointerno: [{ value: null, disabled: false }]
+      });
+    }
 
   get formControl() {
     return this.form.controls;
@@ -74,9 +70,36 @@ export class FornecedoresComponent implements OnInit {
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' }),);
   }
 
+
   ngOnInit(): void {
-    this.getAllFornecedor();
+    this.getAllTransportador();
     this.getAllPaises();
+  }
+
+  getAllTransportador() {
+
+    this.isLoad = true;
+
+    this.service.getAll().subscribe({
+      next: (value) => {
+        this.transportadorList = value;
+        this.listTransportadorListDynamic = this.transportadorList
+      }, error: (e) => {
+        this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+        this.isLoad = false;
+      },
+      complete: () => {
+        this.isLoad = false;
+      }
+    })
+  }
+
+  getAllPaises() {
+    this.paisService.getAll().subscribe(
+      {
+        next: (v) => this.paises = v
+      }
+    )
   }
 
   onSubmit() {
@@ -97,7 +120,7 @@ export class FornecedoresComponent implements OnInit {
         "cep": this.form.controls.cep.value,
         "cidade": this.form.controls.cidade.value,
         "estado": this.form.controls.estado.value,
-        "tipoDeVinculo": this.form.controls.tipoDeVinculo.value,
+        "inscricaoEstadual": this.form.controls.inscricaoEstadual.value,
         "codigointerno": this.form.controls.codigointerno.value,
         "idPais": this.form.controls.pais.value
       }
@@ -112,10 +135,10 @@ export class FornecedoresComponent implements OnInit {
               this.isLoadSave = false;
             },
             complete: () => {
-              this.getAllFornecedor();
+              this.getAllTransportador();
               this.modalRef.hide();
               this.idUpdate = 0;
-              this.notifyService.showNotification('top', 'right', "Fornecedor atualizado c/ sucesso!", 'success');
+              this.notifyService.showNotification('top', 'right', "Transportador atualizado c/ sucesso!", 'success');
               this.isLoadSave = false;
               this.form.reset();
             }
@@ -131,9 +154,9 @@ export class FornecedoresComponent implements OnInit {
               this.isLoadSave = false;
             },
             complete: () => {
-              this.getAllFornecedor()
+              this.getAllTransportador()
               this.modalRef.hide();
-              this.notifyService.showNotification('top', 'right', "Fornecedor registrado c/ sucesso!", 'success');
+              this.notifyService.showNotification('top', 'right', "Transportador registrado c/ sucesso!", 'success');
               this.isLoadSave = false;
               this.form.reset();
             }
@@ -142,7 +165,6 @@ export class FornecedoresComponent implements OnInit {
       }
     }
   }
-
 
   onDelete(row) {
     Swal.fire({
@@ -172,7 +194,7 @@ export class FornecedoresComponent implements OnInit {
               Swal.fire(
                 {
                   title: 'Não foi possível excluir!',
-                  text: 'Fornecedor associado a um item.',
+                  text: 'Transportador ja associado',
                   icon: 'warning',
                   customClass: {
                     confirmButton: "btn btn-success",
@@ -186,11 +208,11 @@ export class FornecedoresComponent implements OnInit {
             }
           },
           complete: () => {
-            this.getAllFornecedor();
+            this.getAllTransportador();
             Swal.fire(
               {
                 title: 'Deletado!',
-                text: 'Seu Fornecedor foi excluído.',
+                text: 'Seu Transportador foi excluído.',
                 icon: 'success',
                 customClass: {
                   confirmButton: "btn btn-success",
@@ -206,25 +228,7 @@ export class FornecedoresComponent implements OnInit {
 
   }
 
-  getAllFornecedor() {
-
-    this.isLoad = true;
-
-    this.service.getAll().subscribe({
-      next: (value) => {
-        this.fornecedorList = value;
-        this.listFornecedorListDynamic = this.fornecedorList
-      }, error: (e) => {
-        this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
-        this.isLoad = false;
-      },
-      complete: () => {
-        this.isLoad = false;
-      }
-    })
-  }
-
-  setValueModalUpdate(row: IFornecedor) {
+  setValueModalUpdate(row: ITransportador) {
 
     this.idUpdate = row.id
     this.form.controls.cnpj.setValue(row.cnpj);
@@ -239,20 +243,7 @@ export class FornecedoresComponent implements OnInit {
     this.formControl.estado.setValue(row.estado);
     this.formControl.pais.setValue(row.idPais);
     this.formControl.codigointerno.setValue(row.codigoInterno);
-    this.formControl.tipoDeVinculo.setValue(row.tipoDeVinculo);
+    this.formControl.inscricaoEstadual.setValue(row.inscricaoEstadual);
   }
 
-  getAllPaises() {
-    this.paisService.getAll().subscribe(
-      {
-        next: (v) => this.paises = v
-      }
-    )
-  }
-
-  sendit(data) {
-    this.q = data;
-    this.p = 1;
-    this.getAllFornecedor();
-  }
 }

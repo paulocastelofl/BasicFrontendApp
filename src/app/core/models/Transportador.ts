@@ -1,4 +1,4 @@
-interface IFornecedor {
+interface ITransportador {
   id: number
   cnpj: string
   razaoSocial: string
@@ -13,5 +13,5 @@ interface IFornecedor {
   idEmpresa: number
   idPais: number
   codigoInterno: string
-  tipoDeVinculo: string
+  inscricaoEstadual: string
 }

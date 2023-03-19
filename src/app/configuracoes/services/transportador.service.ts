@@ -6,7 +6,7 @@ import { delay, Observable, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class FornecedorService {
+export class TransportadorService {
 
   constructor(
     private http: HttpClient
@@ -14,23 +14,23 @@ export class FornecedorService {
 
   }
 
-  getAll(): Observable<IFornecedor[]>{
-    return this.http.get<IFornecedor[]>(`${environment.baseUrlBackend}/api/Fornecedor`)
+  getAll(): Observable<ITransportador[]>{
+    return this.http.get<ITransportador[]>(`${environment.baseUrlBackend}/api/Transportador`)
   }
 
   public create(parms: {}): Observable<any> {
-    return this.http.post(`${environment.baseUrlBackend}/api/Fornecedor`,
+    return this.http.post(`${environment.baseUrlBackend}/api/Transportador`,
       parms
     )
   }
 
   public update(parms: {}): Observable<any> {
-    return this.http.put(`${environment.baseUrlBackend}/api/Fornecedor`,
+    return this.http.put(`${environment.baseUrlBackend}/api/Transportador`,
       parms
     )
   }
 
   public delete(id): Observable<any> {
-    return this.http.delete(`${environment.baseUrlBackend}/api/Fornecedor/${id}`,)
+    return this.http.delete(`${environment.baseUrlBackend}/api/Transportador/${id}`,)
   }
 }

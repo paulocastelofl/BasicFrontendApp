@@ -19,14 +19,14 @@
       <thead>
           <tr>
               <div class="d-flex flex-row justify-content-between align-items-end mb-2">
-                  <span class=" total">Total de registros: {{fornecedorList.length}}. Mostrando 10.</span>
-                  <input type="text" id="buscarNomeFantasia" class="form-control"  placeholder="Buscar por nome fantasia" style="width: 300px;" (keyup.enter)="sendit($event.target.value)">
+                  <span class=" total">Total de registros: {{transportadorList.length}}. Mostrando 10.</span>
+                  <input type="text" id="buscarNomeFantasia" class="form-control"  placeholder="Buscar por nome fantasia" style="width: 300px;" (keyup.enter)="{}">
               </div>
           </tr>
       </thead>
       <tbody class="mt-4">
           <tr
-              *ngFor="let row of listFornecedorListDynamic | paginate: { id: 'id', itemsPerPage: 10, currentPage: p}; index as i; ">
+              *ngFor="let row of listTransportadorListDynamic | paginate: { id: 'id', itemsPerPage: 10, currentPage: p}; index as i; ">
               <div class="d-flex flex-column " style="padding: 12px 8px 12px 8px">
 
                   <div class="d-flex justify-content-between">
@@ -54,7 +54,7 @@
 
   <div class="col-md-12 d-flex justify-content-between modal-header-custom">
 
-      <h5 class="modal-title pull-left"> <i class="fa fa-building" aria-hidden="true"></i> {{titleModal}} Fornecedor</h5>
+      <h5 class="modal-title pull-left"> <i class="fa fa-building" aria-hidden="true"></i> {{titleModal}} Transportador</h5>
 
       <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
           <span aria-hidden="true" class="visually-hidden">&times;</span>
@@ -180,9 +180,9 @@
               </div>
               <div class="row">
                   <div class="col-md-6">
-                      <label>Tipo de Vinculo</label>
+                      <label>Inscrição Estadual</label>
                       <div class="form-group">
-                          <input type="text" class="form-control input-custom" id="tipoDeVinculo" formControlName="tipoDeVinculo">
+                          <input type="text" class="form-control input-custom" id="inscricaoEstadual" formControlName="inscricaoEstadual">
                       </div>
                   </div>
                   <div class="col-md-6">
