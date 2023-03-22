@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-zfm',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./zfm.component.css']
 })
 export class ZfmComponent implements OnInit {
+
+  @Input() empresa: Empresa;
 
   constructor() { }
 

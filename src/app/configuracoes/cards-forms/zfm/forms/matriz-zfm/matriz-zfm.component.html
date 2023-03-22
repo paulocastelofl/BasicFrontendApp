@@ -1,0 +1,177 @@
+<div class="toolbar">
+  <div class="d-flex justify-content-between">
+
+      <div>
+          <div *ngIf="isLoad" class="spinner-border text-secondary"></div>
+      </div>
+
+      <div class="d-flex justify-content-end">
+          <button class="btn btn-primary btn-round btn-icon mr-2" (click)="openModal(template)">
+              <i class="fa fa-plus"></i>
+          </button>
+      </div>
+  </div>
+
+</div>
+
+<div>
+
+</div>
+
+<ng-template #template>
+
+  <div class="col-md-12 d-flex justify-content-between modal-header-custom">
+
+      <h5 class="modal-title pull-left"> <i class="fa fa-building" aria-hidden="true"></i> {{titleModal}} Matriz de Tributo</h5>
+
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+
+  </div>
+  <div class="mt-4">
+    <form [formGroup]="form">
+      <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-4">
+                <label>Inscrição Estadual</label>
+                <div class="form-group">
+                    <input type="text" class="form-control input-custom" id="iestadual" formControlName="iestadual" required>
+                    <small *ngIf="(formControl.iestadual.touched || submitted) && formControl.iestadual.errors?.required"
+                        class="text-danger">
+                        Inscrição Estadual obrigatório! <i>*</i>
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-4">
+              <label>Produto Suframa</label>
+              <div class="form-group">
+                  <input type="text" class="form-control input-custom" id="prodSuframa" formControlName="prodSuframa" required>
+                  <small *ngIf="(formControl.prodSuframa.touched || submitted) && formControl.prodSuframa.errors?.required"
+                      class="text-danger">
+                      Produto Suframa obrigatório! <i>*</i>
+                  </small>
+              </div>
+            </div>
+            <div class="col-md-4">
+            <label>NCM</label>
+              <div class="form-group">
+                  <input type="text" class="form-control input-custom" id="ncm" formControlName="ncm" required>
+                  <small *ngIf="(formControl.ncm.touched || submitted) && formControl.ncm.errors?.required"
+                      class="text-danger">
+                      NCM obrigatório! <i>*</i>
+                  </small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+                <label>Destinação</label>
+                <div class="form-group">
+                    <input type="text" class="form-control input-custom" id="destinacao" formControlName="destinacao" required>
+                    <small *ngIf="(formControl.destinacao.touched || submitted) && formControl.destinacao.errors?.required"
+                        class="text-danger">
+                        Destinação obrigatório! <i>*</i>
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-4">
+              <label>Utilização</label>
+              <div class="form-group">
+                  <input type="text" class="form-control input-custom" id="utilizacao" formControlName="utilizacao" required>
+                  <small *ngIf="(formControl.utilizacao.touched || submitted) && formControl.utilizacao.errors?.required"
+                      class="text-danger">
+                      Utilização obrigatório! <i>*</i>
+                  </small>
+              </div>
+            </div>
+            <div class="col-md-4">
+            <label>Tributação</label>
+              <div class="form-group">
+                  <input type="text" class="form-control input-custom" id="tributacao" formControlName="tributacao" required>
+                  <small *ngIf="(formControl.tributacao.touched || submitted) && formControl.tributacao.errors?.required"
+                      class="text-danger">
+                      Tributação obrigatório! <i>*</i>
+                  </small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+                <label>CRA</label>
+                <div class="form-group">
+                    <input type="text" class="form-control input-custom" id="cra" formControlName="cra" required>
+                    <small *ngIf="(formControl.cra.touched || submitted) && formControl.cra.errors?.required"
+                        class="text-danger">
+                        CRA obrigatório! <i>*</i>
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-4">
+              <label>Tipo de Documento</label>
+              <div class="form-group">
+                  <input type="text" class="form-control input-custom" id="tipoDocumento" formControlName="tipoDocumento" required>
+                  <small *ngIf="(formControl.tipoDocumento.touched || submitted) && formControl.tipoDocumento.errors?.required"
+                      class="text-danger">
+                      Tipo de Documento obrigatório! <i>*</i>
+                  </small>
+              </div>
+            </div>
+            <div class="col-md-4">
+            <label>Decreto</label>
+              <div class="form-group">
+                  <input type="text" class="form-control input-custom" id="decreto" formControlName="decreto" required>
+                  <small *ngIf="(formControl.decreto.touched || submitted) && formControl.decreto.errors?.required"
+                      class="text-danger">
+                      Decreto obrigatório! <i>*</i>
+                  </small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+                <label>Número do Documento</label>
+                <div class="form-group">
+                    <input type="text" class="form-control input-custom" id="numeroDocumento" formControlName="numeroDocumento" required>
+                    <small *ngIf="(formControl.numeroDocumento.touched || submitted) && formControl.numeroDocumento.errors?.required"
+                        class="text-danger">
+                        Número do Documento obrigatório! <i>*</i>
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-4">
+              <label>Início da Vigência</label>
+              <div class="form-group">
+                  <input type="text" class="form-control input-custom" id="inicioVigencia" formControlName="inicioVigencia" required>
+                  <small *ngIf="(formControl.inicioVigencia.touched || submitted) && formControl.inicioVigencia.errors?.required"
+                      class="text-danger">
+                      Início da Vigência obrigatório! <i>*</i>
+                  </small>
+              </div>
+            </div>
+            <div class="col-md-4">
+            <label>Fim da Vigência</label>
+              <div class="form-group">
+                  <input type="text" class="form-control input-custom" id="fimVigencia" formControlName="fimVigencia" required>
+                  <small *ngIf="(formControl.fimVigencia.touched || submitted) && formControl.fimVigencia.errors?.required"
+                      class="text-danger">
+                      Fim da Vigência obrigatório! <i>*</i>
+                  </small>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div>
+        <div class="col-md-12 d-flex justify-content-end mt-4 modal-footer-custom">
+
+            <button type="button" class="btn btn-primary mt-4 mb-4" (click)="onSubmit()">
+                <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <span *ngIf="!isLoadSave">Salvar</span>
+            </button>
+        </div>
+    </div>
+      </form>
+  </div>
+</ng-template>
