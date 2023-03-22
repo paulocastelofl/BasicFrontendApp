@@ -28,6 +28,7 @@ import { AgenteComponent } from './cards-forms/importacao/forms/agente/agente.co
 import { SharedModule } from 'app/shared/shared.module';
 import { VerticalTabsComponent } from 'app/shared/vertical-tabs/vertical-tabs.component';
 import { TransportadoresComponent } from './cards-forms/importacao/forms/transportadores/transportadores.component';
+import { ZfmComponent } from './cards-forms/zfm/zfm.component';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { TransportadoresComponent } from './cards-forms/importacao/forms/transpo
     FornecedoresComponent,
     AgenteComponent,
     TransportadoresComponent,
+    ZfmComponent,
   ]
  
 })
