@@ -22,6 +22,8 @@ export class MatrizZfmComponent implements OnInit {
   public titleModal = "Novo";
   public inscricaoEstadual: InscricaoEstadual[];
   public destinacao: IDestinacao[];
+  public utilizacao: IUtilizacao[];
+  public tipoDocumentoTributacao: ITipoDocumentoTributacao[];
   @Input() empresa: Empresa;
   idUpdate: number = 0;
 
@@ -57,6 +59,8 @@ export class MatrizZfmComponent implements OnInit {
   ngOnInit(): void {
     this.getAllInscricaoEstadual()
     this.getAllDestinacao()
+    this.getAllUtilizacao()
+    this.getAllTipoDocumentoTributacao()
   }
 
   openModal(template: TemplateRef<any>, type?: string, row?) {
@@ -117,6 +121,22 @@ export class MatrizZfmComponent implements OnInit {
     this.DestinacaoService.getAll().subscribe(
       {
         next: (v) => this.destinacao = v
+      }
+    )
+  }
+
+  getAllUtilizacao( ) {
+    this.UtilizacaoService.getAll().subscribe(
+      {
+        next: (v) => this.utilizacao = v
+      }
+    )
+  }
+
+  getAllTipoDocumentoTributacao( ) {
+    this.TipoDocumentoTributacaoService.getAll().subscribe(
+      {
+        next: (v) => this.tipoDocumentoTributacao = v
       }
     )
   }

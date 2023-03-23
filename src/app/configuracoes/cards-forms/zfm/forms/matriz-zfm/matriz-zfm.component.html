@@ -91,12 +91,22 @@
             <div class="col-md-4">
               <label>Utilização</label>
               <div class="form-group">
-                  <input type="text" class="form-control input-custom" id="utilizacao" formControlName="utilizacao" required>
-                  <small *ngIf="(formControl.utilizacao.touched || submitted) && formControl.utilizacao.errors?.required"
-                      class="text-danger">
-                      Utilização obrigatório! <i>*</i>
-                  </small>
-              </div>
+                <div class="form-group">
+                    <ng-select [items]="utilizacao" bindLabel="codigo" class="custom" bindValue="id"
+                        appendTo="body" formControlName="utilizacao" placeholder="Selecione a utilização">
+                        <ng-template ng-label-tmp let-item="item">
+                          <span >{{ item.codigo + ' : ' + item.nome }}</span>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                          <span >{{ item.codigo + ' : ' + item.nome }}</span>
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <small *ngIf="(formControl.utilizacao.touched || submitted) && formControl.utilizacao.errors?.required"
+                    class="text-danger">
+                    Utilização é obrigatório <i>*</i>
+                </small>
+            </div>
             </div>
             <div class="col-md-4">
             <label>Tributação</label>
@@ -123,12 +133,22 @@
             <div class="col-md-4">
               <label>Tipo de Documento</label>
               <div class="form-group">
-                  <input type="text" class="form-control input-custom" id="tipoDocumento" formControlName="tipoDocumento" required>
-                  <small *ngIf="(formControl.tipoDocumento.touched || submitted) && formControl.tipoDocumento.errors?.required"
-                      class="text-danger">
-                      Tipo de Documento obrigatório! <i>*</i>
-                  </small>
-              </div>
+                <div class="form-group">
+                    <ng-select [items]="tipoDocumentoTributacao" bindLabel="codigo" class="custom" bindValue="id"
+                        appendTo="body" formControlName="tipoDocumento" placeholder="Selecione o tipo de documento">
+                        <ng-template ng-label-tmp let-item="item">
+                          <span >{{ item.codigo + ' : ' + item.nome }}</span>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                          <span >{{ item.codigo + ' : ' + item.nome }}</span>
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <small *ngIf="(formControl.tipoDocumento.touched || submitted) && formControl.tipoDocumento.errors?.required"
+                    class="text-danger">
+                    Tipo de documento é obrigatório <i>*</i>
+                </small>
+            </div>
             </div>
             <div class="col-md-4">
             <label>Decreto</label>
