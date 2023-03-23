@@ -22,7 +22,7 @@
 
   <div class="col-md-12 d-flex justify-content-between modal-header-custom">
 
-      <h5 class="modal-title pull-left"> <i class="fa fa-building" aria-hidden="true"></i> {{titleModal}} Matriz de Tributo</h5>
+      <h5 class="modal-title pull-left"> <i class="fa fa-building" aria-hidden="true"></i> {{titleModal}} Matriz de Tributos</h5>
 
       <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
           <span aria-hidden="true" class="visually-hidden">&times;</span>
@@ -36,12 +36,15 @@
             <div class="col-md-4">
                 <label>Inscrição Estadual</label>
                 <div class="form-group">
-                    <input type="text" class="form-control input-custom" id="iestadual" formControlName="iestadual" required>
-                    <small *ngIf="(formControl.iestadual.touched || submitted) && formControl.iestadual.errors?.required"
-                        class="text-danger">
-                        Inscrição Estadual obrigatório! <i>*</i>
-                    </small>
-                </div>
+                  <div class="form-group">
+                      <ng-select [items]="inscricaoEstadual" bindLabel="inscricao" class="custom" bindValue="id"
+                          appendTo="body" formControlName="iestadual" placeholder="Selecione a inscrição estadual"></ng-select>
+                  </div>
+                  <small *ngIf="(formControl.iestadual.touched || submitted) && formControl.iestadual.errors?.required"
+                      class="text-danger">
+                      Inscrição Estadual é obrigatório <i>*</i>
+                  </small>
+              </div>
             </div>
             <div class="col-md-4">
               <label>Produto Suframa</label>
@@ -68,12 +71,22 @@
             <div class="col-md-4">
                 <label>Destinação</label>
                 <div class="form-group">
-                    <input type="text" class="form-control input-custom" id="destinacao" formControlName="destinacao" required>
-                    <small *ngIf="(formControl.destinacao.touched || submitted) && formControl.destinacao.errors?.required"
-                        class="text-danger">
-                        Destinação obrigatório! <i>*</i>
-                    </small>
-                </div>
+                  <div class="form-group">
+                      <ng-select [items]="destinacao" bindLabel="codigo" class="custom" bindValue="id"
+                          appendTo="body" formControlName="destinacao" placeholder="Selecione a destinação">
+                          <ng-template ng-label-tmp let-item="item">
+                            <span >{{ item.codigo + ' : ' + item.nome }}</span>
+                          </ng-template>
+                          <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                            <span >{{ item.codigo + ' : ' + item.nome }}</span>
+                          </ng-template>
+                      </ng-select>
+                  </div>
+                  <small *ngIf="(formControl.destinacao.touched || submitted) && formControl.destinacao.errors?.required"
+                      class="text-danger">
+                      Destinação é obrigatório <i>*</i>
+                  </small>
+              </div>
             </div>
             <div class="col-md-4">
               <label>Utilização</label>
@@ -165,9 +178,9 @@
         <div class="col-md-12 d-flex justify-content-end mt-4 modal-footer-custom">
 
             <button type="button" class="btn btn-primary mt-4 mb-4" (click)="onSubmit()">
-                <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
+                <!-- <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
                     <span class="sr-only">Loading...</span>
-                </div>
+                </div> -->
                 <span *ngIf="!isLoadSave">Salvar</span>
             </button>
         </div>
