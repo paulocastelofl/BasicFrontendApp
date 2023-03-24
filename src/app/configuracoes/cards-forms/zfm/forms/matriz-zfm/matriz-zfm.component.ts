@@ -1,11 +1,13 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NotifyService } from 'app/core/services/generics/notify.service';
 import { InscricaoEstadualService } from 'app/configuracoes/services/inscricao-estadual.service'
 import { DestinacaoService } from 'app/configuracoes/services/destinacao.service'
 import { ProdutoSuframaNcmService } from 'app/configuracoes/services/produto-suframa-ncm.service'
 import { TipoDocumentoTributacaoService } from 'app/configuracoes/services/tipo-documento-tributacao.service'
 import { UtilizacaoService } from 'app/configuracoes/services/utilizacao.service'
+import { MatrizTributacaoService } from 'app/configuracoes/services/matriz-tributacao.service'
 
 @Component({
   selector: 'app-matriz-zfm',
@@ -30,25 +32,27 @@ export class MatrizZfmComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
+    private notifyService: NotifyService,
     private InscricaoEstadualService: InscricaoEstadualService,
     private DestinacaoService: DestinacaoService,
     private ProdutoSuframaNcmService: ProdutoSuframaNcmService,
     private TipoDocumentoTributacaoService: TipoDocumentoTributacaoService,
-    private UtilizacaoService: UtilizacaoService
+    private UtilizacaoService: UtilizacaoService,
+    private MatrizTributacaoService: MatrizTributacaoService
   ) {
     this.form = this.formBuilder.group({
-      iestadual: [{ value: null, disabled: false }, Validators.required],
-      prodSuframa: [{ value: null, disabled: false }, Validators.required],
-      ncm: [{ value: null, disabled: false }, Validators.required],
-      destinacao: [{ value: null, disabled: false }, Validators.required],
-      utilizacao: [{ value: null, disabled: false }, Validators.required],
-      tributacao: [{ value: null, disabled: false }, Validators.required],
-      cra: [{ value: null, disabled: false }, Validators.required],
-      tipoDocumento: [{ value: null, disabled: false }, Validators.required],
-      decreto: [{ value: null, disabled: false }, Validators.required],
-      numeroDocumento: [{ value: null, disabled: false }, Validators.required],
-      inicioVigencia: [{ value: null, disabled: false }, Validators.required],
-      fimVigencia: [{ value: null, disabled: false }, Validators.required]
+      iestadual: [{ value: null, disabled: false }],
+      prodSuframa: [{ value: null, disabled: false }],
+      //ncm: [{ value: null, disabled: false }],
+      destinacao: [{ value: null, disabled: false }],
+      utilizacao: [{ value: null, disabled: false }],
+      tributacao: [{ value: null, disabled: false }],
+      cra: [{ value: null, disabled: false }],
+      tipoDocumento: [{ value: null, disabled: false }],
+      decreto: [{ value: null, disabled: false }],
+      numeroDocumento: [{ value: null, disabled: false }],
+      inicioVigencia: [{ value: null, disabled: false }],
+      fimVigencia: [{ value: null, disabled: false }]
     });
   }
 
@@ -83,20 +87,19 @@ export class MatrizZfmComponent implements OnInit {
     if (this.form.valid) {
       this.isLoadSave = true;
       var parms = {
-        // "id": this.idUpdate,
-        // "cnpj": this.form.controls.cnpj.value,
-        // "razaoSocial": this.form.controls.razao.value,
-        // "nomeFantasia": this.form.controls.nome.value,
-        // "logradouro": this.form.controls.logradouro.value,
-        // "numero": this.form.controls.numero.value,
-        // "complemento": this.form.controls.complemento.value,
-        // "bairro": this.form.controls.bairro.value,
-        // "cep": this.form.controls.cep.value,
-        // "cidade": this.form.controls.cidade.value,
-        // "estado": this.form.controls.estado.value,
-        // "tipoDeVinculo": this.form.controls.tipoDeVinculo.value,
-        // "codigointerno": this.form.controls.codigointerno.value,
-        // "idPais": this.form.controls.pais.value
+        "id": this.idUpdate,
+        "IdInscricaoEstadual": this.form.controls.iestadual.value,
+        "IdProdutoSuframaNcm": this.form.controls.prodSuframa.value,
+        "IdDestinacao": this.form.controls.destinacao.value,
+        "IdUtilizacao": this.form.controls.utilizacao.value,
+        "IdTributacao": this.form.controls.tributacao.value,
+        "Cra": this.form.controls.cra.value,
+        "IdTipoDocumentoTributacao": this.form.controls.tipoDocumento.value,
+        "Decreto": this.form.controls.decreto.value,
+        "NumeroDocumento": this.form.controls.numeroDocumento.value,
+        "InicioVigencia": this.form.controls.inicioVigencia.value,
+        "FimVigencia": this.form.controls.fimVigencia.value
+        // "IdNcm": this.form.controls.ncm.value
       }
 
       if (this.titleModal == "Atualizar") {
@@ -104,10 +107,26 @@ export class MatrizZfmComponent implements OnInit {
 
 
       } else {
-
+        this.MatrizTributacaoService.create(parms).subscribe(
+          {
+            next: (obj) => { },
+            error: (e) => {
+              this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+              this.isLoadSave = false;
+            },
+            complete: () => {
+              this.modalRef.hide();
+              this.notifyService.showNotification('top', 'right', "Matriz de tributação registrado c/ sucesso!", 'success');
+              this.isLoadSave = false;
+              this.form.reset();
+            }
+          }
+        )
       }
     }
   }
+
+
 
   getAllInscricaoEstadual( ){
     this.InscricaoEstadualService.getAll().subscribe(
