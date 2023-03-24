@@ -26,8 +26,13 @@ export class MatrizZfmComponent implements OnInit {
   public destinacao: IDestinacao[];
   public utilizacao: IUtilizacao[];
   public tipoDocumentoTributacao: ITipoDocumentoTributacao[];
+  public matrizList: IMatrizTributacao[] = [];
+  public listMatrizListDynamic: IMatrizTributacao[] = [];
   @Input() empresa: Empresa;
   idUpdate: number = 0;
+
+  public p = 1;
+  q: string = ""
 
   constructor(
     private modalService: BsModalService,
@@ -65,6 +70,7 @@ export class MatrizZfmComponent implements OnInit {
     this.getAllDestinacao()
     this.getAllUtilizacao()
     this.getAllTipoDocumentoTributacao()
+    this.getAllMatrizTributacao()
   }
 
   openModal(template: TemplateRef<any>, type?: string, row?) {
@@ -126,7 +132,23 @@ export class MatrizZfmComponent implements OnInit {
     }
   }
 
+  getAllMatrizTributacao() {
 
+    this.isLoad = true;
+
+    this.MatrizTributacaoService.getAll().subscribe({
+      next: (value) => {
+        this.matrizList = value;
+        this.listMatrizListDynamic = this.matrizList
+      }, error: (e) => {
+        this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+        this.isLoad = false;
+      },
+      complete: () => {
+        this.isLoad = false;
+      }
+    })
+  }
 
   getAllInscricaoEstadual( ){
     this.InscricaoEstadualService.getAll().subscribe(
@@ -158,5 +180,11 @@ export class MatrizZfmComponent implements OnInit {
         next: (v) => this.tipoDocumentoTributacao = v
       }
     )
+  }
+
+  sendit(data) {
+    // this.q = data;
+    // this.p = 1;
+    // this.getAllFornecedor();
   }
 }

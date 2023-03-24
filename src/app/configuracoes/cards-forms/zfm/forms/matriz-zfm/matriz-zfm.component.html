@@ -15,7 +15,38 @@
 </div>
 
 <div>
+  <table class="table table-striped" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <div class="d-flex flex-row justify-content-between align-items-end mb-2">
+                <span class=" total">Total de registros: {{matrizList.length}}. Mostrando 10.</span>
+                <input type="text" id="buscarNomeFantasia" class="form-control"  placeholder="Buscar por ..." style="width: 300px;" (keyup.enter)="sendit($event.target.value)">
+            </div>
+        </tr>
+    </thead>
+    <tbody class="mt-4">
+        <tr
+            *ngFor="let row of listMatrizListDynamic | paginate: { id: 'id', itemsPerPage: 10, currentPage: p}; index as i; ">
+            <div class="d-flex flex-column " style="padding: 12px 8px 12px 8px">
 
+                <div class="d-flex justify-content-between">
+                    <span class="nomefantasia" (click)="openModal(template, 'update', row)" >{{row.inscricaoEstadual.inscricao}}</span>
+
+                    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="onDelete(row)">
+                        <span aria-hidden="true" class="visually-hidden">&times;</span>
+                    </button>
+                </div>
+
+                <span class="endereco">{{row.id}}, {{row.destinacao.nome}}, {{row.produtoSuframaNcm.produtoSuframa.nome}}, {{row.tipoDocumentoTributacao.nome}}, {{row.utilizacao.nome}}</span>
+
+
+            </div>
+        </tr>
+    </tbody>
+</table>
+<div class="d-flex justify-content-end">
+   <pagination-controls id="agente_id" (pageChange)="p = $event"></pagination-controls>
+</div>
 </div>
 
 <ng-template #template>

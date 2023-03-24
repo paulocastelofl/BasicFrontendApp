@@ -12,7 +12,9 @@ export class MatrizTributacaoService {
     private http: HttpClient
   ) { }
 
-
+  getAll(): Observable<IMatrizTributacao[]>{
+    return this.http.get<IMatrizTributacao[]>(`${environment.baseUrlBackend}/api/MatrizTributacao`)
+  }
 
   public create(parms: {}): Observable<any> {
     return this.http.post(`${environment.baseUrlBackend}/api/MatrizTributacao`,
