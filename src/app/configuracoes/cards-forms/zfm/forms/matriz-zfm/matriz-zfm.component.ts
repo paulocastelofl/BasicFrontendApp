@@ -6,8 +6,12 @@ import { InscricaoEstadualService } from 'app/configuracoes/services/inscricao-e
 import { DestinacaoService } from 'app/configuracoes/services/destinacao.service'
 import { ProdutoSuframaNcmService } from 'app/configuracoes/services/produto-suframa-ncm.service'
 import { TipoDocumentoTributacaoService } from 'app/configuracoes/services/tipo-documento-tributacao.service'
+import { TributacaoService } from 'app/configuracoes/services/tributacao.service'
 import { UtilizacaoService } from 'app/configuracoes/services/utilizacao.service'
+import { NcmService } from 'app/configuracoes/services/ncm.service'
 import { MatrizTributacaoService } from 'app/configuracoes/services/matriz-tributacao.service'
+
+import { catchError, concat, debounceTime, distinctUntilChanged, filter, Observable, of, Subject, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-matriz-zfm',
@@ -26,10 +30,24 @@ export class MatrizZfmComponent implements OnInit {
   public destinacao: IDestinacao[];
   public utilizacao: IUtilizacao[];
   public tipoDocumentoTributacao: ITipoDocumentoTributacao[];
+  public tributacao: ITributacao[];
+  public produtoSuframaNcm: IProdutoSuframaNcm[];
+  public ncm: INcm[];
   public matrizList: IMatrizTributacao[] = [];
   public listMatrizListDynamic: IMatrizTributacao[] = [];
   @Input() empresa: Empresa;
   idUpdate: number = 0;
+
+  prodSuframaNcm$: Observable<any>;
+  prodSuframaNcmLoading = false;
+  prodSuframaNcmInput$ = new Subject<string>();
+
+  ncm$: Observable<any>;
+  ncmLoading = false;
+  ncmInput$ = new Subject<string>();
+
+  minLengthTerm = 3;
+  regexStr = "";
 
   public p = 1;
   q: string = ""
@@ -41,14 +59,16 @@ export class MatrizZfmComponent implements OnInit {
     private InscricaoEstadualService: InscricaoEstadualService,
     private DestinacaoService: DestinacaoService,
     private ProdutoSuframaNcmService: ProdutoSuframaNcmService,
+    private NcmService: NcmService,
     private TipoDocumentoTributacaoService: TipoDocumentoTributacaoService,
+    private TributacaoService: TributacaoService,
     private UtilizacaoService: UtilizacaoService,
     private MatrizTributacaoService: MatrizTributacaoService
   ) {
     this.form = this.formBuilder.group({
       iestadual: [{ value: null, disabled: false }],
       prodSuframa: [{ value: null, disabled: false }],
-      //ncm: [{ value: null, disabled: false }],
+      ncm: [{ value: null, disabled: false }],
       destinacao: [{ value: null, disabled: false }],
       utilizacao: [{ value: null, disabled: false }],
       tributacao: [{ value: null, disabled: false }],
@@ -70,7 +90,10 @@ export class MatrizZfmComponent implements OnInit {
     this.getAllDestinacao()
     this.getAllUtilizacao()
     this.getAllTipoDocumentoTributacao()
+    this.getAllTributacao()
     this.getAllMatrizTributacao()
+    this.loadProdutoSuframaNcm()
+    this.loadNcm()
   }
 
   openModal(template: TemplateRef<any>, type?: string, row?) {
@@ -104,8 +127,8 @@ export class MatrizZfmComponent implements OnInit {
         "Decreto": this.form.controls.decreto.value,
         "NumeroDocumento": this.form.controls.numeroDocumento.value,
         "InicioVigencia": this.form.controls.inicioVigencia.value,
-        "FimVigencia": this.form.controls.fimVigencia.value
-        // "IdNcm": this.form.controls.ncm.value
+        "FimVigencia": this.form.controls.fimVigencia.value,
+        "IdNcm": this.form.controls.ncm.value
       }
 
       if (this.titleModal == "Atualizar") {
@@ -125,6 +148,7 @@ export class MatrizZfmComponent implements OnInit {
               this.notifyService.showNotification('top', 'right', "Matriz de tributação registrado c/ sucesso!", 'success');
               this.isLoadSave = false;
               this.form.reset();
+              this.getAllMatrizTributacao();
             }
           }
         )
@@ -178,6 +202,62 @@ export class MatrizZfmComponent implements OnInit {
     this.TipoDocumentoTributacaoService.getAll().subscribe(
       {
         next: (v) => this.tipoDocumentoTributacao = v
+      }
+    )
+  }
+
+  loadProdutoSuframaNcm() {
+
+    this.prodSuframaNcm$ = concat(
+      of([]), // default items
+      this.prodSuframaNcmInput$.pipe(
+        filter(res => {
+          return res !== null && res.length >= this.minLengthTerm
+        }),
+        distinctUntilChanged(),
+        debounceTime(800),
+        tap(() => this.prodSuframaNcmLoading = true),
+        switchMap(term => {
+          return this.ProdutoSuframaNcmService.getByQ(term, "ProdutoSuframaNcm").pipe(
+            catchError(() => of([])), // empty list on error
+            tap((v) => {
+              this.regexStr = term;
+              this.prodSuframaNcmLoading = false
+            })
+          )
+        })
+      )
+    );
+  }
+
+  loadNcm() {
+
+    this.ncm$ = concat(
+      of([]), // default items
+      this.ncmInput$.pipe(
+        filter(res => {
+          return res !== null && res.length >= this.minLengthTerm
+        }),
+        distinctUntilChanged(),
+        debounceTime(800),
+        tap(() => this.ncmLoading = true),
+        switchMap(term => {
+          return this.NcmService.getByQ(term, "Ncm").pipe(
+            catchError(() => of([])), // empty list on error
+            tap((v) => {
+              this.regexStr = term;
+              this.ncmLoading = false
+            })
+          )
+        })
+      )
+    );
+  }
+
+  getAllTributacao( ) {
+    this.TributacaoService.getAll().subscribe(
+      {
+        next: (v) => this.tributacao = v
       }
     )
   }

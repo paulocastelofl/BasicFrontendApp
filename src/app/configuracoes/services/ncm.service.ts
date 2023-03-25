@@ -6,7 +6,7 @@ import { map, Observable, of, tap, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ProdutoSuframaNcmService {
+export class NcmService {
 
   constructor(
     private http: HttpClient
@@ -23,7 +23,7 @@ export class ProdutoSuframaNcmService {
             } else {
 
               rsp.forEach((element) => {
-                element.codigo_nome = element.produtoSuframa.codigo + " - " + element.produtoSuframa.nome
+                element.codigo_nome = element.codigo + " - " + element.nome
               });
 
               return rsp
@@ -35,7 +35,7 @@ export class ProdutoSuframaNcmService {
     }
   }
 
-  getAll(): Observable<IProdutoSuframaNcm[]>{
-    return this.http.get<IProdutoSuframaNcm[]>(`${environment.baseUrlBackend}/api/ProdutoSuframaNcm`)
+  getAll(): Observable<INcm[]>{
+    return this.http.get<INcm[]>(`${environment.baseUrlBackend}/api/Ncm`)
   }
 }
