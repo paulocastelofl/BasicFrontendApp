@@ -19,6 +19,9 @@
                 <inner_element *ngSwitchCase="'Importação'">
                     <app-importacao [empresa]="empresa"></app-importacao>
                 </inner_element>
+                <inner_element *ngSwitchCase="'ZFM'">
+                  <app-zfm [empresa]="empresa"></app-zfm>
+                </inner_element>
                 <inner_element *ngSwitchCase="'Exportação'">
                     <app-exportacao></app-exportacao>
                 </inner_element>

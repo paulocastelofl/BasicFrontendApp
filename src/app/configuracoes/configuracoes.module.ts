@@ -28,6 +28,11 @@ import { AgenteComponent } from './cards-forms/importacao/forms/agente/agente.co
 import { SharedModule } from 'app/shared/shared.module';
 import { VerticalTabsComponent } from 'app/shared/vertical-tabs/vertical-tabs.component';
 import { TransportadoresComponent } from './cards-forms/importacao/forms/transportadores/transportadores.component';
+import { ZfmComponent } from './cards-forms/zfm/zfm.component';
+import { BasicoZfmComponent } from './cards-forms/zfm/forms/basico-zfm/basico-zfm.component';
+import { LinhasZfmComponent } from './cards-forms/zfm/forms/linhas-zfm/linhas-zfm.component';
+import { ItensZfmComponent } from './cards-forms/zfm/forms/itens-zfm/itens-zfm.component';
+import { MatrizZfmComponent } from './cards-forms/zfm/forms/matriz-zfm/matriz-zfm.component';
 
 
 @NgModule({
@@ -61,7 +66,12 @@ import { TransportadoresComponent } from './cards-forms/importacao/forms/transpo
     FornecedoresComponent,
     AgenteComponent,
     TransportadoresComponent,
+    ZfmComponent,
+    BasicoZfmComponent,
+    LinhasZfmComponent,
+    ItensZfmComponent,
+    MatrizZfmComponent
   ]
- 
+
 })
 export class ConfiguracoesModule { }
