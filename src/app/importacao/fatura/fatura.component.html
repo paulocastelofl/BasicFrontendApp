@@ -1,0 +1,34 @@
+<div class="main-content-custumer-gan">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" *ngIf="processo">
+                <div class="card-body">
+                    <app-header-processo [processo]="processo"></app-header-processo>
+
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <ul id="tabs" class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#basico" role="tab"
+                                        aria-expanded="true">Básico</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#fornecedor" role="tab"
+                                        aria-expanded="false">Fornecedor</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#itens" role="tab"
+                                        aria-expanded="false">Itens</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#pli" role="tab"
+                                        aria-expanded="false">PLI</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

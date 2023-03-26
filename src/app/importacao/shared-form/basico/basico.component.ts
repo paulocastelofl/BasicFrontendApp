@@ -99,8 +99,6 @@ export class BasicoComponent implements OnInit {
 
     if (this.processo) {
 
-      console.log(this.processo)
-
       if (this.processo['despachante']['@ref']) {
         this.processo['despachante'] = this.processo['empresa']
       }
