@@ -18,6 +18,7 @@ import { BasicoComponent } from './shared-form/basico/basico.component';
 import { VerticalTabsComponent } from 'app/shared/vertical-tabs/vertical-tabs.component';
 import { FeedComponent } from './shared-form/feed/feed.component';
 import { CargaComponent } from './shared-form/carga/carga.component';
+import { FaturasComponent } from './shared-form/faturas/faturas.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { CargaComponent } from './shared-form/carga/carga.component';
     BasicoComponent,
     FeedComponent,
     CargaComponent,
+    FaturasComponent,
   ],
   imports: [
     CommonModule,

@@ -15,7 +15,7 @@ export class VerticalTabsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.isSelectTab(this.listTabs[0])
+    this.isSelectTab(this.listTabs[3])
   }
 
   isSelectTab(tab){
