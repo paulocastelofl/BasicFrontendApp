@@ -1,0 +1,70 @@
+<form [formGroup]="form">
+    <div class="row">
+        <div class="col-md-4">
+            <label>Número da Fatura</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="numeroFatura" placeholder="Digite o número"
+                    formControlName="numeroFatura">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label>Moeda</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="moeda" placeholder="Moeda" formControlName="moeda">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label>Incoterms</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="incoterms" placeholder="Digite o código do incoterms"
+                    formControlName="incoterms">
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <label>Local da Condição</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="localCondicao" placeholder="Digite o loval da condição"
+                    formControlName="localCondicao">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label>Data de Emissão</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="dataEmissao" placeholder="" formControlName="dataEmissao">
+            </div>
+        </div>
+    </div>
+    <br>
+    <h6>Totais</h6>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="d-flex">
+                <div class="box-totais">
+                    <div>
+                        <i class="fa fa-cubes" aria-hidden="true"></i>
+                        Itens
+                    </div>
+                    <span>0,0</span>
+                </div>
+                <div class="box-totais">
+                    <div>
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                        Valor
+                    </div>
+                    <span>0,0</span>
+                </div>
+                <div class="box-totais">
+                    <div>
+                        <i class="fa fa-balance-scale" aria-hidden="true"></i>
+                        Kg
+                    </div>
+                    <span>0,0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

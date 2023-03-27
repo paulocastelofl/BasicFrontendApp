@@ -21,6 +21,10 @@ import { CargaComponent } from './shared-form/carga/carga.component';
 import { RelatorioFaturasComponent } from './shared-form/relatorio-faturas/relatorio-faturas.component';
 import { FaturaComponent } from './fatura/fatura.component';
 import { HeaderProcessoComponent } from './components/header-processo/header-processo.component';
+import { FornecedorComponent } from './fatura/forms/fornecedor/fornecedor.component';
+import { ItensComponent } from './fatura/forms/itens/itens.component';
+import { PliComponent } from './fatura/forms/pli/pli.component';
+import { BasicoFaturaComponent } from './fatura/forms/basico-fatura/basico-fatura.component';
 
 
 @NgModule({
@@ -34,6 +38,10 @@ import { HeaderProcessoComponent } from './components/header-processo/header-pro
     RelatorioFaturasComponent,
     FaturaComponent,
     HeaderProcessoComponent,
+    FornecedorComponent,
+    ItensComponent,
+    PliComponent,
+    BasicoFaturaComponent,
   ],
   imports: [
     CommonModule,

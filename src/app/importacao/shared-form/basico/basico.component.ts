@@ -90,7 +90,6 @@ export class BasicoComponent implements OnInit {
       analistaDespachante: [{ value: null, disabled: false, }],
       tipoConsignatario: [{ value: null, disabled: false, }],
       impModalidadeDespacho: [{ value: null, disabled: false, }]
-
     });
 
   }
