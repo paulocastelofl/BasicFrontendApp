@@ -37,7 +37,6 @@ export class ProcessoComponent implements OnInit {
     private relatoriosService: RelatoriosService) { }
 
   ngOnInit(): void {
-    this.isTabSelect = this.listTabs[0];
 
     this.route.params.subscribe(
       {

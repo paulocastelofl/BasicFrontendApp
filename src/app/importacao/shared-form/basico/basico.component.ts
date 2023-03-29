@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from 'app/configuracoes/services/empresa.service';
 import { BaseEntityAuxService } from 'app/core/services/base-entity-aux.service';
 import { PaisService } from 'app/core/services/pais.service';
-import { catchError, concat, debounceTime, distinctUntilChanged, filter, Observable, of, Subject, switchMap, tap } from 'rxjs';
+import { catchError, concat, debounceTime, distinctUntilChanged, filter, forkJoin, Observable, of, Subject, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-basico',
@@ -78,46 +78,103 @@ export class BasicoComponent implements OnInit {
       importador: [{ value: null, disabled: false }, Validators.required],
       despachante_responsavel: [{ value: null, disabled: false }],
       despachante_ponta: [{ value: null, disabled: false, }],
+      codigo: [{ value: null, disabled: false, }],
+      centroCusto: [{ value: null, disabled: false, }],
       tipo_declaracao: [{ value: null, disabled: false, }],
       pais: [{ value: null, disabled: false, }],
       urfDespacho: [{ value: null, disabled: false, }],
       urfChegada: [{ value: null, disabled: false, }],
       modal: [{ value: null, disabled: false, }],
+      necessidadeImportador: [{ value: null, disabled: false, }],
       analistaImportador: [{ value: null, disabled: false, }],
       analistaDespachante: [{ value: null, disabled: false, }],
       tipoConsignatario: [{ value: null, disabled: false, }],
       impModalidadeDespacho: [{ value: null, disabled: false, }]
-
     });
 
   }
 
   ngOnInit(): void {
 
-
-
     if (this.processo) {
 
-      this.empresaService.GetByFilters(this.processo['parceiro'].nome, true).subscribe(
-        {
-          next: (obj) => {
-            this.loadimportador(obj)
-          }
-        }
-      )
+      if (this.processo['despachante']['@ref']) {
+        this.processo['despachante'] = this.processo['empresa']
+      }
+
+      if (this.processo['despachantePonta']['@ref']) {
+        this.processo['despachantePonta'] = this.processo['empresa']
+      }
+
+      if (this.processo['urfChegada']['@ref']) {
+        this.processo['urfChegada'] = this.processo['urfDespacho']
+      }
+      if (this.processo['urfDespacho']['@ref']) {
+        this.processo['urfDespacho'] = this.processo['urfChegada']
+      }
+
+      // const observables = [
+      //   this.empresaService.GetByFilters(this.processo['parceiro'].nome, true),
+      //   this.empresaService.GetByFilters(this.processo['despachante'].nome, false, true),
+      //   this.empresaService.GetByFilters(this.processo['despachantePonta'].nome, false, true),
+      //   this.baseEntityAuxService.getByQ(this.processo['tipoDeclaracao'].codigo, "TipoDeclaracao"),
+      //   this.baseEntityAuxService.getByQ(this.processo['urfChegada'].codigo, "Urf"),
+      //   this.baseEntityAuxService.getByQ(this.processo['urfDespacho'].codigo, "Urf")
+      //   //tipoDeclaracao
+      // ];
+
+      // const calls = forkJoin(observables);
+
+      // calls.subscribe({
+      //   next: (responses) => {
+      //     this.loadimportador(responses[0]) 
+      //     this.loaddespachante(responses[1]) 
+      //     this.loaddespachanteponta(responses[2]) 
+      //     this.loadTipoDeclaracao(responses[3])
+      //     this.loadUrfChegada(responses[4])
+      //     this.loadUrfDespacho(responses[5])
+      //   }
+      // })
+
+      this.processo['parceiro'].nomeFantasia = this.processo['parceiro'].nome
+      this.processo['despachante'].nomeFantasia = this.processo['despachante'].nome
+      this.processo['despachantePonta'].nomeFantasia = this.processo['despachantePonta'].nome
+      this.processo['tipoDeclaracao'].codigo_nome = this.processo['tipoDeclaracao'].codigo + "-" + this.processo['tipoDeclaracao'].nome
+      this.processo['urfChegada'].codigo_nome = this.processo['urfChegada'].codigo + "-" + this.processo['urfChegada'].nome
+      this.processo['urfDespacho'].codigo_nome = this.processo['urfDespacho'].codigo + "-" + this.processo['urfDespacho'].nome
+
+      this.loadimportador([this.processo['parceiro']])
+      this.loaddespachante([this.processo['despachante']])
+      this.loaddespachanteponta([this.processo['despachantePonta']])
+      this.loadTipoDeclaracao([this.processo['tipoDeclaracao']])
+      this.loadUrfChegada([this.processo['urfChegada']])
+      this.loadUrfDespacho([this.processo['urfDespacho']])
+
+      this.processo['modal'] ? this.getAllModal(this.processo['modal'].id) : this.getAllModal()
+      this.processo['paisProcedencia'] ? this.getAllPaises(this.processo['paisProcedencia'].id) : this.getAllPaises()
+      
+      this.formControl.codigo.setValue(this.processo['codigo'])
+      this.formControl.centroCusto.setValue("")
+      this.formControl.tipoConsignatario.setValue(this.processo['tipoConsignatario'])
+      this.formControl.impModalidadeDespacho.setValue(this.processo['impModalidadeDespacho'])
+      this.formControl.necessidadeImportador.setValue("")
+      this.formControl.analistaImportador.setValue("")
+      this.formControl.analistaDespachante.setValue("")
 
     } else {
       this.loadimportador()
+      this.loaddespachante()
+      this.loaddespachanteponta()
+      this.loadTipoDeclaracao()
+      this.loadUrfDespacho()
+      this.loadUrfChegada()
+      this.getAllModal()
+      this.getAllPaises()
     }
 
 
-    this.loaddespachante()
-    this.loaddespachanteponta()
-    this.loadTipoDeclaracao()
-    this.loadUrfDespacho()
-    this.loadUrfChegada()
-    this.getAllModal()
-    this.getAllPaises()
+
+
   }
 
 
@@ -151,20 +208,20 @@ export class BasicoComponent implements OnInit {
             tap((v) => {
               this.regexStr = term;
               this.importadorLoading = false
-              
+
             })
           )
         })
       )
     );
 
-    if(itens.length > 0) this.formControl.importador.setValue(itens[0].id)
+    if (itens.length > 0) this.formControl.importador.setValue(itens[0].id)
   }
 
-  loaddespachante() {
+  loaddespachante(itens: any[] = []) {
 
     this.despachante$ = concat(
-      of([]), // default items
+      of(itens), // default items
       this.despachanteInput$.pipe(
         filter(res => {
           return res !== null && res.length >= this.minLengthTerm
@@ -183,12 +240,14 @@ export class BasicoComponent implements OnInit {
         })
       )
     );
+
+    if (itens.length > 0) this.formControl.despachante_responsavel.setValue(itens[0].id)
   }
 
-  loaddespachanteponta() {
+  loaddespachanteponta(itens: any[] = []) {
 
     this.despachanteponta$ = concat(
-      of([]), // default items
+      of(itens), // default items
       this.despachantepontaInput$.pipe(
         filter(res => {
           return res !== null && res.length >= this.minLengthTerm
@@ -207,13 +266,15 @@ export class BasicoComponent implements OnInit {
         })
       )
     );
+
+    if (itens.length > 0) this.formControl.despachante_ponta.setValue(itens[0].id)
   }
 
 
-  loadTipoDeclaracao() {
+  loadTipoDeclaracao(itens: any[] = []) {
 
     this.tipodeclaracao$ = concat(
-      of([]), // default items
+      of(itens), // default items
       this.tipodeclaracaoInput$.pipe(
         filter(res => {
           return res !== null && res.length >= this.minLengthTermTipoDeclaracao
@@ -232,12 +293,14 @@ export class BasicoComponent implements OnInit {
         })
       )
     );
+
+    if (itens.length > 0) this.formControl.tipo_declaracao.setValue(itens[0].id)
   }
 
-  loadUrfChegada() {
+  loadUrfChegada(itens: any[] = []) {
 
     this.urfChegada$ = concat(
-      of([]), // default items
+      of(itens), // default items
       this.urfChegadaInput$.pipe(
         filter(res => {
           return res !== null && res.length >= this.minLengthTermurfChegada
@@ -256,12 +319,14 @@ export class BasicoComponent implements OnInit {
         })
       )
     );
+
+    if (itens.length > 0) this.formControl.urfChegada.setValue(itens[0].id)
   }
 
-  loadUrfDespacho() {
+  loadUrfDespacho(itens: any[] = []) {
 
     this.urfDespacho$ = concat(
-      of([]), // default items
+      of(itens), // default items
       this.urfDespachoInput$.pipe(
         filter(res => {
           return res !== null && res.length >= this.minLengthTermurfDespacho
@@ -280,24 +345,32 @@ export class BasicoComponent implements OnInit {
         })
       )
     );
+
+    if (itens.length > 0) this.formControl.urfDespacho.setValue(itens[0].id)
   }
 
 
-  getAllModal() {
+  getAllModal(id: number = 0) {
     this.baseEntityAuxService.getByAll("Modal").subscribe(
       {
         next: (v) => {
           this.modals = v
+          this.formControl.modal.setValue(id)
         }
       }
     )
   }
 
 
-  getAllPaises() {
+  getAllPaises(id: number = 0) {
     this.paisService.getAll().subscribe(
       {
-        next: (v) => this.paises = v
+        next: (v) => {
+          this.paises = v
+          if (id > 0) {
+            this.formControl.pais.setValue(id)
+          }
+        }
       }
     )
   }
