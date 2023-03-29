@@ -30,16 +30,18 @@
             <div class="d-flex flex-column " style="padding: 12px 8px 12px 8px">
 
                 <div class="d-flex justify-content-between">
-                    <span class="nomefantasia" (click)="openModal(template, 'update', row)" >{{row.inscricaoEstadual.inscricao}}</span>
+                    <span class="inscricaoEstadual" (click)="openModal(template, 'update', row)" >{{row.inscricaoEstadual.inscricao}}</span>
 
                     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="onDelete(row)">
                         <span aria-hidden="true" class="visually-hidden">&times;</span>
                     </button>
                 </div>
 
-                <span class="endereco">{{row.id}}, {{row.destinacao.nome}}, {{row.produtoSuframaNcm.produtoSuframa.nome}}, {{row.tipoDocumentoTributacao.nome}}, {{row.utilizacao.nome}}</span>
-
-
+                <span class="nDocumento">{{row.numeroDocumento}}</span>
+                <span class="informacoes">{{row.destinacao.nome}}, {{row.tributacao.nome}}, {{row.tipoDocumentoTributacao.nome}}, {{row.utilizacao.nome}}</span>
+                <div style="font-size: 11px;" class="mt-1">
+                  <span class="nDecreto">{{row.decreto}}</span>
+                </div>
             </div>
         </tr>
     </tbody>
@@ -69,7 +71,7 @@
                 <div class="form-group">
                   <div class="form-group">
                       <ng-select [items]="inscricaoEstadual" bindLabel="inscricao" class="custom" bindValue="id"
-                          appendTo="body" formControlName="iestadual" placeholder="Selecione a inscrição estadual"></ng-select>
+                          appendTo="body" formControlName="iestadual" placeholder="Selecione a inscrição estadual" required></ng-select>
                   </div>
                   <small *ngIf="(formControl.iestadual.touched || submitted) && formControl.iestadual.errors?.required"
                       class="text-danger">
@@ -81,10 +83,10 @@
               <label>Produto Suframa</label>
               <div class="form-group">
                 <div class="form-group">
-                    <ng-select [items]="prodSuframaNcm$ | async" bindValue="codigo" [minTermLength]="minLengthTerm"
+                    <ng-select [items]="prodSuframaNcm$ | async" bindValue="id" [minTermLength]="minLengthTerm"
                         (change)="onChange($event)" [loading]="prodSuframaNcmLoading"
                         typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
-                        [typeahead]="prodSuframaNcmInput$" formControlName="prodSuframa" placeholder="Selecione Produto Suframa NCM...">
+                        [typeahead]="prodSuframaNcmInput$" formControlName="prodSuframa" placeholder="Selecione Produto Suframa NCM..." required>
 
                         <ng-template ng-option-tmp ng-label-tmp let-item="item">
                             <span [innerHTML]="item.codigo_nome | boldSpan:regexStr"></span>
@@ -103,10 +105,10 @@
             <label>NCM</label>
             <div class="form-group">
               <div class="form-group">
-                <ng-select [items]="ncm$ | async" bindValue="codigo" [minTermLength]="minLengthTerm"
+                <ng-select [items]="ncm$ | async" bindValue="id" [minTermLength]="minLengthTerm"
                 (change)="onChange($event)" [loading]="ncmLoading"
                 typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
-                [typeahead]="ncmInput$" formControlName="ncm" placeholder="Selecione um NCM...">
+                [typeahead]="ncmInput$" formControlName="ncm" placeholder="Selecione um NCM..." required>
 
                 <ng-template ng-option-tmp ng-label-tmp let-item="item">
                     <span [innerHTML]="item.codigo_nome | boldSpan:regexStr"></span>
@@ -128,7 +130,7 @@
                 <div class="form-group">
                   <div class="form-group">
                       <ng-select [items]="destinacao" bindLabel="codigo" class="custom" bindValue="id"
-                          appendTo="body" formControlName="destinacao" placeholder="Selecione a destinação">
+                          appendTo="body" formControlName="destinacao" placeholder="Selecione a destinação" required>
                           <ng-template ng-label-tmp let-item="item">
                             <span >{{ item.codigo + ' : ' + item.nome }}</span>
                           </ng-template>
@@ -148,7 +150,7 @@
               <div class="form-group">
                 <div class="form-group">
                     <ng-select [items]="utilizacao" bindLabel="codigo" class="custom" bindValue="id"
-                        appendTo="body" formControlName="utilizacao" placeholder="Selecione a utilização">
+                        appendTo="body" formControlName="utilizacao" placeholder="Selecione a utilização" required>
                         <ng-template ng-label-tmp let-item="item">
                           <span >{{ item.codigo + ' : ' + item.nome }}</span>
                         </ng-template>
@@ -168,7 +170,7 @@
             <div class="form-group">
               <div class="form-group">
                   <ng-select [items]="tributacao" bindLabel="codigo" class="custom" bindValue="id"
-                      appendTo="body" formControlName="tributacao" placeholder="Selecione a Tributação">
+                      appendTo="body" formControlName="tributacao" placeholder="Selecione a Tributação" required>
                       <ng-template ng-label-tmp let-item="item">
                         <span >{{ item.codigo + ' : ' + item.nome }}</span>
                       </ng-template>
@@ -188,8 +190,8 @@
             <div class="col-md-4">
                 <label>CRA</label>
                 <div class="form-group">
-                    <input type="text" class="form-control input-custom" id="cra" formControlName="cra" required>
-                    <small *ngIf="(formControl.cra.touched || submitted) && formControl.cra.errors?.required"
+                    <input type="text" class="form-control input-custom" id="Cra" formControlName="Cra" required>
+                    <small *ngIf="(formControl.Cra.touched || submitted) && formControl.Cra.errors?.required"
                         class="text-danger">
                         CRA obrigatório! <i>*</i>
                     </small>
@@ -200,7 +202,7 @@
               <div class="form-group">
                 <div class="form-group">
                     <ng-select [items]="tipoDocumentoTributacao" bindLabel="codigo" class="custom" bindValue="id"
-                        appendTo="body" formControlName="tipoDocumento" placeholder="Selecione o tipo de documento">
+                        appendTo="body" formControlName="tipoDocumento" placeholder="Selecione o tipo de documento" required>
                         <ng-template ng-label-tmp let-item="item">
                           <span >{{ item.codigo + ' : ' + item.nome }}</span>
                         </ng-template>
@@ -240,7 +242,7 @@
             <div class="col-md-4">
               <label>Início da Vigência</label>
               <div class="form-group">
-                  <input type="text" class="form-control input-custom" id="inicioVigencia" formControlName="inicioVigencia" required>
+                  <input type="date" class="form-control input-custom" id="inicioVigencia" formControlName="inicioVigencia" required>
                   <small *ngIf="(formControl.inicioVigencia.touched || submitted) && formControl.inicioVigencia.errors?.required"
                       class="text-danger">
                       Início da Vigência obrigatório! <i>*</i>
@@ -250,7 +252,7 @@
             <div class="col-md-4">
             <label>Fim da Vigência</label>
               <div class="form-group">
-                  <input type="text" class="form-control input-custom" id="fimVigencia" formControlName="fimVigencia" required>
+                  <input type="date" class="form-control input-custom" id="fimVigencia" formControlName="fimVigencia" required>
                   <small *ngIf="(formControl.fimVigencia.touched || submitted) && formControl.fimVigencia.errors?.required"
                       class="text-danger">
                       Fim da Vigência obrigatório! <i>*</i>
@@ -261,11 +263,10 @@
       </div>
       <div>
         <div class="col-md-12 d-flex justify-content-end mt-4 modal-footer-custom">
-
             <button type="button" class="btn btn-primary mt-4 mb-4" (click)="onSubmit()">
-                <!-- <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
+                <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
                     <span class="sr-only">Loading...</span>
-                </div> -->
+                </div>
                 <span *ngIf="!isLoadSave">Salvar</span>
             </button>
         </div>
