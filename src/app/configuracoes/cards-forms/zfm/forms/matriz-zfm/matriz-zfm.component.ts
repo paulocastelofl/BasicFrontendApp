@@ -95,8 +95,6 @@ export class MatrizZfmComponent implements OnInit {
     this.getAllTipoDocumentoTributacao()
     this.getAllTributacao()
     this.getAllMatrizTributacao()
-    this.loadProdutoSuframaNcm()
-    this.loadNcm()
   }
 
   openModal(template: TemplateRef<any>, type?: string, row?) {
@@ -104,13 +102,22 @@ export class MatrizZfmComponent implements OnInit {
     this.form.reset();
 
     if (type == "update") {
+
       this.titleModal = "Atualizar";
       this.setValueModalUpdate(row);
+      row.produtoSuframaNcm['codigo_nome'] = row.produtoSuframaNcm['produtoSuframa']['codigo']+'-'+ row.produtoSuframaNcm['produtoSuframa']['nome']
+      row.ncm['codigo_nome'] = row.ncm['codigo']+'-'+ row.ncm['nome']
+      this.loadProdutoSuframaNcm([row.produtoSuframaNcm])
+      this.loadNcm([row.ncm])
       console.log(row);
 
-    } else { this.titleModal = "Nova" }
+    } else {
+      this.loadProdutoSuframaNcm()
+      this.loadNcm()
+      this.titleModal = "Nova"
 
-    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' }),);
+    }
+      this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' }),);
   }
 
   onSubmit() {
@@ -281,10 +288,10 @@ export class MatrizZfmComponent implements OnInit {
     )
   }
 
-  loadProdutoSuframaNcm() {
+  loadProdutoSuframaNcm(itens: any[] = []) {
 
     this.prodSuframaNcm$ = concat(
-      of([]), // default items
+      of(itens), // default items
       this.prodSuframaNcmInput$.pipe(
         filter(res => {
           return res !== null && res.length >= this.minLengthTerm
@@ -303,12 +310,13 @@ export class MatrizZfmComponent implements OnInit {
         })
       )
     );
+    if(itens.length > 0){this.form.controls.prodSuframa.setValue(itens[0].id)}
   }
 
-  loadNcm() {
+  loadNcm(itens: any[] = []) {
 
     this.ncm$ = concat(
-      of([]), // default items
+      of(itens), // default items
       this.ncmInput$.pipe(
         filter(res => {
           return res !== null && res.length >= this.minLengthTerm
@@ -327,6 +335,7 @@ export class MatrizZfmComponent implements OnInit {
         })
       )
     );
+    if(itens.length > 0){this.form.controls.ncm.setValue(itens[0].id)}
   }
 
   getAllTributacao( ) {
@@ -338,12 +347,10 @@ export class MatrizZfmComponent implements OnInit {
   }
 
   setValueModalUpdate(row) {
-
     this.iniVig = row.inicioVigencia.split("T",2)
     this.fimVig = row.fimVigencia.split("T",2)
     this.idUpdate = row.id;
     this.form.controls.iestadual.setValue(row.idInscricaoEstadual);
-    // this.form.controls.prodSuframa.setValue(row.idProdutoSuframaNcm);
     this.form.controls.destinacao.setValue(row.idDestinacao);
     this.form.controls.utilizacao.setValue(row.idUtilizacao);
     this.form.controls.tributacao.setValue(row.idTributacao);
@@ -353,7 +360,6 @@ export class MatrizZfmComponent implements OnInit {
     this.form.controls.numeroDocumento.setValue(row.numeroDocumento);
     this.form.controls.inicioVigencia.setValue(this.iniVig[0]);
     this.form.controls.fimVigencia.setValue(this.fimVig[0]);
-    // this.form.controls.ncm.setValue(row.idNcm);
   }
 
   sendit(data) {
