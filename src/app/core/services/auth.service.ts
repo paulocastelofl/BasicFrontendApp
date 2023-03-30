@@ -31,7 +31,6 @@ export class AuthService {
       parms
     ).pipe(
         tap(r => {
-
           this.tokenJwt = r.token
           this.setLocalStorage(r);
           this.setUserCurrent(r);

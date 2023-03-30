@@ -5,19 +5,17 @@
             <label>Importador</label>
             <div class="form-group">
 
-                <ng-select [items]="importador$ | async" bindValue="id"
-                    [minTermLength]="minLengthTerm" [loading]="importadorLoading"
+                <ng-select [items]="importador$ | async" bindValue="id" [minTermLength]="minLengthTerm"
+                    [loading]="importadorLoading"
                     typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
-                    [typeahead]="importadorInput$" formControlName="importador"
-                    placeholder="Selecione Importador...">
+                    [typeahead]="importadorInput$" formControlName="importador" placeholder="Selecione Importador...">
 
                     <ng-template ng-option-tmp ng-label-tmp let-item="item">
                         <span [innerHTML]="item.nomeFantasia | boldSpan:regexStr"></span>
                     </ng-template>
 
                 </ng-select>
-                <small
-                    *ngIf="(formControl.importador.touched || submitted) && formControl.importador.errors?.required"
+                <small *ngIf="(formControl.importador.touched || submitted) && formControl.importador.errors?.required"
                     class="text-danger">
                     Importador é obrigatório <i>*</i>
                 </small>
@@ -27,8 +25,8 @@
         <div class="col-md-4">
             <label>Despachante Responsável</label>
             <div class="form-group">
-                <ng-select [items]="despachante$ | async" bindValue="id"
-                    [minTermLength]="minLengthTerm" [loading]="despachanteLoading"
+                <ng-select [items]="despachante$ | async" bindValue="id" [minTermLength]="minLengthTerm"
+                    [loading]="despachanteLoading"
                     typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
                     [typeahead]="despachanteInput$" formControlName="despachante_responsavel"
                     placeholder="Selecione Despachante...">
@@ -45,8 +43,8 @@
             <label>Despachante de Ponta</label>
             <div class="form-group">
 
-                <ng-select [items]="despachanteponta$ | async" bindValue="id"
-                    [minTermLength]="minLengthTerm" [loading]="despachantepontaLoading"
+                <ng-select [items]="despachanteponta$ | async" bindValue="id" [minTermLength]="minLengthTerm"
+                    [loading]="despachantepontaLoading"
                     typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
                     [typeahead]="despachantepontaInput$" formControlName="despachante_ponta"
                     placeholder="Selecione Despachante...">
@@ -66,7 +64,10 @@
             <label>Código do Processo</label>
             <div class="form-group">
                 <input type="text" class="form-control" id="nome" placeholder="" formControlName="codigo">
-
+                <small *ngIf="(formControl.codigo.touched || submitted) && formControl.codigo.errors?.required"
+                    class="text-danger">
+                    Código é obrigatório <i>*</i>
+                </small>
             </div>
         </div>
         <div class="col-md-6">
@@ -93,15 +94,23 @@
                     </ng-template>
 
                 </ng-select>
+                <small
+                    *ngIf="(formControl.tipo_declaracao.touched || submitted) && formControl.tipo_declaracao.errors?.required"
+                    class="text-danger">
+                    Tipo de declaração é obrigatório <i>*</i>
+                </small>
 
             </div>
         </div>
         <div class="col-md-6">
             <label>País de Procedência</label>
             <div class="form-group">
-                <ng-select [items]="paises" bindLabel="nome" class="custom"
-                bindValue="id" appendTo="body" formControlName="pais"
-                placeholder="-- Selecione --"></ng-select>
+                <ng-select [items]="paises" bindLabel="nome" class="custom" bindValue="id" appendTo="body"
+                    formControlName="pais" placeholder="-- Selecione --"></ng-select>
+                <small *ngIf="(formControl.pais.touched || submitted) && formControl.pais.errors?.required"
+                    class="text-danger">
+                    País é obrigatório <i>*</i>
+                </small>
 
             </div>
         </div>
@@ -112,9 +121,12 @@
             <div class="form-group">
                 <div class="form-group">
 
-                    <ng-select [items]="modals" bindLabel="nome" class="custom" bindValue="id"
-                        appendTo="body" formControlName="modal"
-                        placeholder="-- Selecione --"></ng-select>
+                    <ng-select [items]="modals" bindLabel="nome" class="custom" bindValue="id" appendTo="body"
+                        formControlName="modal" placeholder="-- Selecione --"></ng-select>
+                    <small *ngIf="(formControl.modal.touched || submitted) && formControl.modal.errors?.required"
+                        class="text-danger">
+                        Modal é obrigatório <i>*</i>
+                    </small>
                 </div>
 
             </div>
@@ -123,8 +135,8 @@
             <label>URF de Chegada</label>
             <div class="form-group">
 
-                <ng-select [items]="urfChegada$ | async" bindValue="id"
-                    [minTermLength]="minLengthTermurfChegada" [loading]="urfChegadaLoading"
+                <ng-select [items]="urfChegada$ | async" bindValue="id" [minTermLength]="minLengthTermurfChegada"
+                    [loading]="urfChegadaLoading"
                     typeToSearchText="Por favor digite {{minLengthTermurfChegada}} ou mais caractéres"
                     [typeahead]="urfChegadaInput$" formControlName="urfChegada"
                     placeholder="Selecione Urf de Chegada...">
@@ -134,6 +146,10 @@
                     </ng-template>
 
                 </ng-select>
+                <small *ngIf="(formControl.urfChegada.touched || submitted) && formControl.urfChegada.errors?.required"
+                    class="text-danger">
+                    URF Chegada é obrigatório <i>*</i>
+                </small>
 
             </div>
         </div>
@@ -141,8 +157,8 @@
             <label>URF de Despacho</label>
             <div class="form-group">
 
-                <ng-select [items]="urfDespacho$ | async" bindValue="id"
-                    [minTermLength]="minLengthTermurfDespacho" [loading]="urfDespachoLoading"
+                <ng-select [items]="urfDespacho$ | async" bindValue="id" [minTermLength]="minLengthTermurfDespacho"
+                    [loading]="urfDespachoLoading"
                     typeToSearchText="Por favor digite {{minLengthTermurfDespacho}} ou mais caractéres"
                     [typeahead]="urfDespachoInput$" formControlName="urfDespacho"
                     placeholder="Selecione Urf de Despacho...">
@@ -152,6 +168,10 @@
                     </ng-template>
 
                 </ng-select>
+                <small *ngIf="(formControl.urfDespacho.touched || submitted) && formControl.urfDespacho.errors?.required"
+                    class="text-danger">
+                    URF Despacho é obrigatório <i>*</i>
+                </small>
 
             </div>
         </div>
@@ -160,23 +180,24 @@
         <div class="col-md-4">
             <label>Necessidade Importador</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="nome" placeholder="" formControlName="necessidadeImportador">
+                <input type="datetime-local" class="form-control" id="nome" placeholder=""
+                    formControlName="necessidadeImportador">
 
             </div>
         </div>
         <div class="col-md-4">
             <label>Analista Importador</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="analistaImportador"
-                    formControlName="analistaImportador" placeholder="Opcional">
+                <input type="text" class="form-control" id="analistaImportador" formControlName="analistaImportador"
+                    placeholder="Opcional">
 
             </div>
         </div>
         <div class="col-md-4">
             <label>Analista Despachante</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="analistaDespachante"
-                    formControlName="analistaDespachante" placeholder="Opcional">
+                <input type="text" class="form-control" id="analistaDespachante" formControlName="analistaDespachante"
+                    placeholder="Opcional">
 
             </div>
         </div>
@@ -186,9 +207,8 @@
             <label>Tipo de Consignatário</label>
             <div class="form-group">
 
-                <ng-select [items]="tipoConsignatario" bindLabel="nome" class="custom" bindValue="id"
-                    appendTo="body" formControlName="tipoConsignatario"
-                    placeholder="-- Selecione --"></ng-select>
+                <ng-select [items]="tipoConsignatario" bindLabel="nome" class="custom" bindValue="id" appendTo="body"
+                    formControlName="tipoConsignatario" placeholder="-- Selecione --"></ng-select>
 
             </div>
         </div>
@@ -196,10 +216,161 @@
             <label>Modalidade de Despacho</label>
             <div class="form-group">
                 <ng-select [items]="impModalidadeDespacho" bindLabel="nome" class="custom" bindValue="id"
-                    appendTo="body" formControlName="impModalidadeDespacho"
-                    placeholder="-- Selecione --"></ng-select>
+                    appendTo="body" formControlName="impModalidadeDespacho" placeholder="-- Selecione --"></ng-select>
 
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>Observações</label>
+            <div class="form-group">
+                <textarea class="form-control" id="infoadicionais"
+                    formControlName="infoadicionais" placeholder="Informações adicionais"
+                    rows="6"></textarea>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-between align-items-center">
+            <h6>Documentos</h6>
+            <button class="btn btn-primary btn-round btn-icon mr-2" (click)="openModal(template)">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="set-height">
+                        <td>Nome</td>
+                        <td>Tipo</td>
+                        <td>Versão</td>
+                        <td>Dt. de Criação</td>
+                        <td>Ações</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-end mt-4 modal-footer-custom">
+
+            <button type="button" class="btn btn-primary mt-4 mb-4" (click)="onSubmit()">
+                <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <span *ngIf="!isLoadSave">Salvar</span>
+            </button>
+        </div>
+    </div>
+
+
 </form>
+
+<ng-template #template>
+    <div class="col-md-12 d-flex justify-content-between align-items-end modal-header-custom ">
+
+        <h5 class="modal-title pull-left"> <i class="fa fa-file-text" aria-hidden="true"></i> Documentos</h5>
+
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+
+    </div>
+    <div class="mt-4">
+        <form [formGroup]="form_doc">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Documento</label>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-custom" id="documento"
+                                formControlName="documento"
+                                placeholder="Digite uma parte do documento ou codigo de barras" required>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="dropzone">
+
+                            <div *ngIf="!file">
+                                <input type="file" class="file" (change)="getFile($event)">
+                                <div class="d-flex flex-column  justify-content-center align-items-center">
+                                    <div class="d-flex justify-content-between align-items-baseline "
+                                        style="width: 110px;">
+                                        <i class="fa fa-upload" aria-hidden="true"></i>
+                                        <label class="lbFile01">File Upload</label>
+                                    </div>
+
+                                    <label class="lbFile02">pdf, xls, xlsx, doc, docx</label>
+                                </div>
+
+                            </div>
+                            <div *ngIf="file" class="d-flex flex-column  justify-content-center  align-items-center"
+                                style="color: #000;">
+                                <span>{{file.name}}</span>
+                                <i class="fa fa-trash-o" aria-hidden="true" (click)="removeFile()" width="24px"
+                                    style="cursor: pointer; margin-top: 8px; color: red;"></i>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Tipo</label>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-custom" id="tipo" formControlName="tipo"
+                                placeholder="" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Versão</label>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-custom" id="versao" formControlName="versao"
+                                placeholder="" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Número</label>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-custom" id="numero" formControlName="numero"
+                                placeholder="" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Recebimento</label>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-custom" id="recebimento"
+                                formControlName="recebimento" placeholder="" required>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div>
+        <div class="col-md-12 d-flex justify-content-end mt-4 modal-footer-custom">
+
+            <button type="button" class="btn btn-primary mt-4 mb-4" (click)="onSubmitDocumento()">
+                <div *ngIf="isLoadSaveDoc" class="spinner-border spinner-border-sm text-light" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <span *ngIf="!isLoadSaveDoc">Salvar</span>
+            </button>
+        </div>
+    </div>
+</ng-template>

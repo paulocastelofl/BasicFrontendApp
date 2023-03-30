@@ -1,19 +1,28 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { EmpresaService } from 'app/configuracoes/services/empresa.service';
+import { AuthService } from 'app/core/services/auth.service';
 import { BaseEntityAuxService } from 'app/core/services/base-entity-aux.service';
+import { NotifyService } from 'app/core/services/generics/notify.service';
 import { PaisService } from 'app/core/services/pais.service';
+import { ProcessoImportacaoService } from 'app/importacao/services/processo-importacao.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, concat, debounceTime, distinctUntilChanged, filter, forkJoin, Observable, of, Subject, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-basico',
   templateUrl: './basico.component.html',
-  styleUrls: ['./basico.component.css']
+  styleUrls: ['./basico.component.scss']
 })
 export class BasicoComponent implements OnInit {
 
+  file: any;
+  public modalRef?: BsModalRef;
   public form: FormGroup;
+  public form_doc: FormGroup;
   public isLoadSave = false;
+  public isLoadSaveDoc = false;
   public submitted = false;
 
   importador$: Observable<any>;
@@ -43,11 +52,14 @@ export class BasicoComponent implements OnInit {
   urfDespachoInput$ = new Subject<string>();
   minLengthTermurfDespacho = 2;
 
+  isUpdateOrCreate: boolean = false;
+
   @Input() processo: any;
 
   modals = [];
 
-  paises: IPais[];
+  public paises: IPais[];
+  public user: IUser;
 
   tipoConsignatario = [
     { id: "ImportacaoPropria", nome: 'Importação Própria' },
@@ -66,105 +78,90 @@ export class BasicoComponent implements OnInit {
   minLengthTerm = 3;
   regexStr = "";
 
-
   constructor(
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private baseEntityAuxService: BaseEntityAuxService,
-    private paisService: PaisService
+    private paisService: PaisService,
+    private modalService: BsModalService,
+    private authservice: AuthService,
+    private processoImportacaoService: ProcessoImportacaoService,
+    private notifyService: NotifyService,
+    private router:  Router,
   ) {
 
     this.form = this.formBuilder.group({
       importador: [{ value: null, disabled: false }, Validators.required],
       despachante_responsavel: [{ value: null, disabled: false }],
       despachante_ponta: [{ value: null, disabled: false, }],
-      codigo: [{ value: null, disabled: false, }],
+      codigo: [{ value: null, disabled: false, }, Validators.required],
       centroCusto: [{ value: null, disabled: false, }],
-      tipo_declaracao: [{ value: null, disabled: false, }],
-      pais: [{ value: null, disabled: false, }],
-      urfDespacho: [{ value: null, disabled: false, }],
-      urfChegada: [{ value: null, disabled: false, }],
+      tipo_declaracao: [{ value: null, disabled: false, }, Validators.required],
+      pais: [{ value: null, disabled: false, }, Validators.required],
+      urfDespacho: [{ value: null, disabled: false, }, Validators.required],
+      urfChegada: [{ value: null, disabled: false, }, Validators.required],
       modal: [{ value: null, disabled: false, }],
       necessidadeImportador: [{ value: null, disabled: false, }],
       analistaImportador: [{ value: null, disabled: false, }],
       analistaDespachante: [{ value: null, disabled: false, }],
       tipoConsignatario: [{ value: null, disabled: false, }],
-      impModalidadeDespacho: [{ value: null, disabled: false, }]
+      impModalidadeDespacho: [{ value: null, disabled: false, }],
+      infoadicionais: [{ value: null, disabled: false, }]
+    });
+
+    this.form_doc = this.formBuilder.group({
+      documento: [{ value: null, disabled: false }, Validators.required],
+      arquivo: [{ value: null, disabled: false }],
+      tipo: [{ value: null, disabled: false, }],
+      versao: [{ value: null, disabled: false, }],
+      numero: [{ value: null, disabled: false, }],
+      recebimento: [{ value: null, disabled: false, }]
     });
 
   }
 
   ngOnInit(): void {
 
+    this.user = this.authservice.CurrentUser;
+    this.user.empresa.nomeFantasia = this.user.empresa.nomeFantasia + " - " + this.user.empresa.cnpj
+
     if (this.processo) {
 
-      if (this.processo['despachante']['@ref']) {
-        this.processo['despachante'] = this.processo['empresa']
-      }
+      console.log(this.processo)
 
-      if (this.processo['despachantePonta']['@ref']) {
-        this.processo['despachantePonta'] = this.processo['empresa']
-      }
+      this.isUpdateOrCreate = true;
 
-      if (this.processo['urfChegada']['@ref']) {
-        this.processo['urfChegada'] = this.processo['urfDespacho']
-      }
-      if (this.processo['urfDespacho']['@ref']) {
-        this.processo['urfDespacho'] = this.processo['urfChegada']
-      }
-
-      // const observables = [
-      //   this.empresaService.GetByFilters(this.processo['parceiro'].nome, true),
-      //   this.empresaService.GetByFilters(this.processo['despachante'].nome, false, true),
-      //   this.empresaService.GetByFilters(this.processo['despachantePonta'].nome, false, true),
-      //   this.baseEntityAuxService.getByQ(this.processo['tipoDeclaracao'].codigo, "TipoDeclaracao"),
-      //   this.baseEntityAuxService.getByQ(this.processo['urfChegada'].codigo, "Urf"),
-      //   this.baseEntityAuxService.getByQ(this.processo['urfDespacho'].codigo, "Urf")
-      //   //tipoDeclaracao
-      // ];
-
-      // const calls = forkJoin(observables);
-
-      // calls.subscribe({
-      //   next: (responses) => {
-      //     this.loadimportador(responses[0]) 
-      //     this.loaddespachante(responses[1]) 
-      //     this.loaddespachanteponta(responses[2]) 
-      //     this.loadTipoDeclaracao(responses[3])
-      //     this.loadUrfChegada(responses[4])
-      //     this.loadUrfDespacho(responses[5])
-      //   }
-      // })
-
-      this.processo['parceiro'].nomeFantasia = this.processo['parceiro'].nome
-      this.processo['despachante'].nomeFantasia = this.processo['despachante'].nome
-      this.processo['despachantePonta'].nomeFantasia = this.processo['despachantePonta'].nome
       this.processo['tipoDeclaracao'].codigo_nome = this.processo['tipoDeclaracao'].codigo + "-" + this.processo['tipoDeclaracao'].nome
-      this.processo['urfChegada'].codigo_nome = this.processo['urfChegada'].codigo + "-" + this.processo['urfChegada'].nome
-      this.processo['urfDespacho'].codigo_nome = this.processo['urfDespacho'].codigo + "-" + this.processo['urfDespacho'].nome
+      this.processo['urfdeChegada'].codigo_nome = this.processo['urfdeChegada'].codigo + "-" + this.processo['urfdeChegada'].nome
+      this.processo['urfdeDespacho'].codigo_nome = this.processo['urfdeDespacho'].codigo + "-" + this.processo['urfdeDespacho'].nome
 
-      this.loadimportador([this.processo['parceiro']])
-      this.loaddespachante([this.processo['despachante']])
-      this.loaddespachanteponta([this.processo['despachantePonta']])
+      this.loadimportador([this.processo['empresa']])
+      this.loaddespachante([this.processo['despanchanteEmpresa']])
+      this.loaddespachanteponta([this.processo['despachantePontaEmpresa']])
+
       this.loadTipoDeclaracao([this.processo['tipoDeclaracao']])
-      this.loadUrfChegada([this.processo['urfChegada']])
-      this.loadUrfDespacho([this.processo['urfDespacho']])
+      this.loadUrfChegada([this.processo['urfdeChegada']])
+      this.loadUrfDespacho([this.processo['urfdeDespacho']])
 
       this.processo['modal'] ? this.getAllModal(this.processo['modal'].id) : this.getAllModal()
-      this.processo['paisProcedencia'] ? this.getAllPaises(this.processo['paisProcedencia'].id) : this.getAllPaises()
-      
+      this.processo['pais'] ? this.getAllPaises(this.processo['pais'].id) : this.getAllPaises()
+
       this.formControl.codigo.setValue(this.processo['codigo'])
-      this.formControl.centroCusto.setValue("")
-      this.formControl.tipoConsignatario.setValue(this.processo['tipoConsignatario'])
-      this.formControl.impModalidadeDespacho.setValue(this.processo['impModalidadeDespacho'])
-      this.formControl.necessidadeImportador.setValue("")
+      this.formControl.centroCusto.setValue(this.processo['centroDeCusto'])
+      this.formControl.tipoConsignatario.setValue(this.processo['tipoDeConsignatario'])
+      this.formControl.impModalidadeDespacho.setValue(this.processo['modalidadeDeDespacho'])
+      this.formControl.necessidadeImportador.setValue(this.processo['necessidadeImportador'])
       this.formControl.analistaImportador.setValue("")
       this.formControl.analistaDespachante.setValue("")
+      this.formControl.infoadicionais.setValue(this.processo['informacoesAdicionais'])
 
     } else {
+
+      this.isUpdateOrCreate = false;
+
       this.loadimportador()
-      this.loaddespachante()
-      this.loaddespachanteponta()
+      this.loaddespachante([this.user.empresa])
+      this.loaddespachanteponta([this.user.empresa])
       this.loadTipoDeclaracao()
       this.loadUrfDespacho()
       this.loadUrfChegada()
@@ -172,11 +169,7 @@ export class BasicoComponent implements OnInit {
       this.getAllPaises()
     }
 
-
-
-
   }
-
 
   get formControl() {
     return this.form.controls;
@@ -374,6 +367,107 @@ export class BasicoComponent implements OnInit {
       }
     )
   }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' }),);
+  }
+
+  onSubmitDocumento() {
+
+  }
+
+  getFile(event) {
+    this.file = event.target.files[0];
+  }
+
+  removeFile() {
+    this.file = undefined;
+  }
+
+  onSubmit() {
+
+    this.submitted = true;
+
+    if (this.form.valid) {
+
+      this.isLoadSave = true;
+
+      var date = new Date();
+
+      const parms = {
+        "idEmpresa": this.formControl.importador.value,
+        "idDespanchante": this.formControl.despachante_responsavel.value,
+        "idDespachantePonta": this.formControl.despachante_ponta.value,
+        "codigo": this.formControl.codigo.value,
+        "centroDeCusto": this.formControl.centroCusto.value,
+        "dtCriacao": date.toISOString(),
+        "dtModificacao": date.toISOString(),
+        "dtUltimoEvento": date.toISOString(),
+        "ultimoEvento": "",
+        "idTipoDeDeclaracao": this.formControl.tipo_declaracao.value,
+        "idPais": this.formControl.pais.value,
+        "idModal": this.formControl.modal.value,
+        "idUrfdeChegada": this.formControl.urfDespacho.value,
+        "idUrfdeDespacho": this.formControl.urfChegada.value,
+        "tipoDeConsignatario": this.formControl.tipoConsignatario.value,
+        "modalidadeDeDespacho": this.formControl.impModalidadeDespacho.value,
+        "necessidadeImportador": this.formControl.necessidadeImportador.value,
+        // "idAnalistaImportador": this.formControl.analistaImportador.value,
+        // "idAnalistaDespachante": this.formControl.analistaDespachante.value,
+        "informacoesAdicionais": this.formControl.infoadicionais.value
+      }
+
+
+      if (this.isUpdateOrCreate) {
+
+        this.processoImportacaoService.update({
+          id: this.processo['id'],
+          ...parms
+        }).subscribe(
+          {
+            next: (obj) => { },
+            error: (e) => {
+              this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+              this.isLoadSave = false;
+            },
+            complete: () => {
+              this.notifyService.showNotification('top', 'right', "Processo Atualizado c/ sucesso!", 'success');
+              this.isLoadSave = false;
+              //this.form.reset();
+            }
+          }
+        )
+
+      } else {
+        this.processoImportacaoService.create(parms).subscribe(
+          {
+            next: (obj) => { 
+              this.notifyService.showNotification('top', 'right', "Processo criado c/ sucesso!", 'success');
+              this.isLoadSave = false;
+              this.form.reset();
+              this.router.navigate(["importacao", obj.id]);
+            },
+            error: (e) => {
+              this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+              this.isLoadSave = false;
+            },
+            complete: () => {
+              
+            }
+          }
+        )
+      }
+
+
+
+    }
+
+
+
+  }
+
+
+
 
 
 }

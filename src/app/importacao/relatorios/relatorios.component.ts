@@ -29,42 +29,45 @@ export class RelatoriosComponent implements OnInit {
 
   getRelatoriosProcessos() {
     this.isLoad = true;
-    this.relatoriosService.getRelatoriosProcessos().subscribe(
+
+    this.relatoriosService.getRelatoriosProcessosBase(2).subscribe(
       {
         next: (v) => {
           // console.log(v)
           this.processos = v;
 
-          var obj = {
-            'processos': this.processos
-          };
+          console.log(v)
 
-          this.processos.forEach(function (value) {
+          // var obj = {
+          //   'processos': this.processos
+          // };
 
-            if (value['parceiro']['@ref']) {
+          // this.processos.forEach(function (value) {
 
-              var newArray = obj.processos.filter(function (el) {
-                return el.parceiro['@id'] == value['parceiro']['@ref']
-              });
+          //   if (value['parceiro']['@ref']) {
 
-              value['parceiro'] = newArray[0].parceiro;
+          //     var newArray = obj.processos.filter(function (el) {
+          //       return el.parceiro['@id'] == value['parceiro']['@ref']
+          //     });
 
-            }
+          //     value['parceiro'] = newArray[0].parceiro;
 
-            if (value['modal']) {
-              if (value['modal']['@ref']) {
+          //   }
 
-                var newArray = obj.processos.filter(function (el) {
-                  if(el.modal)  return el.modal['@id'] == value['modal']['@ref']
+          //   if (value['modal']) {
+          //     if (value['modal']['@ref']) {
+
+          //       var newArray = obj.processos.filter(function (el) {
+          //         if(el.modal)  return el.modal['@id'] == value['modal']['@ref']
                   
-                });
+          //       });
 
-               if(newArray) value['modal'] = newArray[0].modal;
+          //      if(newArray) value['modal'] = newArray[0].modal;
 
-              }
-            }
+          //     }
+          //   }
 
-          });
+          // });
 
           this.isLoad = false;
 

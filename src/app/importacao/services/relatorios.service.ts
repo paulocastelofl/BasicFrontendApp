@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -47,5 +48,15 @@ export class RelatoriosService {
     let options = { headers: headers };
 
     return this.http.get(`https://lb-api.brazilsouth.cloudapp.azure.com/empresa/102007/importacao/${codigo}`, options)
+  }
+
+  public getRelatoriosProcessosBase(codigo): Observable<any> {
+  
+    return this.http.get(`${environment.baseUrlBackend}/api/ProcessoImportacao/GetByEmpresa/${codigo}`)
+  }
+
+  public getProcessoBase(codigo): Observable<any> {
+  
+    return this.http.get(`${environment.baseUrlBackend}/api/ProcessoImportacao/${codigo}`)
   }
 }
