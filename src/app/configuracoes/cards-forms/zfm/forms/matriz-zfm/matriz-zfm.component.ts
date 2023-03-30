@@ -66,18 +66,18 @@ export class MatrizZfmComponent implements OnInit {
     private MatrizTributacaoService: MatrizTributacaoService
   ) {
     this.form = this.formBuilder.group({
-      iestadual: [{ value: null, disabled: false }],
-      prodSuframa: [{ value: null, disabled: false }],
-      ncm: [{ value: null, disabled: false }],
-      destinacao: [{ value: null, disabled: false }],
-      utilizacao: [{ value: null, disabled: false }],
-      tributacao: [{ value: null, disabled: false }],
-      cra: [{ value: null, disabled: false }],
-      tipoDocumento: [{ value: null, disabled: false }],
-      decreto: [{ value: null, disabled: false }],
-      numeroDocumento: [{ value: null, disabled: false }],
-      inicioVigencia: [{ value: null, disabled: false }],
-      fimVigencia: [{ value: null, disabled: false }]
+      iestadual: [{ value: null, disabled: false }, Validators.required],
+      prodSuframa: [{ value: null, disabled: false }, Validators.required],
+      ncm: [{ value: null, disabled: false }, Validators.required],
+      destinacao: [{ value: null, disabled: false }, Validators.required],
+      utilizacao: [{ value: null, disabled: false }, Validators.required],
+      tributacao: [{ value: null, disabled: false }, Validators.required],
+      Cra: [{ value: null, disabled: false }, Validators.required],
+      tipoDocumento: [{ value: null, disabled: false }, Validators.required],
+      decreto: [{ value: null, disabled: false }, Validators.required],
+      numeroDocumento: [{ value: null, disabled: false }, Validators.required],
+      inicioVigencia: [{ value: null, disabled: false }, Validators.required],
+      fimVigencia: [{ value: null, disabled: false }, Validators.required]
     });
   }
 
@@ -98,11 +98,12 @@ export class MatrizZfmComponent implements OnInit {
 
   openModal(template: TemplateRef<any>, type?: string, row?) {
 
-    //this.form.reset();
+    this.form.reset();
 
     if (type == "update") {
       this.titleModal = "Atualizar";
-      //this.setValueModalUpdate(row);
+      this.setValueModalUpdate(row);
+      console.log(row);
 
     } else { this.titleModal = "Nova" }
 
@@ -117,12 +118,12 @@ export class MatrizZfmComponent implements OnInit {
       this.isLoadSave = true;
       var parms = {
         "id": this.idUpdate,
-        "IdInscricaoEstadual": this.form.controls.iestadual.value,
+        "iestadual": this.form.controls.iestadual.value,
         "IdProdutoSuframaNcm": this.form.controls.prodSuframa.value,
         "IdDestinacao": this.form.controls.destinacao.value,
         "IdUtilizacao": this.form.controls.utilizacao.value,
         "IdTributacao": this.form.controls.tributacao.value,
-        "Cra": this.form.controls.cra.value,
+        "Cra": this.form.controls.Cra.value,
         "IdTipoDocumentoTributacao": this.form.controls.tipoDocumento.value,
         "Decreto": this.form.controls.decreto.value,
         "NumeroDocumento": this.form.controls.numeroDocumento.value,
@@ -148,6 +149,7 @@ export class MatrizZfmComponent implements OnInit {
               this.notifyService.showNotification('top', 'right', "Matriz de tributação registrado c/ sucesso!", 'success');
               this.isLoadSave = false;
               this.form.reset();
+              this.form.updateValueAndValidity();
               this.getAllMatrizTributacao();
             }
           }
@@ -260,6 +262,24 @@ export class MatrizZfmComponent implements OnInit {
         next: (v) => this.tributacao = v
       }
     )
+  }
+
+  setValueModalUpdate(row: IMatrizTributacao) {
+
+    this.idUpdate = row.id;
+    // alert(row.decreto)
+    // this.form.controls.iestadual.setValue(row.IdInscricaoEstadual);
+    // this.form.controls.prodSuframa.setValue(row.IdProdutoSuframaNcm);
+    // this.form.controls.destinacao.setValue(row.IdDestinacao);
+    // this.form.controls.utilizacao.setValue(row.IdUtilizacao);
+    // this.form.controls.tributacao.setValue(row.IdTributacao);
+    // this.form.controls.cra.setValue(111111);
+    // this.form.controls.tipoDocumento.setValue(row.IdTipoDocumentoTributacao);
+    // this.form.controls.decreto.setValue(row.Decreto);
+    // this.form.controls.numeroDocumento.setValue(row.NumeroDocumento);
+    // this.form.controls.inicioVigencia.setValue(row.InicioVigencia);
+    // this.form.controls.fimVigencia.setValue(row.FimVigencia);
+    // this.form.controls.ncm.setValue(row.IdNcm);
   }
 
   sendit(data) {
