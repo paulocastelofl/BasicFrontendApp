@@ -84,7 +84,7 @@
               <div class="form-group">
                 <div class="form-group">
                     <ng-select [items]="prodSuframaNcm$ | async" bindValue="id" [minTermLength]="minLengthTerm"
-                        (change)="onChange($event)" [loading]="prodSuframaNcmLoading"
+                        [loading]="prodSuframaNcmLoading"
                         typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
                         [typeahead]="prodSuframaNcmInput$" formControlName="prodSuframa" placeholder="Selecione Produto Suframa NCM..." required>
 
@@ -106,7 +106,7 @@
             <div class="form-group">
               <div class="form-group">
                 <ng-select [items]="ncm$ | async" bindValue="id" [minTermLength]="minLengthTerm"
-                (change)="onChange($event)" [loading]="ncmLoading"
+                [loading]="ncmLoading"
                 typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
                 [typeahead]="ncmInput$" formControlName="ncm" placeholder="Selecione um NCM..." required>
 
