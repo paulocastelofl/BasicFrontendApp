@@ -21,4 +21,15 @@ export class MatrizTributacaoService {
       parms
     )
   }
+
+  public update(parms: {}): Observable<any> {
+    return this.http.put(`${environment.baseUrlBackend}/api/MatrizTributacao`,
+      parms
+    )
+  }
+
+  public delete(id): Observable<any> {
+    return this.http.delete(`${environment.baseUrlBackend}/api/MatrizTributacao/${id}`,)
+  }
+
 }

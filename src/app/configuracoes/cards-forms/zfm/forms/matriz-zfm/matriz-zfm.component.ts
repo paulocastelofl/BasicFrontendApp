@@ -12,6 +12,7 @@ import { NcmService } from 'app/configuracoes/services/ncm.service'
 import { MatrizTributacaoService } from 'app/configuracoes/services/matriz-tributacao.service'
 
 import { catchError, concat, debounceTime, distinctUntilChanged, filter, Observable, of, Subject, switchMap, tap } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-matriz-zfm',
@@ -51,6 +52,8 @@ export class MatrizZfmComponent implements OnInit {
 
   public p = 1;
   q: string = ""
+  public iniVig
+  public fimVig
 
   constructor(
     private modalService: BsModalService,
@@ -118,7 +121,7 @@ export class MatrizZfmComponent implements OnInit {
       this.isLoadSave = true;
       var parms = {
         "id": this.idUpdate,
-        "iestadual": this.form.controls.iestadual.value,
+        "idInscricaoEstadual": this.form.controls.iestadual.value,
         "IdProdutoSuframaNcm": this.form.controls.prodSuframa.value,
         "IdDestinacao": this.form.controls.destinacao.value,
         "IdUtilizacao": this.form.controls.utilizacao.value,
@@ -133,9 +136,23 @@ export class MatrizZfmComponent implements OnInit {
       }
 
       if (this.titleModal == "Atualizar") {
-
-
-
+        this.MatrizTributacaoService.update(parms).subscribe(
+          {
+            next: (obj) => { },
+            error: (e) => {
+              this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+              this.isLoadSave = false;
+            },
+            complete: () => {
+              this.getAllMatrizTributacao();
+              this.modalRef.hide();
+              this.idUpdate = 0;
+              this.notifyService.showNotification('top', 'right', "Matriz de tributação atualizado c/ sucesso!", 'success');
+              this.isLoadSave = false;
+              this.form.reset();
+            }
+          }
+        )
       } else {
         this.MatrizTributacaoService.create(parms).subscribe(
           {
@@ -156,6 +173,62 @@ export class MatrizZfmComponent implements OnInit {
         )
       }
     }
+  }
+
+  onDelete(row) {
+    Swal.fire({
+
+      title: `Tem certeza?`,
+      text: `Excluir essa matriz de tributação?`,
+      icon: 'warning',
+      showCancelButton: true,
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      confirmButtonText: 'Sim, Delete!',
+      buttonsStyling: false
+
+    }).then((result) => {
+
+      if (result.value) {
+
+        this.MatrizTributacaoService.delete(row.id).subscribe({
+          next: (obj) => {
+
+          },
+          error: (e) => {
+              Swal.fire(
+                {
+                  title: 'Não foi possível excluir!',
+                  text: `ERRO: ${e}` ,
+                  icon: 'warning',
+                  customClass: {
+                    confirmButton: "btn btn-success",
+                  },
+                  buttonsStyling: false
+                }
+              )
+          },
+          complete: () => {
+            this.getAllMatrizTributacao();
+            Swal.fire(
+              {
+                title: 'Deletado!',
+                text: 'Matriz de tributação excluída com sucesso!',
+                icon: 'success',
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+                buttonsStyling: false
+              }
+            )
+          }
+        })
+
+      }
+    })
+
   }
 
   getAllMatrizTributacao() {
@@ -264,22 +337,23 @@ export class MatrizZfmComponent implements OnInit {
     )
   }
 
-  setValueModalUpdate(row: IMatrizTributacao) {
+  setValueModalUpdate(row) {
 
+    this.iniVig = row.inicioVigencia.split("T",2)
+    this.fimVig = row.fimVigencia.split("T",2)
     this.idUpdate = row.id;
-    // alert(row.decreto)
-    // this.form.controls.iestadual.setValue(row.IdInscricaoEstadual);
-    // this.form.controls.prodSuframa.setValue(row.IdProdutoSuframaNcm);
-    // this.form.controls.destinacao.setValue(row.IdDestinacao);
-    // this.form.controls.utilizacao.setValue(row.IdUtilizacao);
-    // this.form.controls.tributacao.setValue(row.IdTributacao);
-    // this.form.controls.cra.setValue(111111);
-    // this.form.controls.tipoDocumento.setValue(row.IdTipoDocumentoTributacao);
-    // this.form.controls.decreto.setValue(row.Decreto);
-    // this.form.controls.numeroDocumento.setValue(row.NumeroDocumento);
-    // this.form.controls.inicioVigencia.setValue(row.InicioVigencia);
-    // this.form.controls.fimVigencia.setValue(row.FimVigencia);
-    // this.form.controls.ncm.setValue(row.IdNcm);
+    this.form.controls.iestadual.setValue(row.idInscricaoEstadual);
+    // this.form.controls.prodSuframa.setValue(row.idProdutoSuframaNcm);
+    this.form.controls.destinacao.setValue(row.idDestinacao);
+    this.form.controls.utilizacao.setValue(row.idUtilizacao);
+    this.form.controls.tributacao.setValue(row.idTributacao);
+    this.form.controls.Cra.setValue(row.cra);
+    this.form.controls.tipoDocumento.setValue(row.idTipoDocumentoTributacao);
+    this.form.controls.decreto.setValue(row.decreto);
+    this.form.controls.numeroDocumento.setValue(row.numeroDocumento);
+    this.form.controls.inicioVigencia.setValue(this.iniVig[0]);
+    this.form.controls.fimVigencia.setValue(this.fimVig[0]);
+    // this.form.controls.ncm.setValue(row.idNcm);
   }
 
   sendit(data) {
