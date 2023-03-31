@@ -11,6 +11,7 @@ import { RelatoriosService } from '../services/relatorios.service';
 export class ProcessoComponent implements OnInit {
 
   public isTabSelect: string;
+  public isLoadingProcesso: boolean = false;
   public processo;
 
   public listTabs = [
@@ -53,9 +54,13 @@ export class ProcessoComponent implements OnInit {
   }
 
   getProcesso(codigo){
+
+    this.isLoadingProcesso = true;
+
     this.relatoriosService.getProcessoBase(codigo).subscribe({
       next: (obj) => {
         this.processo = obj;
+        this.isLoadingProcesso = false;
       }
     })
   }

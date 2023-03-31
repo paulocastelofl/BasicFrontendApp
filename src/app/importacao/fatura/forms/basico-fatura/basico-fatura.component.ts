@@ -9,6 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class BasicoFaturaComponent implements OnInit {
   public form: FormGroup;
 
+  public listmoeda = []
+  public listIncoterms = []
+
   constructor( private formBuilder: FormBuilder,) { 
     this.form = this.formBuilder.group({
       numeroFatura: [{ value: null, disabled: false }, Validators.required],

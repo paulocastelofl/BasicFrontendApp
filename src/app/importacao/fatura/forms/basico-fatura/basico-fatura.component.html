@@ -10,14 +10,18 @@
         <div class="col-md-4">
             <label>Moeda</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="moeda" placeholder="Moeda" formControlName="moeda">
+                <ng-select [items]="listmoeda" bindLabel="nome" class="custom" bindValue="id" appendTo="body"
+                    formControlName="moeda" placeholder="-- Selecione --"></ng-select>
             </div>
         </div>
         <div class="col-md-4">
             <label>Incoterms</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="incoterms" placeholder="Digite o código do incoterms"
-                    formControlName="incoterms">
+
+                <ng-select [items]="listIncoterms" bindLabel="nome" class="custom" bindValue="id" appendTo="body"
+                    formControlName="incoterms" placeholder="-- Selecione --"></ng-select>
+
+
             </div>
         </div>
 
@@ -33,7 +37,7 @@
         <div class="col-md-3">
             <label>Data de Emissão</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="dataEmissao" placeholder="" formControlName="dataEmissao">
+                <input type="datetime-local" class="form-control" id="dataEmissao" placeholder="" formControlName="dataEmissao">
             </div>
         </div>
     </div>

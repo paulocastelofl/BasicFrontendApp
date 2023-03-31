@@ -1,1 +1,69 @@
-<p>pli works!</p>
+<form [formGroup]="form">
+
+    <div class="row" >
+        <div class="col-md-12 d-flex justify-content-between align-items-center">
+            <h6>Impostos (II e IPI)</h6>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <label>Regime de Tributação</label>
+            <div class="form-group">
+                <ng-select [items]="listregimedeTributacao" bindLabel="nome" class="custom" bindValue="id" appendTo="body"
+                    formControlName="regimedeTributacao" placeholder="-- Selecione --"></ng-select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label>Fundamento Legal</label>
+            <div class="form-group">
+                <ng-select [items]="listfundamentoLegal" bindLabel="nome" class="custom" bindValue="id" appendTo="body"
+                    formControlName="fundamentoLegal" placeholder="-- Selecione --"></ng-select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label>Tipo de Acordo Tarifário</label>
+            <div class="form-group">
+                <ng-select [items]="listtipodeAcordoTarifario" bindLabel="nome" class="custom" bindValue="id" appendTo="body"
+                    formControlName="tipodeAcordoTarifario" placeholder="-- Selecione --"></ng-select>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row" >
+        <div class="col-md-6">
+            <h6>Câmbio</h6>
+            <hr>
+        </div>
+        <div class="col-md-6">
+            <h6>Outros</h6>
+            <hr>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-4 ">
+            <label>Cobertura cambial</label>
+            <div class="form-group">
+                <ng-select [items]="listcoberturacambial" bindLabel="nome" class="custom" bindValue="id" appendTo="body"
+                    formControlName="coberturacambial" placeholder="-- Selecione --"></ng-select>
+            </div>
+        </div>
+        <div class="col-md-3 offset-md-2">
+            <label>Agência SECEX</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="agenciaSECEX" formControlName="agenciaSECEX"
+                placeholder="Opcional">
+            </div>
+          
+        </div>
+        <div class="col-md-3">
+            <label>Ato Drawback</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="atoDrawback" formControlName="atoDrawback"
+                    placeholder="Opcional">
+            </div>
+            
+        </div>
+    </div>
+    
+</form>

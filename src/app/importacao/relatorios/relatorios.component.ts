@@ -36,39 +36,6 @@ export class RelatoriosComponent implements OnInit {
           // console.log(v)
           this.processos = v;
 
-          console.log(v)
-
-          // var obj = {
-          //   'processos': this.processos
-          // };
-
-          // this.processos.forEach(function (value) {
-
-          //   if (value['parceiro']['@ref']) {
-
-          //     var newArray = obj.processos.filter(function (el) {
-          //       return el.parceiro['@id'] == value['parceiro']['@ref']
-          //     });
-
-          //     value['parceiro'] = newArray[0].parceiro;
-
-          //   }
-
-          //   if (value['modal']) {
-          //     if (value['modal']['@ref']) {
-
-          //       var newArray = obj.processos.filter(function (el) {
-          //         if(el.modal)  return el.modal['@id'] == value['modal']['@ref']
-                  
-          //       });
-
-          //      if(newArray) value['modal'] = newArray[0].modal;
-
-          //     }
-          //   }
-
-          // });
-
           this.isLoad = false;
 
         }, error: (e) => {

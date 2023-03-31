@@ -9,6 +9,9 @@ import { PaisService } from 'app/core/services/pais.service';
 import { ProcessoImportacaoService } from 'app/importacao/services/processo-importacao.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, concat, debounceTime, distinctUntilChanged, filter, forkJoin, Observable, of, Subject, switchMap, tap } from 'rxjs';
+import Swal from 'sweetalert2';
+
+declare var $: any;
 
 @Component({
   selector: 'app-basico',
@@ -75,6 +78,12 @@ export class BasicoComponent implements OnInit {
     { id: "AntecipadocomEntregaFracionada", nome: 'Antecipado com Entrega Fracionada' }
   ];
 
+  tipoVersaoDoc = [
+    { id: "Original", nome: 'Original' },
+    { id: "Copia", nome: 'Cópia' },
+    { id: "ConfereComOriginal", nome: 'Confere Com Original' }
+  ];
+
   minLengthTerm = 3;
   regexStr = "";
 
@@ -87,7 +96,7 @@ export class BasicoComponent implements OnInit {
     private authservice: AuthService,
     private processoImportacaoService: ProcessoImportacaoService,
     private notifyService: NotifyService,
-    private router:  Router,
+    private router: Router,
   ) {
 
     this.form = this.formBuilder.group({
@@ -111,11 +120,11 @@ export class BasicoComponent implements OnInit {
 
     this.form_doc = this.formBuilder.group({
       documento: [{ value: null, disabled: false }, Validators.required],
-      arquivo: [{ value: null, disabled: false }],
-      tipo: [{ value: null, disabled: false, }],
-      versao: [{ value: null, disabled: false, }],
-      numero: [{ value: null, disabled: false, }],
-      recebimento: [{ value: null, disabled: false, }]
+      arquivo: [{ value: null, disabled: false }, Validators.required],
+      tipo: [{ value: null, disabled: false, }, Validators.required],
+      versao: [{ value: null, disabled: false, }, Validators.required],
+      numero: [{ value: null, disabled: false, }, Validators.required],
+      recebimento: [{ value: null, disabled: false, }, Validators.required]
     });
 
   }
@@ -126,8 +135,6 @@ export class BasicoComponent implements OnInit {
     this.user.empresa.nomeFantasia = this.user.empresa.nomeFantasia + " - " + this.user.empresa.cnpj
 
     if (this.processo) {
-
-      console.log(this.processo)
 
       this.isUpdateOrCreate = true;
 
@@ -173,6 +180,10 @@ export class BasicoComponent implements OnInit {
 
   get formControl() {
     return this.form.controls;
+  }
+
+  get formControlDoc() {
+    return this.form_doc.controls;
   }
 
   onChange(evt) {
@@ -372,10 +383,6 @@ export class BasicoComponent implements OnInit {
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' }),);
   }
 
-  onSubmitDocumento() {
-
-  }
-
   getFile(event) {
     this.file = event.target.files[0];
   }
@@ -457,17 +464,108 @@ export class BasicoComponent implements OnInit {
           }
         )
       }
+    }
+  }
 
+  onSubmitDoc(){
 
+    this.submitted = true;
 
+    if (!this.form.valid) return;
+
+    var date = new Date();
+
+    this.isLoadSaveDoc = true;
+
+    const  params = {
+      "documento":  this.form_doc.controls.documento.value,
+      "caminhoDocumento":  this.form_doc.controls.arquivo.value,
+      "tipo": this.form_doc.controls.tipo.value,
+      "versao": this.form_doc.controls.versao.value,
+      "numero": this.form_doc.controls.numero.value,
+      "recebimento":  this.form_doc.controls.recebimento.value,
+      "dtCriacao": date.toISOString(),
+      "idProcesso": this.processo['id']
     }
 
-
+    this.processoImportacaoService.createdoc(params).subscribe(
+      {
+        next: (obj) => { 
+          this.processo['documentoImportacao'].push(obj)
+        },
+        error: (e) => {
+          this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+          this.isLoadSaveDoc = false;
+        },
+        complete: () => {
+          this.notifyService.showNotification('top', 'right', "Documento cadastrado c/ sucesso!", 'success');
+          this.isLoadSaveDoc = false;
+          this.form_doc.reset();
+          
+        }
+      }
+    )
 
   }
 
+  onDeleteDoc(item){
+    Swal.fire({
 
+      title: 'Tem certeza?',
+      text: "Você não poderá reverter isso!",
+      icon: 'warning',
+      showCancelButton: true,
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      confirmButtonText: 'Sim, Delete!',
+      buttonsStyling: false
 
+    }).then((result) => {
+      if (result.value) {
 
+        this.processoImportacaoService.deleteDoc(item.id).subscribe({
+          next: (obj) => {
+    
+            this.processo.documentoImportacao.forEach((element,index)=>{
+              if(element.id == item.id) this.processo.documentoImportacao.splice(index,1);
+           });
+
+          },
+          error: (e) => {
+            this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+            this.isLoadSave = false;
+          },
+          complete: () => {
+            Swal.fire(
+              {
+                title: 'Deletado!',
+                text: 'Seu usuário foi excluído.',
+                icon: 'success',
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+                buttonsStyling: false
+              }
+            )
+          }
+        })
+
+        Swal.fire(
+          {
+            title: 'Deletado!',
+            text: 'Seu usuário foi excluído.',
+            icon: 'success',
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+            buttonsStyling: false
+          }
+        )
+
+      }
+    })
+  }
 
 }

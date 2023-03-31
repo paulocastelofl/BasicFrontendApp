@@ -11,6 +11,8 @@ export class FaturaComponent implements OnInit {
 
   processo: any;
 
+  public isLoading = false;
+
   constructor( 
      private route: ActivatedRoute,
       private relatoriosService: RelatoriosService) { }
@@ -28,9 +30,12 @@ export class FaturaComponent implements OnInit {
 
   
   getProcesso(codigo){
+
+    this.isLoading = true;
     this.relatoriosService.getProcessoBase(codigo).subscribe({
       next: (obj) => {
         this.processo = obj;
+        this.isLoading = false;
       }
     })
   }
