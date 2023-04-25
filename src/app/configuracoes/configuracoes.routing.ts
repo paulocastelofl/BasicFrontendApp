@@ -16,7 +16,7 @@ export const ComponentsRoutes: Routes = [
         component: AssociadosComponent
       },
       {
-        path: 'empresa/:id/minha-conta',
+        path: 'minha-conta',
         component: MinhaContaComponent
       }
     ]

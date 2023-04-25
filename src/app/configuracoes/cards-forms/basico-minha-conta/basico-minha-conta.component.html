@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-md-12">
+      <div class="card">
+          <div class="card-body">
+              <form [formGroup]="form">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <fieldset class="border p-2">
+                              <legend class="w-auto legend-lb">Informações Pessoais</legend>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label>Nome</label>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control" id="nome" formControlName="nome"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Data de Nascimento</label>
+                                    <div class="form-group">
+                                      <input type="date" class="form-control" id="dtNascimento" formControlName="dtNascimento"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label>CPF</label>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control" id="cpf" formControlName="cpf"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>RG</label>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control" id="rg" formControlName="rg"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <label>Despachante</label>
+                                  <div class="form-group">
+                                    <bSwitch [switch-on-color]="'primary'" [switch-off-color]="'primary'" [switch-off-text]="'Não'"
+                                    [switch-on-text]="'Sim'" formControlName="isDespachante"
+                                    (changeState)="{}">
+                                    </bSwitch>
+                                  </div>
+                                </div>
+                              </div>
+                          </fieldset>
+                      </div>
+                      <div class="col-md-12">
+                        <fieldset class="border p-2">
+                          <legend class="w-auto legend-lb">Contato</legend>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label>Comercial</label>
+                              <div class="form-group">
+                                <input type="text" class="form-control" id="telComercial" formControlName="telComercial"
+                                          placeholder="" required>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <label>Pessoal</label>
+                              <div class="form-group">
+                                <input type="text" class="form-control" id="telPessoal" formControlName="telPessoal"
+                                          placeholder="" required>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="card-footer text-right">
+              <button type="submit" class="btn btn-primary" (click)="{}">
+                  <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
+                      <span class="sr-only">Loading...</span>
+                  </div>
+                  <span *ngIf="!isLoadSave">Salvar</span>
+              </button>
+          </div>
+      </div>
+  </div>
+
+</div>

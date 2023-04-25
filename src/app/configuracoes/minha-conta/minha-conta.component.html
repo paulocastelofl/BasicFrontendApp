@@ -1,1 +1,29 @@
-<p>minha-conta works!</p>
+<div class="main-content-custumer-gan">
+  <div class="row">
+      <div class="col-md-12">
+          <h5>{{nome_fantasia}}</h5>
+      </div>
+
+  </div>
+
+  <div class="row">
+      <div class="col-md-9">
+
+          <container_element [ngSwitch]="isTabSelect">
+              <inner_element *ngSwitchCase="'Básico'">
+                  <app-basico-minha-conta (isCheckImportador)="reciverIsCheckImportador($event)"></app-basico-minha-conta>
+              </inner_element>
+              <inner_element *ngSwitchCase="'Credenciais'">
+                  <app-credenciais-minha-conta></app-credenciais-minha-conta>
+              </inner_element>
+          </container_element>
+      </div>
+
+      <div class="col-md-3">
+          <app-vertical-tabs [listTabs]="listTabsAux"
+              (answerIsSelectTab)="reciverIsSelectTab($event)"></app-vertical-tabs>
+      </div>
+  </div>
+
+
+</div>

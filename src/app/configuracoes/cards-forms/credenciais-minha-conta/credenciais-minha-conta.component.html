@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-md-12">
+      <div class="card">
+          <div class="card-body">
+              <form [formGroup]="form">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <fieldset class="border p-2">
+                              <legend class="w-auto legend-lb">Credenciais de Acesso</legend>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label>E-mail</label>
+                                    <div class="form-group left-inner-addon">
+                                      <i class="fa fa-envelope" aria-hidden="true"></i>
+                                      <input type="text" class="form-control" id="email" formControlName="email"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Confirmação de E-mail</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                      <input type="text" class="form-control" id="confEmail" formControlName="confEmail"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label>Senha</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="senhaEmail" formControlName="senhaEmail"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Confirmação de Senha E-mail</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="confSenhaEmail" formControlName="confSenhaEmail"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label>Senha SISCOMEX</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="senhaSiscomex" formControlName="senhaSiscomex"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Confirmação de Senha SISCOMEX</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="confSenhaSiscomex" formControlName="confSenhaSiscomex"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label>Senha SUFRAMA</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="senhaSuframa" formControlName="senhaSuframa"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Confirmação de Senha SUFRAMA</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="confSenhaSuframa" formControlName="confSenhaSuframa"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                              </div>
+                          </fieldset>
+                      </div>
+                      <div class="col-md-12">
+                        <fieldset class="border p-2">
+                          <legend class="w-auto legend-lb">Certificado Digital</legend>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <button class="btn btn-xl btn-primary">Configurar Certificado</button>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="card-footer text-right">
+              <button type="submit" class="btn btn-primary" (click)="{}">
+                  <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
+                      <span class="sr-only">Loading...</span>
+                  </div>
+                  <span *ngIf="!isLoadSave">Salvar</span>
+              </button>
+          </div>
+      </div>
+  </div>
+
+</div>

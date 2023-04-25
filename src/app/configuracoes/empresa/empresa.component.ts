@@ -32,7 +32,7 @@ export class EmpresaComponent implements OnInit {
   public listTabsAux = [];
 
   constructor(
-    private service: EmpresaService, 
+    private service: EmpresaService,
     private route: ActivatedRoute,
     private notifyService: NotifyService
   ) { }
