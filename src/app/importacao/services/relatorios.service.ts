@@ -12,6 +12,9 @@ export class RelatoriosService {
     private http: HttpClient
   ) { }
 
+
+  //############################################# METODOS DO SIGRAWEB ######################################################################################
+  
   public getRelatoriosProcessos(): Observable<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -50,6 +53,9 @@ export class RelatoriosService {
     return this.http.get(`https://lb-api.brazilsouth.cloudapp.azure.com/empresa/102007/importacao/${codigo}`, options)
   }
 
+
+  //###################################################################################################################################
+
   public getRelatoriosProcessosBase(codigo): Observable<any> {
   
     return this.http.get(`${environment.baseUrlBackend}/api/ProcessoImportacao/GetByEmpresa/${codigo}`)
@@ -59,4 +65,5 @@ export class RelatoriosService {
   
     return this.http.get(`${environment.baseUrlBackend}/api/ProcessoImportacao/${codigo}`)
   }
+  
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BaseEntityAuxService } from 'app/core/services/base-entity-aux.service';
 
 @Component({
   selector: 'app-pli',
@@ -13,20 +14,56 @@ export class PliComponent implements OnInit {
   public listtipodeAcordoTarifario = []
   public listcoberturacambial = []
 
-  public form: FormGroup;
+  @Input() form_pli: FormGroup;
+  @Input() submitted_pli: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) { 
-    this.form = this.formBuilder.group({
-      regimedeTributacao: [{ value: null, disabled: false }, Validators.required],
-      fundamentoLegal: [{ value: null, disabled: false },  Validators.required],
-      tipodeAcordoTarifario: [{ value: null, disabled: false, },  Validators.required],
-      coberturacambial: [{ value: null, disabled: false, },  Validators.required],
-      agenciaSECEX: [{ value: null, disabled: false, },  Validators.required],
-      atoDrawback: [{ value: null, disabled: false, },  Validators.required]
-    });
+  constructor(
+    private baseEntityAuxService: BaseEntityAuxService
+    ) { 
+
   }
 
   ngOnInit(): void {
+    this.getLookups();
+  }
+
+  
+  get formControl() {
+    return this.form_pli.controls;
+  }
+
+
+  getLookups(){
+
+    this.baseEntityAuxService.getByAllWithCode("RegimeTributavel").subscribe(
+      {
+        next: (obj) => {
+          this.listregimedeTributacao = obj;
+        }
+      }
+    )
+    this.baseEntityAuxService.getByAllWithCode("FundamentoLegal").subscribe(
+      {
+        next: (obj) => {
+          this.listfundamentoLegal = obj;
+        }
+      }
+    )
+    this.baseEntityAuxService.getByAllWithCode("TipoAcordoTarifario").subscribe(
+      {
+        next: (obj) => {
+          this.listtipodeAcordoTarifario = obj;
+        }
+      }
+    )
+    this.baseEntityAuxService.getByAllWithCode("CoberturaCambial").subscribe(
+      {
+        next: (obj) => {
+          this.listcoberturacambial = obj;
+        }
+      }
+    )
+
   }
 
 }

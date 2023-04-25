@@ -63,6 +63,24 @@ export class BaseEntityAuxService {
   getByAll(url) {
     return this.http.get<any>(`${environment.baseUrlBackend}/api/BaseTablesAux/${url}`);
   }
+
+  getByAllWithCode(url) {
+    return this.http.get<any>(`${environment.baseUrlBackend}/api/BaseTablesAux/${url}`)
+      .pipe(
+        map(rsp => {
+          if (rsp.Error) {
+            throwError(rsp.Error);
+          } else {
+
+            rsp.forEach((element) => {
+              element.codigo_nome = element.codigo + ": " + element.nome
+            });
+
+            return rsp
+          }
+        })
+      );
+  }
 }
 
 

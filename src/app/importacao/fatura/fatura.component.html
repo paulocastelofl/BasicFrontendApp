@@ -37,11 +37,11 @@
                     <div id="my-tab-content" class="tab-content">
 
                         <div class="tab-pane active" id="basico" role="tabpanel" aria-expanded="true">
-                            <app-basico-fatura></app-basico-fatura>
+                            <app-basico-fatura [form_basico]="form_basico" [submitted_basico]="submitted_basico"></app-basico-fatura>
                         </div>
 
                         <div class="tab-pane" id="fornecedor" role="tabpanel" aria-expanded="true">
-                           <app-fornecedor></app-fornecedor>
+                           <app-fornecedor [form_fornecedor]="form_fornecedor" [submitted_fornecedor]="submitted_fornecedor"></app-fornecedor>
                         </div>
 
                         <div class="tab-pane" id="itens" role="tabpanel" aria-expanded="false">
@@ -49,7 +49,9 @@
                         </div>
 
                         <div class="tab-pane" id="pli" role="tabpanel" aria-expanded="false">
-                            <app-pli></app-pli>
+                            <app-pli
+                                [form_pli]="form_pli" [submitted_pli]="submitted_pli"
+                            ></app-pli>
                         </div>
 
 
@@ -57,7 +59,7 @@
                     <div class="row">
                         <div class="col-md-12 d-flex justify-content-end mt-4 modal-footer-custom">
 
-                            <button type="button" class="btn btn-primary mt-4 mb-4" >
+                            <button type="button" class="btn btn-primary mt-4 mb-4" (click)="onSubmit()">
                                 <span >Salvar</span>
                             </button>
                         </div>
