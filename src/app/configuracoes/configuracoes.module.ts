@@ -33,6 +33,7 @@ import { BasicoZfmComponent } from './cards-forms/zfm/forms/basico-zfm/basico-zf
 import { LinhasZfmComponent } from './cards-forms/zfm/forms/linhas-zfm/linhas-zfm.component';
 import { ItensZfmComponent } from './cards-forms/zfm/forms/itens-zfm/itens-zfm.component';
 import { MatrizZfmComponent } from './cards-forms/zfm/forms/matriz-zfm/matriz-zfm.component';
+import { MinhaContaComponent } from './minha-conta/minha-conta.component';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { MatrizZfmComponent } from './cards-forms/zfm/forms/matriz-zfm/matriz-zf
     BasicoZfmComponent,
     LinhasZfmComponent,
     ItensZfmComponent,
-    MatrizZfmComponent
+    MatrizZfmComponent,
+    MinhaContaComponent
   ]
 
 })
