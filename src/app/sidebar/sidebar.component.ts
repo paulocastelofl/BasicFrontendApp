@@ -47,9 +47,9 @@ export const ROUTES: RouteInfo[] = [{
     children: [
         { path: 'empresa', title: 'Representante Legal', ab: 'R' },
         { path: 'associados', title: 'Empresas', ab: 'E' },
+        { path: 'minha-conta', title: 'Minha Conta', ab: 'M' },
     ]
 },
-
 
     // {
     //     path: '/components',
