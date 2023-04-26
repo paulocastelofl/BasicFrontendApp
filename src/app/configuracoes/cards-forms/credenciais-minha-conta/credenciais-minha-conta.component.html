@@ -1,0 +1,245 @@
+<div class="row">
+  <div class="col-md-12">
+      <div class="card">
+          <div class="card-body">
+              <form [formGroup]="form">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <fieldset class="border p-2">
+                              <legend class="w-auto legend-lb">Credenciais de Acesso</legend>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label>E-mail</label>
+                                    <div class="form-group left-inner-addon">
+                                      <i class="fa fa-envelope" aria-hidden="true"></i>
+                                      <input type="text" class="form-control" id="email" formControlName="email"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Confirmação de E-mail</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                      <input type="text" class="form-control" id="confEmail" formControlName="confEmail"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label>Senha</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="senhaEmail" formControlName="senhaEmail"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Confirmação de Senha E-mail</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="confSenhaEmail" formControlName="confSenhaEmail"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label>Senha SISCOMEX</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="senhaSiscomex" formControlName="senhaSiscomex"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Confirmação de Senha SISCOMEX</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="confSenhaSiscomex" formControlName="confSenhaSiscomex"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label>Senha SUFRAMA</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="senhaSuframa" formControlName="senhaSuframa"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Confirmação de Senha SUFRAMA</label>
+                                  <div class="form-group left-inner-addon">
+                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                      <input type="password" class="form-control" id="confSenhaSuframa" formControlName="confSenhaSuframa"
+                                                placeholder="" required>
+                                    </div>
+                                </div>
+                              </div>
+                          </fieldset>
+                      </div>
+                      <div class="col-md-12">
+                        <fieldset class="border p-2">
+                          <legend class="w-auto legend-lb">Certificado Digital</legend>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <button class="btn btn-xl btn-primary" (click)="openModal(template)">Configurar Certificado</button>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="card-footer text-right">
+              <button type="submit" class="btn btn-primary" (click)="{}">
+                  <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
+                      <span class="sr-only">Loading...</span>
+                  </div>
+                  <span *ngIf="!isLoadSave">Salvar</span>
+              </button>
+          </div>
+      </div>
+  </div>
+
+  <ng-template #template>
+
+    <div class="col-md-12 d-flex justify-content-between modal-header-custom" >
+
+        <h5 class="modal-title pull-left mt-2">Certificado Digital</h5>
+        <hr>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+
+    </div>
+
+    <div class="mt-4 mb-4">
+        <form [formGroup]="form">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Certificado</label>
+                  <div class="input-group">
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                      <label class="custom-file-label" for="inputGroupFile01">Selecione o arquivo</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label>Senha do Certificado</label>
+                  <div class="form-group">
+                    <input type="password" class="form-control"/>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Validade</label>
+                  <div class="form-group">
+                    <input type="date" class="form-control"/>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                <fieldset class="border p-2">
+                  <legend class="w-auto legend-lb">Autorização de Uso</legend>
+                  <span>Eu autorizo a utilização de meu certificado digital pelo Sigraweb para as operações de:</span>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label lbcheck">
+                            <input class="form-check-input" type="checkbox" formControlName="despachante" (change)="checksValue()">
+                            <span class="form-check-sign "></span>
+                            Acompanhamento de Despacho
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label lbcheck">
+                            <input class="form-check-input" type="checkbox" formControlName="despachante" (change)="checksValue()">
+                            <span class="form-check-sign "></span>
+                            Registro de DI
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label lbcheck">
+                            <input class="form-check-input" type="checkbox" formControlName="despachante" (change)="checksValue()">
+                            <span class="form-check-sign "></span>
+                            Acompanhamento de LIs
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label lbcheck">
+                            <input class="form-check-input" type="checkbox" formControlName="despachante" (change)="checksValue()">
+                            <span class="form-check-sign "></span>
+                            Registro de DAI
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label lbcheck">
+                            <input class="form-check-input" type="checkbox" formControlName="despachante" (change)="checksValue()">
+                            <span class="form-check-sign "></span>
+                            Consulta Siscarga/CE Mercante
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label lbcheck">
+                            <input class="form-check-input" type="checkbox" formControlName="despachante" (change)="checksValue()">
+                            <span class="form-check-sign "></span>
+                            Consulta e ciência de DAI
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label lbcheck">
+                            <input class="form-check-input" type="checkbox" formControlName="despachante" (change)="checksValue()">
+                            <span class="form-check-sign "></span>
+                            Global: tentar utilizar para empresas sem representante legal cadastrado
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </fieldset>
+              </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+
+                </div>
+              </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+</div>

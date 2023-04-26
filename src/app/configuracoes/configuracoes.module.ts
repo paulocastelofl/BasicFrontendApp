@@ -34,6 +34,8 @@ import { LinhasZfmComponent } from './cards-forms/zfm/forms/linhas-zfm/linhas-zf
 import { ItensZfmComponent } from './cards-forms/zfm/forms/itens-zfm/itens-zfm.component';
 import { MatrizZfmComponent } from './cards-forms/zfm/forms/matriz-zfm/matriz-zfm.component';
 import { MinhaContaComponent } from './minha-conta/minha-conta.component';
+import { BasicoMinhaContaComponent } from './cards-forms/basico-minha-conta/basico-minha-conta.component';
+import { CredenciaisMinhaContaComponent } from './cards-forms/credenciais-minha-conta/credenciais-minha-conta.component';
 
 
 @NgModule({
@@ -72,7 +74,9 @@ import { MinhaContaComponent } from './minha-conta/minha-conta.component';
     LinhasZfmComponent,
     ItensZfmComponent,
     MatrizZfmComponent,
-    MinhaContaComponent
+    MinhaContaComponent,
+    BasicoMinhaContaComponent,
+    CredenciaisMinhaContaComponent
   ]
 
 })

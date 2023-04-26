@@ -1,1 +1,111 @@
-<p>basico-zfm works!</p>
+<div class="row">
+  <div class="col-md-12">
+    <form [formGroup]="{}">
+      <fieldset class="border p-2">
+        <legend class="w-auto legend-lb">Informações</legend>
+        <div class="row">
+          <div class="col-md-6">
+            <label>CPF do Representante Legal (Suframa)</label>
+            <div class="form-group">
+              <input type="text" class="form-control" id="cpf" formControlName="cpf" required>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label>Número Sequencial de PLI</label>
+            <div class="form-group">
+              <input type="text" class="form-control" id="numeroSeqPli" formControlName="numeroSeqPli" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <label>Senha Suframa</label>
+            <div class="form-group">
+              <input type="password" class="form-control" id="senhaSuframa" formControlName="senhaSuframa" required>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="border p-2">
+        <legend class="w-auto legend-lb">Configurações</legend>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Indústria</label>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <bSwitch [switch-on-color]="'primary'" [switch-off-color]="'primary'" [switch-off-text]="'Não'"
+              [switch-on-text]="'Sim'" formControlName="isIndustria"
+              (changeState)="{}">
+              </bSwitch>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <label>DTE</label>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <bSwitch [switch-on-color]="'primary'" [switch-off-color]="'primary'" [switch-off-text]="'Não'"
+              [switch-on-text]="'Sim'" formControlName="isDte"
+              (changeState)="{}">
+              </bSwitch>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <label>Responsável Sefaz</label>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <bSwitch [switch-on-color]="'primary'" [switch-off-color]="'primary'" [switch-off-text]="'Não'"
+              [switch-on-text]="'Sim'" formControlName="isResponsavelSefaz"
+              (changeState)="{}">
+              </bSwitch>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <label>Optante Lei 2826</label>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <bSwitch [switch-on-color]="'primary'" [switch-off-color]="'primary'" [switch-off-text]="'Não'"
+              [switch-on-text]="'Sim'" formControlName="isOpatanteLei"
+              (changeState)="{}">
+              </bSwitch>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <label>Armazena arquivo de retorno PLI</label>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <bSwitch [switch-on-color]="'primary'" [switch-off-color]="'primary'" [switch-off-text]="'Não'"
+              [switch-on-text]="'Sim'" formControlName="isArmazenaArquivoRetornoPli"
+              (changeState)="{}">
+              </bSwitch>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <div class="text-right">
+        <button type="submit" class="btn btn-primary" (click)="{}">
+            <span >Salvar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
