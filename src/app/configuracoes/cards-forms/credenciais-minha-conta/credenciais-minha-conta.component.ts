@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EmpresaService } from 'app/configuracoes/services/empresa.service';
 import { NotifyService } from 'app/core/services/generics/notify.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { PaisService } from 'app/core/services/pais.service';
 
 @Component({
@@ -13,6 +14,7 @@ import { PaisService } from 'app/core/services/pais.service';
 export class CredenciaisMinhaContaComponent implements OnInit {
 
   public form: FormGroup;
+  public modalRef?: BsModalRef;
   public submitted = false;
   public isLoad: boolean = false;
   public isLoadSave: boolean = false;
@@ -20,6 +22,7 @@ export class CredenciaisMinhaContaComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private modalService: BsModalService,
     private service: EmpresaService,
     private notifyService: NotifyService,
     private paisService: PaisService,
@@ -37,6 +40,11 @@ export class CredenciaisMinhaContaComponent implements OnInit {
       senhaSuframa: [{ value: '', disabled: false }, Validators.required],
       confSenhaSuframa: [{ value: '', disabled: false }, Validators.required]
     });
+  }
+
+  openModal(template: TemplateRef<any>, user?: any) {
+    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' }),);
+
   }
 
 }
