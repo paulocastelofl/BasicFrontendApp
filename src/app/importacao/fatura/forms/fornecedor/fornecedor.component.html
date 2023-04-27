@@ -1,10 +1,30 @@
-<form [formGroup]="form">
+<form [formGroup]="form_fornecedor">
     <div class="row">
         <div class="col-md-12">
             <label>Nome</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="nome" placeholder=""
-                    formControlName="nome">
+               
+
+                <ng-select [items]="fornecedor$ | async" bindValue="id" [minTermLength]="minLengthTerm"
+                    [loading]="fornecedorLoading"
+                    typeToSearchText="Por favor digite {{minLengthTerm}} ou mais caractéres"
+                    [typeahead]="fornecedorInput$" 
+                    formControlName="idFornecedor" 
+                    placeholder="Selecione nome..."
+                    (change)="changeEvetFornecedor($event)"
+                    >
+
+                    <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                        <span [innerHTML]="item.nomeFantasia | boldSpan:regexStr"></span>
+                    </ng-template>
+
+                </ng-select>
+
+                <small *ngIf="(formControl.idFornecedor.touched || submitted_fornecedor) && formControl.idFornecedor.errors?.required"
+                    class="text-danger">
+                    Fornecedor é obrigatório <i>*</i>
+                </small>
+
             </div>
         </div>
     </div>
@@ -12,15 +32,13 @@
         <div class="col-md-6">
             <label>Logradouro</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="logradouro" placeholder=""
-                    formControlName="logradouro">
+                <input type="text" class="form-control" id="logradouro" placeholder="" formControlName="logradouro">
             </div>
         </div>
         <div class="col-md-6">
             <label>Número</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="numero" placeholder=""
-                    formControlName="numero">
+                <input type="text" class="form-control" id="numero" placeholder="" formControlName="numero">
             </div>
         </div>
     </div>
@@ -28,15 +46,13 @@
         <div class="col-md-6">
             <label>Complemento</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="complemento" placeholder=""
-                    formControlName="complemento">
+                <input type="text" class="form-control" id="complemento" placeholder="" formControlName="complemento">
             </div>
         </div>
         <div class="col-md-6">
             <label>Bairro</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="bairro" placeholder=""
-                    formControlName="bairro">
+                <input type="text" class="form-control" id="bairro" placeholder="" formControlName="bairro">
             </div>
         </div>
     </div>
@@ -44,15 +60,13 @@
         <div class="col-md-6">
             <label>CEP</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="cep" placeholder=""
-                    formControlName="cep">
+                <input type="text" class="form-control" id="cep" placeholder="" formControlName="cep">
             </div>
         </div>
         <div class="col-md-6">
             <label>Cidade</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="cidade" placeholder=""
-                    formControlName="cidade">
+                <input type="text" class="form-control" id="cidade" placeholder="" formControlName="cidade">
             </div>
         </div>
     </div>
@@ -60,15 +74,13 @@
         <div class="col-md-6">
             <label>Estado</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="estado" placeholder=""
-                    formControlName="estado">
+                <input type="text" class="form-control" id="estado" placeholder="" formControlName="estado">
             </div>
         </div>
         <div class="col-md-6">
             <label>País</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="pais" placeholder=""
-                    formControlName="pais">
+                <input type="text" class="form-control" id="pais" placeholder="" formControlName="pais">
             </div>
         </div>
     </div>

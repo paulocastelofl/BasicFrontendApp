@@ -1,25 +1,39 @@
-<form [formGroup]="form">
+<form [formGroup]="form_basico">
     <div class="row">
         <div class="col-md-4">
             <label>Número da Fatura</label>
             <div class="form-group">
                 <input type="text" class="form-control" id="numeroFatura" placeholder="Digite o número"
                     formControlName="numeroFatura">
+                <small
+                    *ngIf="(formControl.numeroFatura.touched || submitted_basico) && formControl.numeroFatura.errors?.required"
+                    class="text-danger">
+                    Número fatura é obrigatório <i>*</i>
+                </small>
             </div>
         </div>
         <div class="col-md-4">
             <label>Moeda</label>
             <div class="form-group">
-                <ng-select [items]="listmoeda" bindLabel="nome" class="custom" bindValue="id" appendTo="body"
+                <ng-select [items]="listmoeda" bindLabel="codigo_nome" class="custom" bindValue="id" appendTo="body"
                     formControlName="moeda" placeholder="-- Selecione --"></ng-select>
+                <small *ngIf="(formControl.moeda.touched || submitted_basico) && formControl.moeda.errors?.required"
+                    class="text-danger">
+                    Moeda é obrigatório <i>*</i>
+                </small>
             </div>
         </div>
         <div class="col-md-4">
             <label>Incoterms</label>
             <div class="form-group">
 
-                <ng-select [items]="listIncoterms" bindLabel="nome" class="custom" bindValue="id" appendTo="body"
+                <ng-select [items]="listIncoterms" bindLabel="codigo_nome" class="custom" bindValue="id" appendTo="body"
                     formControlName="incoterms" placeholder="-- Selecione --"></ng-select>
+                <small
+                    *ngIf="(formControl.incoterms.touched || submitted_basico) && formControl.incoterms.errors?.required"
+                    class="text-danger">
+                    Incoterms é obrigatório <i>*</i>
+                </small>
 
 
             </div>
@@ -30,14 +44,25 @@
         <div class="col-md-4">
             <label>Local da Condição</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="localCondicao" placeholder="Digite o loval da condição"
+                <input type="text" class="form-control" id="localCondicao" placeholder="Digite o local da condição"
                     formControlName="localCondicao">
+                <small
+                    *ngIf="(formControl.localCondicao.touched || submitted_basico) && formControl.localCondicao.errors?.required"
+                    class="text-danger">
+                    Local Condição é obrigatório <i>*</i>
+                </small>
             </div>
         </div>
         <div class="col-md-3">
             <label>Data de Emissão</label>
             <div class="form-group">
-                <input type="datetime-local" class="form-control" id="dataEmissao" placeholder="" formControlName="dataEmissao">
+                <input type="datetime-local" class="form-control" id="dataEmissao" placeholder=""
+                    formControlName="dataEmissao">
+                <small
+                    *ngIf="(formControl.dataEmissao.touched || submitted_basico) && formControl.dataEmissao.errors?.required"
+                    class="text-danger">
+                    Data de Emissão é obrigatório <i>*</i>
+                </small>
             </div>
         </div>
     </div>

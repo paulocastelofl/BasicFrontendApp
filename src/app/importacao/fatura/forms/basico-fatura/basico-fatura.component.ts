@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BaseEntityAuxService } from 'app/core/services/base-entity-aux.service';
 
 @Component({
   selector: 'app-basico-fatura',
@@ -7,23 +8,45 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./basico-fatura.component.css']
 })
 export class BasicoFaturaComponent implements OnInit {
-  public form: FormGroup;
-
+  @Input() form_basico: FormGroup;
   public listmoeda = []
   public listIncoterms = []
+  @Input() submitted_basico: boolean;
+  
 
-  constructor( private formBuilder: FormBuilder,) { 
-    this.form = this.formBuilder.group({
-      numeroFatura: [{ value: null, disabled: false }, Validators.required],
-      moeda: [{ value: null, disabled: false },  Validators.required],
-      incoterms: [{ value: null, disabled: false, },  Validators.required],
-      localCondicao: [{ value: null, disabled: false, },  Validators.required],
-      dataEmissao: [{ value: null, disabled: false, },  Validators.required],
-    });
+  constructor( private formBuilder: FormBuilder,
+    private baseEntityAuxService: BaseEntityAuxService
+    ) { 
+
 
   }
 
   ngOnInit(): void {
+    this.getLookups();
   }
+
+  get formControl() {
+    return this.form_basico.controls;
+  }
+
+  getLookups(){
+
+    this.baseEntityAuxService.getByAllWithCode("Moeda").subscribe(
+      {
+        next: (obj) => {
+          this.listmoeda = obj;
+        }
+      }
+    )
+    this.baseEntityAuxService.getByAllWithCode("Incoterms").subscribe(
+      {
+        next: (obj) => {
+          this.listIncoterms = obj;
+        }
+      }
+    )
+    
+  }
+
 
 }
