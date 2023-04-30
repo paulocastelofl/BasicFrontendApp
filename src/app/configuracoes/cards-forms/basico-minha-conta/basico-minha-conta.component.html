@@ -1,12 +1,19 @@
 <div class="row">
   <div class="col-md-12">
+      <h5>{{usuario}}</h5>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form [formGroup]="form">
       <div class="card">
           <div class="card-body">
-              <form [formGroup]="form">
+
                   <div class="row">
                       <div class="col-md-12">
                           <fieldset class="border p-2">
-                              <legend class="w-auto legend-lb">Informações Pessoais</legend>
+                              <legend class="w-auto legend-lb">Informações Pessoaiss</legend>
                               <div class="row">
                                 <div class="col-md-6">
                                   <label>Nome</label>
@@ -78,10 +85,10 @@
                         </fieldset>
                       </div>
                   </div>
-              </form>
+
           </div>
           <div class="card-footer text-right">
-              <button type="submit" class="btn btn-primary" (click)="{}">
+              <button type="submit" class="btn btn-primary" (click)="onSubmit()">
                   <div *ngIf="isLoadSave" class="spinner-border spinner-border-sm text-light" role="status">
                       <span class="sr-only">Loading...</span>
                   </div>
@@ -89,6 +96,7 @@
               </button>
           </div>
       </div>
+    </form>
   </div>
 
 </div>

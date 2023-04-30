@@ -34,6 +34,7 @@ export class AuthService {
           this.tokenJwt = r.token
           this.setLocalStorage(r);
           this.setUserCurrent(r);
+          console.log(r)
         })
       );
 
@@ -60,6 +61,8 @@ export class AuthService {
       name: parms['name'],
       email: parms['email'],
       idEmpresa: parms['idEmpresa'],
+      telefone: parms['telefone'],
+      cpf: parms['cpf'],
       date: now,
       token: parms['token'],
       empresa: parms['empresa']
