@@ -39,6 +39,23 @@ export class ProcessoImportacaoService {
     )
   }
 
+  public updateFatura(parms: {}): Observable<any> {
+    return this.http.put(`${environment.baseUrlBackend}/api/Fatura/`,
+      parms
+    )
+  }
+
+  public getAllFaturas(codigo): Observable<any> {
+  
+    return this.http.get(`${environment.baseUrlBackend}/api/Fatura/GetByProcessoImportacao/${codigo}`)
+  }
+
+  public getFatura(codigo): Observable<any> {
+  
+    return this.http.get(`${environment.baseUrlBackend}/api/Fatura/${codigo}`)
+  }
+
+
   
   public deleteDoc(id): Observable<any> {
     return this.http.delete(`${environment.baseUrlBackend}/api/ProcessoImportacao/DeleteDoc/${id}`,)

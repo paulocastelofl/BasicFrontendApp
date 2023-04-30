@@ -25,6 +25,10 @@ const routes: Routes = [
         path: ':id/fatura',
         component: FaturaComponent
       },
+      {
+        path: ':id/fatura/:idfatura',
+        component: FaturaComponent
+      },
     ]
   }
 ];

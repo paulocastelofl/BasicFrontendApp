@@ -12,6 +12,7 @@ export class FornecedorComponent implements OnInit {
 
   @Input() form_fornecedor: FormGroup;
   @Input() submitted_fornecedor: boolean;
+  @Input() fornecedorOfFatura: any;
 
   fornecedor$: Observable<any>;
   fornecedorLoading = false;
@@ -27,7 +28,13 @@ export class FornecedorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadfornecedor()
+
+    if(this.fornecedorOfFatura){
+      this.loadfornecedor([this.fornecedorOfFatura])
+    }else{
+      this.loadfornecedor()
+    }
+   
   }
 
   get formControl() {
@@ -35,7 +42,7 @@ export class FornecedorComponent implements OnInit {
   }
 
   changeEvetFornecedor(evt){
-    console.log(evt)
+    // console.log(evt)
     this.formControl.logradouro.setValue(evt.logradouro)
     this.formControl.numero.setValue(evt.numero)
     this.formControl.complemento.setValue(evt.complemento)
@@ -77,6 +84,8 @@ export class FornecedorComponent implements OnInit {
         })
       )
     );
+
+    if (itens.length > 0) this.formControl.idFornecedor.setValue(itens[0].id)
 
   }
 

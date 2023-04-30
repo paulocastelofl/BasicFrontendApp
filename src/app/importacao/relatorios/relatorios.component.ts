@@ -25,6 +25,9 @@ export class RelatoriosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRelatoriosProcessos();
+
+  
+
   }
 
   getRelatoriosProcessos() {
