@@ -171,7 +171,6 @@ export class FaturaComponent implements OnInit {
         this.fatura = obj;
         this.processo = this.fatura.processoImportacao;
 
-        console.log(this.fatura)
 
         this.formControlBasico.numeroFatura.setValue(this.fatura.numeroFatura)
         this.formControlBasico.moeda.setValue(this.fatura.idMoeda)
