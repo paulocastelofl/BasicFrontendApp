@@ -169,6 +169,7 @@ export class FaturaComponent implements OnInit {
     this.processoImportacaoService.getFatura(codigo).subscribe({
       next: (obj) => {
         this.fatura = obj;
+        
         this.processo = this.fatura.processoImportacao;
 
 

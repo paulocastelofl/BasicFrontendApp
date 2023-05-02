@@ -10,7 +10,7 @@ import { ProcessoImportacaoService } from 'app/importacao/services/processo-impo
 export class RelatorioFaturasComponent implements OnInit {
 
   @Input() processo: any;
-  public faturas= [];
+  public faturas = [];
   public isLoad: boolean = false;
 
   constructor(
@@ -21,16 +21,26 @@ export class RelatorioFaturasComponent implements OnInit {
     this.getFaturas();
   }
 
-  getFaturas(){
+  getFaturas() {
     this.isLoad = true;
 
     this._service.getAllFaturas(this.processo.id).subscribe(
       {
         next: (obj) => {
-          this.faturas = obj
+
+          obj.forEach(element => {
+           
+            element = {
+              isSelect: false,
+              ...element
+            }
+
+            this.faturas.push(element)
+          });
+
           this.isLoad = false;
         }
-      
+
       }
     )
   }
@@ -39,8 +49,12 @@ export class RelatorioFaturasComponent implements OnInit {
     this.router.navigate([`importacao/${this.processo.id}/fatura`]);
   }
 
-  goToUpdateFatura(item){
+  goToUpdateFatura(item) {
     this.router.navigate([`importacao/${this.processo.id}/fatura/${item.id}`]);
+  }
+
+  selectRow(item){
+    item.isSelect = !item.isSelect 
   }
 
 }

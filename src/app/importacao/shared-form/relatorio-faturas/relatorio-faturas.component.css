@@ -42,3 +42,7 @@ thead>tr>td {
     border-top-right-radius: 0;
     font-size: 10px;
 }
+
+.selectRow{
+    background-color: #B6D0E2 !important;
+}
