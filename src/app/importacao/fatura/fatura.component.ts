@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RelatoriosService } from '../services/relatorios.service';
 import { BaseEntityAuxService } from 'app/core/services/base-entity-aux.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -37,7 +37,8 @@ export class FaturaComponent implements OnInit {
     private relatoriosService: RelatoriosService,
     private formBuilder: FormBuilder,
     private notifyService: NotifyService,
-    private processoImportacaoService: ProcessoImportacaoService
+    private processoImportacaoService: ProcessoImportacaoService,
+    private router: Router
 
   ) {
 
@@ -47,6 +48,12 @@ export class FaturaComponent implements OnInit {
       incoterms: [{ value: null, disabled: false, }, Validators.required],
       localCondicao: [{ value: null, disabled: false, }, Validators.required],
       dataEmissao: [{ value: null, disabled: false, }, Validators.required],
+
+      valorFrete: [{ value: 0.00, disabled: false, }],
+      moeda_frete: [{ value: null, disabled: false, }],
+      valorSeguro: [{ value: 0.00, disabled: false, }],
+      moeda_seguro: [{ value: null, disabled: false, }]
+      
     });
 
     this.form_fornecedor = this.formBuilder.group({
@@ -100,8 +107,6 @@ export class FaturaComponent implements OnInit {
           this.formControlBasico.localCondicao.valid,
           this.formControlBasico.dataEmissao.valid
         ]
-
-        console.log(arr)
 
         let arrIsTrue = arr.filter(x => x == true);
 
@@ -166,11 +171,17 @@ export class FaturaComponent implements OnInit {
         this.fatura = obj;
         this.processo = this.fatura.processoImportacao;
 
+        console.log(this.fatura)
+
         this.formControlBasico.numeroFatura.setValue(this.fatura.numeroFatura)
         this.formControlBasico.moeda.setValue(this.fatura.idMoeda)
         this.formControlBasico.incoterms.setValue(this.fatura.idIncoterms)
         this.formControlBasico.localCondicao.setValue(this.fatura.localCondicao)
         this.formControlBasico.dataEmissao.setValue(this.fatura.dtEmissao)
+        if(this.fatura.valorFrete) this.formControlBasico.valorFrete.setValue(this.fatura.valorFrete)
+        if(this.fatura.idMoedaFrete) this.formControlBasico.moeda_frete.setValue(this.fatura.idMoedaFrete)
+        if(this.fatura.valorSeguro) this.formControlBasico.valorSeguro.setValue(this.fatura.valorSeguro)
+        if(this.fatura.idMoedaSeguro)  this.formControlBasico.moeda_seguro.setValue(this.fatura.idMoedaSeguro)
 
 
         this.fornecedorOfFatura = this.fatura.fornecedor;
@@ -212,6 +223,8 @@ export class FaturaComponent implements OnInit {
 
       this.isLoadsave = true;
 
+      console.log(this.formControlBasico.incoterms.value)
+
       const params = {
         "dtModificacao": "2023-04-18T21:43:45.564Z",
         "dtEmissao": this.formControlBasico.dataEmissao.value,
@@ -220,8 +233,10 @@ export class FaturaComponent implements OnInit {
         "idFornecedor": this.formControlFornecedor.idFornecedor.value,
         "idMoeda": this.formControlBasico.moeda.value,
         "idIncoterms": this.formControlBasico.incoterms.value,
-        "idMoedaFrete": 0,
-        "idMoedaSeguro": 0,
+        "idMoedaFrete": this.formControlBasico.moeda_frete.value,
+        "valorFrete": this.formControlBasico.valorFrete.value,
+        "idMoedaSeguro": this.formControlBasico.moeda_seguro.value,
+        "valorSeguro": this.formControlBasico.valorSeguro.value,
         "idItemFatura": 0,
         "itensFaturas": [],
         "idModalidadePagamento": 1,
@@ -232,12 +247,16 @@ export class FaturaComponent implements OnInit {
         "numDiasPagamento": 0,
         "valorTotal": 0,
         "pesoLiquido": 0,
-        "tipoVinculoFornecedor": "string",
+        "tipoVinculoFornecedor": "",
         "idProcessoImportacao": this.processo.id
       }
 
       if (this.idfatura) {
         let id = this.idfatura;
+        console.log({
+          id,
+          ...params
+        })
         this.processoImportacaoService.updateFatura({
           id,
           ...params
@@ -257,15 +276,19 @@ export class FaturaComponent implements OnInit {
       } else {
 
         this.processoImportacaoService.createFatura(params).subscribe({
-          next: (obj) => { },
+          next: (obj) => { 
+            console.log(obj)
+            this.notifyService.showNotification('top', 'right', "Fatura registrada c/ sucesso!", 'success');
+            this.isLoadsave = false;
+            this.router.navigate([`importacao/${this.processo.id}/fatura/${obj.id}`]);
+            
+          },
           error: (e) => {
             this.notifyService.showNotification('top', 'right', e.error.message, 'danger');
+            this.isLoadsave = false;
 
           },
           complete: () => {
-
-            this.notifyService.showNotification('top', 'right', "Fatura registrada c/ sucesso!", 'success');
-            this.isLoadsave = false;
           }
         })
 

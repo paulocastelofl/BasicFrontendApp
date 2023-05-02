@@ -1,6 +1,6 @@
 <form [formGroup]="form_basico">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label>Número da Fatura</label>
             <div class="form-group">
                 <input type="text" class="form-control" id="numeroFatura" placeholder="Digite o número"
@@ -12,7 +12,7 @@
                 </small>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label>Moeda</label>
             <div class="form-group">
                 <ng-select [items]="listmoeda" bindLabel="codigo_nome" class="custom" bindValue="id" appendTo="body"
@@ -23,12 +23,12 @@
                 </small>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label>Incoterms</label>
             <div class="form-group">
 
                 <ng-select [items]="listIncoterms" bindLabel="codigo_nome" class="custom" bindValue="id" appendTo="body"
-                    formControlName="incoterms" placeholder="-- Selecione --"></ng-select>
+                    formControlName="incoterms" placeholder="-- Selecione --" (change)="changeEvetIincoterms($event)"></ng-select>
                 <small
                     *ngIf="(formControl.incoterms.touched || submitted_basico) && formControl.incoterms.errors?.required"
                     class="text-danger">
@@ -37,10 +37,7 @@
 
             </div>
         </div>
-
-    </div>
-    <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label>Local da Condição</label>
             <div class="form-group">
                 <input type="text" class="form-control" id="localCondicao" placeholder="Digite o local da condição"
@@ -52,6 +49,10 @@
                 </small>
             </div>
         </div>
+
+    </div>
+    <div class="row">
+        
         <div class="col-md-3">
             <label>Data de Emissão</label>
             <div class="form-group">
@@ -61,6 +62,58 @@
                     *ngIf="(formControl.dataEmissao.touched || submitted_basico) && formControl.dataEmissao.errors?.required"
                     class="text-danger">
                     Data de Emissão é obrigatório <i>*</i>
+                </small>
+            </div>
+        </div>
+
+        <div class="col-md-3" [hidden]="isInputFrete">
+            <label>Valor do Frete</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="valorFrete" placeholder="Digite o Valor do Frete"
+                    formControlName="valorFrete"
+                    currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' , align: 'left'}">
+                <small
+                    *ngIf="(formControl.valorFrete.touched || submitted_basico) && formControl.valorFrete.errors?.required"
+                    class="text-danger">
+                    Valor do frete é obrigatório <i>*</i>
+                </small>
+            </div>
+        </div>
+
+        <div class="col-md-3" [hidden]="isInputFrete">
+            <label>Moeda Frete</label>
+            <div class="form-group">
+                <ng-select [items]="listmoeda" bindLabel="codigo_nome" class="custom" bindValue="id" appendTo="body"
+                    formControlName="moeda_frete" placeholder="-- Selecione --"></ng-select>
+                <small *ngIf="(formControl.moeda_frete.touched || submitted_basico) && formControl.moeda_frete.errors?.required"
+                    class="text-danger">
+                    Moeda é obrigatório <i>*</i>
+                </small>
+            </div>
+        </div>
+
+        <div class="col-md-3" [hidden]="isInputSeguro">
+            <label>Valor do Seguro</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="valorSeguro" placeholder="Digite o Valor do Seguro"
+                    formControlName="valorSeguro"  currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' , align: 'left'}">
+                <small
+                    *ngIf="(formControl.valorSeguro.touched || submitted_basico) && formControl.valorSeguro.errors?.required"
+                    class="text-danger">
+                    Valor do seguro é obrigatório <i>*</i>
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="row" [hidden]="isInputSeguro">
+        <div class="col-md-3">
+            <label>Moeda Seguro</label>
+            <div class="form-group">
+                <ng-select [items]="listmoeda" bindLabel="codigo_nome" class="custom" bindValue="id" appendTo="body"
+                    formControlName="moeda_seguro" placeholder="-- Selecione --"></ng-select>
+                <small *ngIf="(formControl.moeda_seguro.touched || submitted_basico) && formControl.moeda_seguro.errors?.required"
+                    class="text-danger">
+                    Moeda é obrigatório <i>*</i>
                 </small>
             </div>
         </div>

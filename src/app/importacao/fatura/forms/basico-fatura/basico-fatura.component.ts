@@ -12,24 +12,26 @@ export class BasicoFaturaComponent implements OnInit {
   public listmoeda = []
   public listIncoterms = []
   @Input() submitted_basico: boolean;
-  
 
-  constructor( private formBuilder: FormBuilder,
+  isInputFrete = true;
+  isInputSeguro = true;
+
+  constructor(private formBuilder: FormBuilder,
     private baseEntityAuxService: BaseEntityAuxService
-    ) { 
-
+  ) {
 
   }
 
   ngOnInit(): void {
     this.getLookups();
+
   }
 
   get formControl() {
     return this.form_basico.controls;
   }
 
-  getLookups(){
+  getLookups() {
 
     this.baseEntityAuxService.getByAllWithCode("Moeda").subscribe(
       {
@@ -42,11 +44,40 @@ export class BasicoFaturaComponent implements OnInit {
       {
         next: (obj) => {
           this.listIncoterms = obj;
+
+            if(this.form_basico.controls.incoterms.value) {
+
+              let arr = this.listIncoterms.filter(x => x.id == this.form_basico.controls.incoterms.value)
+              this.isCheckHiddenInputs(arr[0].codigo)
+
+            }
+        
         }
       }
     )
-    
   }
 
+  changeEvetIincoterms(evt) {
+    this.isCheckHiddenInputs(evt.codigo)
+  }
 
+  isCheckHiddenInputs(codigo){
+    
+    let arr_only_frete = ['CFR', 'CPT', 'DDU']
+    let arr_only_seguro = ['CIF', 'CIP', 'DDP']
+
+    if (arr_only_frete.includes(codigo)) {
+      this.isInputFrete = false
+      this.isInputSeguro = true
+    } else {
+      if (arr_only_seguro.includes(codigo)) {
+        this.isInputFrete = false
+        this.isInputSeguro = false
+      } else {
+        this.isInputFrete = true
+        this.isInputSeguro = true
+      }
+    }
+
+  }
 }
