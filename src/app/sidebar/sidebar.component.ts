@@ -21,35 +21,46 @@ export interface ChildrenItems {
 }
 
 //Menu Items
-export const ROUTES: RouteInfo[] = [{
-    path: '/dashboard',
-    title: 'Dashboard',
-    type: 'link',
-    icontype: 'nc-icon nc-bank'
-},
-{
-    path: '/importacao',
-    title: 'Importação',
-    type: 'sub',
-    collapse: 'importacao',
-    icontype: 'nc-icon nc-world-2',
-    children: [
-        { path: 'novo-processo', title: 'Novo Processo', ab: 'NP' },
-        { path: 'relatorios', title: 'Processos', ab: 'P' },
-    ]
-},
-{
-    path: '/configuracoes',
-    title: 'Configurações',
-    type: 'sub',
-    collapse: 'configuracoes',
-    icontype: 'nc-icon nc-settings-gear-65',
-    children: [
-        { path: 'empresa', title: 'Representante Legal', ab: 'R' },
-        { path: 'associados', title: 'Empresas', ab: 'E' },
-        { path: 'minha-conta', title: 'Minha Conta', ab: 'M' },
-    ]
-},
+export const ROUTES: RouteInfo[] = [
+    {
+        path: '/dashboard',
+        title: 'Dashboard',
+        type: 'link',
+        icontype: 'nc-icon nc-bank'
+    },
+    {
+        path: '/membro',
+        title: 'Discípulos',
+        type: 'link',
+        icontype: 'nc-icon nc-single-02'
+    },
+    {
+        path: '/celula',
+        title: 'Células',
+        type: 'link',
+        icontype: 'nc-icon nc-world-2'
+    },
+    // {
+    //     path: '/importacao',
+    //     title: 'Importação',
+    //     type: 'sub',
+    //     collapse: 'importacao',
+    //     icontype: 'nc-icon nc-world-2',
+    //     children: [
+    //         { path: 'novo-processo', title: 'Novo Processo', ab: 'NP' },
+    //         { path: 'relatorios', title: 'Processos', ab: 'P' },
+    //     ]
+    // },
+    {
+        path: '/configuracoes',
+        title: 'Configurações',
+        type: 'sub',
+        collapse: 'configuracoes',
+        icontype: 'nc-icon nc-settings-gear-65',
+        children: [
+            { path: 'igreja', title: 'Minha Igreja', ab: 'I' }
+        ]
+    },
 
     // {
     //     path: '/components',
@@ -80,7 +91,8 @@ export const ROUTES: RouteInfo[] = [{
     //         { path: 'validation', title: 'Validation Forms', ab: 'VF' },
     //         { path: 'wizard', title: 'Wizard', ab: 'W' }
     //     ]
-    // }, {
+    // },
+    // {
     //     path: '/tables',
     //     title: 'Tables',
     //     type: 'sub',
@@ -143,10 +155,10 @@ export const ROUTES: RouteInfo[] = [{
 
 export class SidebarComponent {
 
-    public codeEmpresa: number = 0;
+    public codeIgreja: number = 0;
     public user: IUser;
     public nomeuser: string = "";
-    public nomeempresa: string = "";
+    public nomeigreja: string = "";
     public step: string = "";
 
     constructor(
@@ -172,11 +184,17 @@ export class SidebarComponent {
     }
 
     ngOnInit() {
-        this.user = this.authservice.CurrentUser;
-        this.user.name.length > 15 ? this.nomeuser = this.user.name.substring(0, 15) : this.nomeuser = this.user.name
-        this.nomeempresa = this.user.empresa.nomeFantasia;
 
-        this.codeEmpresa = this.authservice.CurrentUser.idEmpresa;
+
+        this.authservice.getUser().subscribe(user => {
+
+            this.user = user;
+            this.user.name.length > 15 ? this.nomeuser = this.user.name.substring(0, 15) : this.nomeuser = this.user.name
+            this.nomeigreja = this.user.igreja.nomeFantasia;
+
+            this.codeIgreja = this.user.igreja.id;
+        })
+
         this.menuItems = ROUTES.filter(menuItem => menuItem);
     }
     ngAfterViewInit() {

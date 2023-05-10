@@ -7,7 +7,9 @@
 	</a>
 
 	<a href="javascript:void(0)" class="simple-text logo-normal">
-		{{this.nomeempresa}}
+		<span *ngIf="this.nomeigreja != ''">{{this.nomeigreja}}</span>
+		<span *ngIf="this.nomeigreja == ''" style="color: red;">
+            Não disponível</span>
 	</a>
 </div>
 
@@ -97,19 +99,18 @@
                     <ul class="nav">
                         <li  [ngClass]="{'active': step === childitem.path}" (click)="onSelectStep(childitem.path)" *ngFor="let childitem of menuitem.children">
 
-                            <a *ngIf="childitem.path === 'empresa'" [routerLink]="[menuitem.path, childitem.path, codeEmpresa]">
+                            <a *ngIf="childitem.path === 'igreja' && user.igreja != undefined" [routerLink]="[menuitem.path, childitem.path, codeIgreja]">
                                 <span class="sidebar-mini-icon">{{childitem.ab}}</span>
                                 <span class="sidebar-normal">{{childitem.title}}</span>
                             </a>
 
-                            <a *ngIf="childitem.path === 'associados'" [routerLink]="[menuitem.path, 'empresa', codeEmpresa , childitem.path]">
+                            <a *ngIf="childitem.path === 'igreja' && user.igreja == undefined" [routerLink]="[menuitem.path, childitem.path]">
                                 <span class="sidebar-mini-icon">{{childitem.ab}}</span>
                                 <span class="sidebar-normal">{{childitem.title}}</span>
                             </a>
 
                             <a 
-                            *ngIf="childitem.path !== 'empresa'
-                            && childitem.path !== 'associados'" [routerLink]="[menuitem.path, childitem.path]">
+                            *ngIf="childitem.path !== 'igreja'" [routerLink]="[menuitem.path, childitem.path]">
                                 <span class="sidebar-mini-icon">{{childitem.ab}}</span>
                                 <span class="sidebar-normal">{{childitem.title}}</span>
                             </a>

@@ -107,7 +107,8 @@ export class LoginComponent implements OnInit {
         ).subscribe(
             {
                 next: (v) => {
-                    if (v) this.router.navigate(['/dashboard']); else this.notifyService.showNotification('top','right', '<b>Erro</b> desconhecido. Informar Administrador do sistema.', 'danger');; 
+                    console.log(v)
+                    if (v) this.router.navigate(['/dashboard']); else this.notifyService.showNotification('top','right', '<b>Erro</b> desconhecido. Informar Administrador do sistema.', 'danger');
                 },
                 error: (e) => {
                     this.notifyService.showNotification('top','right', e.error.message, 'danger');

@@ -1,0 +1,72 @@
+<div class="main-content-custumer-gan">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex mb-2">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle bt-option" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false" >
+                                Opções
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="javascript:void(0)">Importar</a>
+                                <a class="dropdown-item" href="javascript:void(0)">Baixar Planilha</a>
+                                <a class="dropdown-item" href="javascript:void(0)" (click)="onDelete()">Remover</a>
+                            </div>
+                        </div>
+
+                        <input type="text" id="partnumber" class="form-control st-input-with-bt"
+                            placeholder="Buscar por nome" (keyup)="sendit($event.target.value)">
+
+                        <a href="#" [routerLink]="['novo']"><button class="bt-create btn btn-primary"> <i
+                                    class="fa fa-plus"></i>
+                                Novo</button></a>
+                    </div>
+                    <div>
+                        <span class=" total">Total de registros: {{celulas.length}}. Mostrando 10.</span>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="set-height">
+                                        <td>Nome</td>
+                                        <td>Líder</td>
+                                        <td>Anfitrião</td>
+                                        <td>F. Etária</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="isLoad">
+                                        <td colspan="9" style="text-align: center;">
+                                            <div class="d-flex flex-column  align-items-center">
+                                                <div class="spinner-border spinner-border text-secondary" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                                <span class="mt-2">Carregando dados...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let item of celulasDynamic | paginate: { id: 'celulas_id', itemsPerPage: 10, currentPage: p}; index as i; " class="set-height"
+                                        [ngClass]="{'selectRow': item.isSelect}" (click)="selectRow(item)"
+                                        style="cursor: pointer;">
+                                        <td> <a class="link-codigo" href="javascript:void(0)" [routerLink]="[item.id]">{{item.nome}}</a></td>
+                                        <td>{{item.membro.nome}}</td>
+                                        <td>{{item.nomeAnfitriao}}</td>
+                                        <td>{{item.faixaEtaria}}</td>
+                                        
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-end">
+                                <pagination-controls id="agente_id" (pageChange)="p = $event"></pagination-controls>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

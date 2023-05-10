@@ -5,7 +5,6 @@
 
 export const environment = {
   production: false,
-  //baseUrlBackend: "https://localhost:7035", //DEV
-  baseUrlBackend: "https://comex-api.ganeden.tech", //HOMOLOG
+  baseUrlBackend: "https://localhost:7035", //DEV
+
 };
-//https://comex-api.ganeden.tech/swagger/index.html

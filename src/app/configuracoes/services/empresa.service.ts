@@ -11,27 +11,24 @@ export class EmpresaService {
   constructor(private http: HttpClient) { }
 
   create(parms: {}): Observable<any> {
-    return this.http.post(`${environment.baseUrlBackend}/api/Empresa`,
+    return this.http.post(`${environment.baseUrlBackend}/api/Igreja`,
       parms
     )
   }
 
   update(parms: {}): Observable<any> {
-    return this.http.put(`${environment.baseUrlBackend}/api/Empresa`,
+    return this.http.put(`${environment.baseUrlBackend}/api/Igreja`,
       parms
     )
   }
 
-  updateStatus(id, status): Observable<any> {
-    return this.http.put(`${environment.baseUrlBackend}/api/Empresa/UpdateStatus/${id}/${status}`, {})
-  }
-
-  getAll(): Observable<any> {
-    return this.http.get(`${environment.baseUrlBackend}/api/Empresa`);
-  }
-
   getById(id): Observable<any> {
-    return this.http.get(`${environment.baseUrlBackend}/api/Empresa/${id}`);
+    return this.http.get(`${environment.baseUrlBackend}/api/Igreja/${id}`);
+  }
+
+  getCep(parms): Observable<any>{
+    return this.http.get(`https://viacep.com.br/ws/${parms}/json/`);
+   
   }
 
   getAllByEmpresa(id): Observable<any> {
